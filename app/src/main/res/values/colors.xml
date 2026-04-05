@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="card_white">#FFFFFFFF</color>
+
+    <!-- Backgrounds -->
+    <color name="bg_dashboard">#FDFDF5</color>
+    <color name="bg_soft">#FDFDF5</color>
+    <color name="card_bg">#FFFFFF</color>
+
+    <!-- Primary & Gradients -->
+    <color name="purple_start">#7F6AFF</color>
+    <color name="purple_end">#4158D0</color>
+    <color name="primary_blue">#5E72E4</color>
+    <color name="primary_blue_light">#E9F0FF</color>
+
+    <!-- Text Colors -->
+    <color name="text_black">#1A1A1A</color>
+    <color name="text_main">#1A1A1A</color>
+    <color name="text_grey_dark">#4D4D4D</color>
+    <color name="text_grey_light">#8C8C8C</color>
+    <color name="text_grey">#8C8C8C</color>
+
+    <!-- Mood Sphere Colors -->
+    <color name="mood_purple_light">#B39DDB</color>
+    <color name="mood_purple_dark">#5E35B1</color>
+    <color name="mood_orange_light">#FFCC80</color>
+    <color name="mood_orange_dark">#EF6C00</color>
+    <color name="mood_yellow_light">#FFF59D</color>
+    <color name="mood_yellow_dark">#FBC02D</color>
+    <color name="mood_green_light">#C5E1A5</color>
+    <color name="mood_green_dark">#558B2F</color>
+
+    <!-- Mood Status Colors (Matched to Calendar Legend) -->
+    <color name="mood_amazing">#26A69A</color>
+    <color name="mood_good">#4CAF50</color>
+    <color name="mood_okay">#FFC107</color>
+    <color name="mood_bad">#FF9800</color>
+    <color name="mood_very_bad">#F44336</color>
+    <color name="mood_awful">#B71C1C</color>
+
+    <!-- General Mood Colors -->
+    <color name="trend_green">#4CAF50</color>
+    <color name="today_badge_bg">#E9F0FF</color>
+    <color name="today_badge_text">#5E9FFF</color>
+
+    <!-- Glance Cards -->
+    <color name="glance_blue_bg">#E8F1FF</color>
+    <color name="glance_yellow_bg">#FFF8E1</color>
+    <color name="glance_purple_bg">#F3E5F5</color>
+
+    <color name="glance_sleep_bg">#E8F1FF</color>
+    <color name="glance_focus_bg">#F3E5F5</color>
+    <color name="glance_stress_bg">#FFF8E1</color>
+
+    <!-- Recommendation Card Colors -->
+    <color name="rec_sleep_bg">#F1EEFE</color>
+    <color name="rec_sleep_accent">#6A5AE0</color>
+    <color name="rec_movement_bg">#E6F6EF</color>
+    <color name="rec_movement_accent">#24A15E</color>
+    <color name="rec_mind_bg">#FFF2E9</color>
+    <color name="rec_mind_accent">#E67E22</color>
+    <color name="rec_habit_bg">#EBF5FF</color>
+    <color name="rec_habit_accent">#3498DB</color>
+
+    <!-- Status Colors -->
+    <color name="dot_yellow">#FFC107</color>
+    <color name="dot_orange">#FF9800</color>
+    <color name="dot_green">#4CAF50</color>
+
+    <color name="status_yellow">#FFC107</color>
+    <color name="status_green">#4CAF50</color>
+
+    <!-- Accent Colors -->
+    <color name="accent_sleep">#5E72E4</color>
+
+    <!-- Calendar -->
+    <color name="calendar_selected">#5E72E4</color>
+    <color name="calendar_bg_card">#E8EAF6</color>
+
+    <!-- Deadline Badges -->
+    <color name="badge_red_bg">#FFF2F2</color>
+    <color name="badge_red_text">#FF5252</color>
+    <color name="badge_orange_bg">#FFF8F1</color>
+    <color name="badge_orange_text">#FF9800</color>
+
+    <!-- Nav Bar -->
+    <color name="nav_active">#5E72E4</color>
+    <color name="nav_inactive">#666666</color>
+
+    <!-- UI Elements -->
+    <color name="divider">#E0E0E0</color>
+</resources>
