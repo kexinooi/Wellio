@@ -1,7 +1,7 @@
 # Wellio
 
 ## Recommended repository structure
-###wellio-app/
+### wellio-app/
 ### │
 ### ├── frontend/ (Flutter / UI)
 ### ├── backend/ (API / server)
