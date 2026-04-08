@@ -1,13 +1,13 @@
 # Wellio
 
-Recommended repository structure
-wellio-app/
-│
-├── frontend/ (Flutter / UI)
-├── backend/ (API / server)
-├── database/ (schemas, configs)
-├── docs/ (API docs, diagrams)
-└── README.md
+## Recommended repository structure
+###wellio-app/
+### │
+### ├── frontend/ (Flutter / UI)
+### ├── backend/ (API / server)
+### ├── database/ (schemas, configs)
+### ├── docs/ (API docs, diagrams)
+### └── README.md
 Person 1 — Frontend (Mobile App UI)
 Responsibility:
 • Build the app interface
