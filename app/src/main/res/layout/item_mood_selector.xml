@@ -3,100 +3,113 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:gravity="center"
-    android:paddingVertical="12dp">
+    android:orientation="horizontal"
+    android:paddingVertical="0dp">
 
     <!-- Very Bad -->
+
+    <!-- Bad -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_very_bad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="4dp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="@color/white">
+        app:strokeColor="#F0F0F0"
+        app:strokeWidth="1dp">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="110dp"
             android:gravity="center"
+            android:orientation="vertical"
             android:padding="8dp">
+
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/mood_very_bad" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Very Bad"
-                android:textSize="10sp"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/text_black" />
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Bad -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_bad"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_margin="4dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="@color/white">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="8dp">
-            <ImageView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:src="@drawable/mood_bad" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bad"
-                android:textSize="10sp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/text_black" />
+                android:text="Very Bad"
+                android:textColor="@color/text_black"
+                android:textSize="10sp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
     <!-- Okay -->
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_bad"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="4dp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
+        app:strokeColor="#F0F0F0"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="110dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:src="@drawable/mood_bad" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Bad"
+                android:textColor="@color/text_black"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_okay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="4dp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="@color/white">
+        app:strokeColor="#F0F0F0"
+        app:strokeWidth="1dp">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="110dp"
             android:gravity="center"
+            android:orientation="vertical"
             android:padding="8dp">
+
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/mood_okay" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Okay"
-                android:textSize="10sp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/text_black" />
+                android:text="Okay"
+                android:textColor="@color/text_black"
+                android:textSize="10sp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -105,29 +118,33 @@
         android:id="@+id/card_good"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="4dp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="@color/white">
+        app:strokeColor="#F0F0F0"
+        app:strokeWidth="1dp">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="110dp"
             android:gravity="center"
+            android:orientation="vertical"
             android:padding="8dp">
+
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/mood_good" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Good"
-                android:textSize="10sp"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/text_black" />
+                android:text="Good"
+                android:textColor="@color/text_black"
+                android:textSize="10sp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -136,31 +153,34 @@
         android:id="@+id/card_amazing"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:layout_margin="4dp"
+        android:layout_weight="1"
+        app:cardBackgroundColor="#F1FBF9"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
-        app:strokeWidth="2dp"
-        app:strokeColor="#26A69A"
-        app:cardBackgroundColor="#F1FBF9">
+        app:strokeColor="#00897B"
+        app:strokeWidth="3dp">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="110dp"
             android:gravity="center"
+            android:orientation="vertical"
             android:padding="8dp">
+
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/mood_amazing" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Amazing"
-                android:textSize="10sp"
-                android:textStyle="bold"
                 android:layout_marginTop="8dp"
-                android:textColor="@color/text_black" />
+                android:text="Amazing"
+                android:textColor="@color/text_black"
+                android:textSize="10sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
