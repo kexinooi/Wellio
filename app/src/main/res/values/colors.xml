@@ -5,8 +5,8 @@
     <color name="card_white">#FFFFFFFF</color>
 
     <!-- Backgrounds -->
-    <color name="bg_dashboard">#FDFDF5</color>
-    <color name="bg_soft">#FDFDF5</color>
+    <color name="bg_dashboard">#F8F2ED</color>
+    <color name="bg_soft">#FEF9E7</color>
     <color name="card_bg">#FFFFFF</color>
 
     <!-- Primary & Gradients -->
