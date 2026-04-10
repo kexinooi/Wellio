@@ -10,7 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingLeft="24dp"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="120dp"
+        android:clipChildren="false"
+        android:clipToPadding="false">
 
         <!-- Toolbar area -->
         <RelativeLayout
@@ -20,8 +25,10 @@
                 android:id="@+id/btn_back"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@android:drawable/ic_menu_revert"
-                app:tint="@color/text_black" />
+                android:src="@drawable/ic_back_chevron"
+                app:tint="@color/text_black"
+                android:clickable="true"
+                android:focusable="true" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

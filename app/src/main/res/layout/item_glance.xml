@@ -13,51 +13,51 @@
     <LinearLayout
         android:id="@+id/glance_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="101dp"
+        android:gravity="center"
         android:orientation="vertical"
-        android:padding="12dp"
-        android:gravity="center">
+        android:padding="12dp">
 
         <TextView
             android:id="@+id/glance_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Sleep"
+            android:textColor="@color/text_black"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_black" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/glance_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="6.5 h"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:layout_marginTop="4dp"
-            android:textColor="@color/text_black" />
+            android:text="6.5 h"
+            android:textColor="@color/text_black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="6dp"
             android:gravity="center_vertical"
-            android:layout_marginTop="6dp">
+            android:orientation="horizontal">
 
             <View
                 android:id="@+id/status_dot"
                 android:layout_width="10dp"
                 android:layout_height="10dp"
-                android:background="@drawable/circle_yellow"
-                android:layout_marginEnd="6dp" />
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/circle_yellow" />
 
             <TextView
                 android:id="@+id/glance_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fair"
-                android:textSize="12sp"
-                android:textColor="@color/text_grey_dark" />
+                android:textColor="@color/text_grey_dark"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
