@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="my.edu.utar.assignment_2_v2" />
+                  <option name="mobileSdkAppId" value="1:100216324548:android:8e87aa6b961274d027a491" />
+                  <option name="projectId" value="mad-wellio-app" />
+                  <option name="projectNumber" value="100216324548" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
