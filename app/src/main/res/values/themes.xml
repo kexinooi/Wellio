@@ -8,21 +8,22 @@
         <item name="android:statusBarColor">@color/bg_dashboard</item>
         <item name="android:windowLightStatusBar">true</item>
 
-        <!-- Default Font Families -->
-        <item name="fontFamily">sans-serif</item>
+        <!-- Global Font Family -->
+        <item name="fontFamily">@font/</item>
+        <item name="android:fontFamily">@font/roboto</item>
     </style>
 
     <style name="Theme.Assignment_2_v2" parent="Base.Theme.Assignment_2_v2" />
 
     <!-- Typography Styles -->
     <style name="TextAppearance.App.Title" parent="TextAppearance.Material3.TitleLarge">
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="TextAppearance.App.Body" parent="TextAppearance.Material3.BodyMedium">
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">@font/roboto</item>
         <item name="android:textSize">14sp</item>
     </style>
 

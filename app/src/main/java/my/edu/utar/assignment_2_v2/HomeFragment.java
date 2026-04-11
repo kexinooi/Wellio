@@ -19,8 +19,8 @@ public class HomeFragment extends Fragment {
 
         // Styling the individual Glance cards
         setupGlanceCard(view.findViewById(R.id.card_sleep), "Sleep", "6.5 h", "Fair", R.color.glance_sleep_bg, R.color.status_yellow);
-        setupGlanceCard(view.findViewById(R.id.card_focus), "Focus", "Medium", "–", R.color.glance_focus_bg, R.color.status_yellow);
-        setupGlanceCard(view.findViewById(R.id.card_stress), "Stress", "Low", "", R.color.glance_stress_bg, R.color.status_green);
+        setupGlanceCard(view.findViewById(R.id.card_focus), "Focus", "5 h", "Good", R.color.glance_focus_bg, R.color.status_green);
+        setupGlanceCard(view.findViewById(R.id.card_stress), "Stress", "3 recorded", "Low", R.color.glance_stress_bg, R.color.status_green);
 
         return view;
     }

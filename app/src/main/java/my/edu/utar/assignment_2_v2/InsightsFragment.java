@@ -9,123 +9,104 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.CombinedData;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class InsightsFragment extends Fragment {
 
-    private CombinedChart chart;
+    private BarChart barChart;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_insights, container, false);
         
-        chart = view.findViewById(R.id.combined_chart);
-        setupChart();
+        barChart = view.findViewById(R.id.sleep_bar_chart);
+        setupSleepChart();
         
         return view;
     }
 
-    private void setupChart() {
-        chart.getDescription().setEnabled(false);
-        chart.setDrawGridBackground(false);
-        chart.setDrawBarShadow(false);
-        chart.setHighlightFullBarEnabled(false);
-        
-        // draw bars behind lines
-        chart.setDrawOrder(new CombinedChart.DrawOrder[]{
-                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.LINE
-        });
+    private void setupSleepChart() {
+        // Basic configuration
+        barChart.getDescription().setEnabled(false);
+        barChart.setDrawGridBackground(false);
+        barChart.setDrawBarShadow(false);
+        barChart.getLegend().setEnabled(false);
+        barChart.setTouchEnabled(true);
+        barChart.setScaleEnabled(false);
+        barChart.setPinchZoom(false);
 
-        YAxis rightAxis = chart.getAxisRight();
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setAxisMinimum(4f);
-        rightAxis.setAxisMaximum(8f);
-        rightAxis.setGranularity(1f);
-
-        YAxis leftAxis = chart.getAxisLeft();
+        // Y-Axis (Left) - Showing text-like indicators
+        YAxis leftAxis = barChart.getAxisLeft();
         leftAxis.setDrawGridLines(true);
+        leftAxis.setGridColor(Color.parseColor("#F0F0F0"));
         leftAxis.setAxisMinimum(0f);
-        leftAxis.setAxisMaximum(5f);
-        leftAxis.setGranularity(1f);
-        leftAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"Very Bad", "Bad", "Okay", "Good", "Excellent"}));
+        leftAxis.setAxisMaximum(10f);
+        leftAxis.setLabelCount(5);
+        leftAxis.setTextColor(Color.parseColor("#BCBCBC"));
+        leftAxis.setDrawAxisLine(false);
+        // Custom formatting for left side to mimic "Goal" markers
+        leftAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"DEEP", "", "REM", "", "LIGHT"}));
 
-        XAxis xAxis = chart.getXAxis();
+        // Y-Axis (Right) - Showing 1, 2, 3 as in the image
+        YAxis rightAxis = barChart.getAxisRight();
+        rightAxis.setEnabled(true);
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setAxisMinimum(0f);
+        rightAxis.setAxisMaximum(4f);
+        rightAxis.setLabelCount(4, true);
+        rightAxis.setTextColor(Color.parseColor("#BCBCBC"));
+        rightAxis.setDrawAxisLine(false);
+
+        // X-Axis (Days)
+        XAxis xAxis = barChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setTextColor(Color.parseColor("#BCBCBC"));
         xAxis.setGranularity(1f);
+        xAxis.setYOffset(10f);
         
-        final String[] dates = new String[]{"Apr 27", "Apr 30", "May 3", "May 6", "May 9"};
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(dates));
+        final String[] days = new String[]{"29/30", "1/02", "3/04", "5/06", "7/08", "9/10", "11/12"};
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
 
-        CombinedData data = new CombinedData();
+        // Add the Yellow Limit Line (Target/Average line)
+        LimitLine ll = new LimitLine(6.5f, "");
+        ll.setLineColor(Color.parseColor("#FBC02D"));
+        ll.setLineWidth(2f);
+        leftAxis.addLimitLine(ll);
 
-        data.setData(generateLineData());
-        data.setData(generateBarData());
-
-        chart.setData(data);
-        chart.invalidate();
-    }
-
-    private LineData generateLineData() {
-        LineData d = new LineData();
-        ArrayList<Entry> entries = new ArrayList<>();
-
-        // Fake data for Mood (Line)
-        entries.add(new Entry(0, 3.8f));
-        entries.add(new Entry(1, 3.0f));
-        entries.add(new Entry(2, 3.8f));
-        entries.add(new Entry(3, 2.5f));
-        entries.add(new Entry(4, 3.7f));
-
-        LineDataSet set = new LineDataSet(entries, "Mood");
-        set.setColor(Color.parseColor("#26A69A"));
-        set.setLineWidth(2.5f);
-        set.setCircleColor(Color.parseColor("#26A69A"));
-        set.setCircleRadius(5f);
-        set.setFillColor(Color.parseColor("#26A69A"));
-        set.setMode(LineDataSet.Mode.CUBIC_BEZIER);
-        set.setDrawValues(false);
-        
-        d.addDataSet(set);
-        return d;
-    }
-
-    private BarData generateBarData() {
+        // Generate Sample Data
         ArrayList<BarEntry> entries = new ArrayList<>();
+        entries.add(new BarEntry(0, 6.2f));
+        entries.add(new BarEntry(1, 5.8f));
+        entries.add(new BarEntry(2, 8.4f));
+        entries.add(new BarEntry(3, 7.5f));
+        entries.add(new BarEntry(4, 6.4f));
+        entries.add(new BarEntry(5, 5.2f));
+        entries.add(new BarEntry(6, 6.8f));
 
-        // Fake data for Sleep (Bar)
-        entries.add(new BarEntry(0, 7f));
-        entries.add(new BarEntry(0.5f, 6.5f));
-        entries.add(new BarEntry(1, 6f));
-        entries.add(new BarEntry(1.5f, 7.1f));
-        entries.add(new BarEntry(2, 6.2f));
-        entries.add(new BarEntry(2.5f, 5.5f));
-        entries.add(new BarEntry(3, 6.8f));
-        entries.add(new BarEntry(3.5f, 5.8f));
-        entries.add(new BarEntry(4, 7f));
+        BarDataSet dataSet = new BarDataSet(entries, "Sleep Hours");
+        
+        // Periwinkle/Blue color from image
+        dataSet.setColor(Color.parseColor("#8BA4F7"));
+        dataSet.setDrawValues(false); 
+        dataSet.setHighLightColor(Color.parseColor("#FFD54F")); // Marker color
+        
+        BarData barData = new BarData(dataSet);
+        barData.setBarWidth(0.4f); 
 
-        BarDataSet set = new BarDataSet(entries, "Sleep (hrs)");
-        set.setColor(Color.parseColor("#B39DDB"));
-        set.setDrawValues(false);
-        
-        float barWidth = 0.2f; 
-        BarData d = new BarData(set);
-        d.setBarWidth(barWidth);
-        
-        return d;
+        barChart.setData(barData);
+        barChart.animateY(1000); // Add a nice entrance animation
+        barChart.invalidate();
     }
 }

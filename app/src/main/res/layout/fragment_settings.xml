@@ -37,7 +37,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
-                android:src="@android:drawable/ic_dialog_info"
+                android:src="@drawable/ic_settings"
                 app:tint="@color/text_black" />
         </RelativeLayout>
 
@@ -89,12 +89,14 @@
                             android:text="Edit Profile"
                             android:textStyle="bold"
                             android:textColor="@color/text_black" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Email: kexin@example.com"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="12sp"
-                            android:textColor="@color/text_grey_light" />
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <ImageView
                         android:layout_width="20dp"
@@ -116,7 +118,7 @@
                         android:id="@+id/iv_security"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_manage"
+                        android:src="@drawable/ic_settings"
                         app:tint="@color/text_grey_dark" />
                     <TextView
                         android:layout_width="wrap_content"
@@ -186,12 +188,14 @@
                             android:text="Mood Reminders"
                             android:textStyle="bold"
                             android:textColor="@color/text_black" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Daily at 8:00 PM"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="12sp"
-                            android:textColor="@color/text_grey_light" />
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:layout_width="wrap_content"
@@ -228,12 +232,14 @@
                             android:text="Weekly Insight Email"
                             android:textStyle="bold"
                             android:textColor="@color/text_black" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Every Sunday"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="12sp"
-                            android:textColor="@color/text_grey_light" />
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <com.google.android.material.switchmaterial.SwitchMaterial
                         android:layout_width="wrap_content"
@@ -270,12 +276,14 @@
                             android:text="Theme"
                             android:textStyle="bold"
                             android:textColor="@color/text_black" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Light"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="12sp"
-                            android:textColor="@color/text_grey_light" />
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <ImageView
                         android:layout_width="20dp"
@@ -335,12 +343,14 @@
                             android:text="Data Backup"
                             android:textStyle="bold"
                             android:textColor="@color/text_black" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Last backup: May 6, 2024"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="12sp"
-                            android:textColor="@color/text_grey_light" />
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <ImageView
                         android:layout_width="20dp"
@@ -461,12 +471,14 @@
                             android:text="About Well-Being Tracker"
                             android:textStyle="bold"
                             android:textColor="@color/text_black" />
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Version 1.0.0"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="12sp"
-                            android:textColor="@color/text_grey_light" />
+                            android:textStyle="bold" />
                     </LinearLayout>
                     <ImageView
                         android:layout_width="20dp"

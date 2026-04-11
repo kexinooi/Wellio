@@ -35,12 +35,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_black" />
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:src="@android:drawable/ic_dialog_info"
-                app:tint="@color/text_black" />
         </RelativeLayout>
 
         <TextView
@@ -51,13 +45,15 @@
             android:textStyle="bold"
             android:layout_marginTop="32dp"
             android:textColor="@color/text_black" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select your mood"
-            android:textSize="14sp"
             android:layout_marginTop="4dp"
-            android:textColor="@color/text_grey_light" />
+            android:text="Select your mood"
+            android:textColor="@color/text_grey_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <!-- Mood Selection Row -->
         <include
@@ -78,10 +74,11 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select all that apply"
-            android:textSize="14sp"
             android:layout_marginTop="4dp"
-            android:textColor="@color/text_grey_light" />
+            android:text="Select all that apply"
+            android:textColor="@color/text_grey_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <!-- Influence Chips -->
 
@@ -116,12 +113,11 @@
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"
+                android:checked="false"
                 android:elevation="4dp"
                 android:text="Motivated"
-                android:textColor="#2E7D32"
-                app:chipBackgroundColor="#A5D6A7"
-                app:chipIcon="@android:drawable/checkbox_on_background"
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#EEEEEE"
                 app:chipIconVisible="true"
                 app:chipStrokeWidth="0dp" />
 
@@ -132,9 +128,8 @@
                 android:checked="true"
                 android:elevation="4dp"
                 android:text="Focused"
-                android:textColor="#2E7D32"
-                app:chipBackgroundColor="#A5D6A7"
-                app:chipIcon="@android:drawable/checkbox_on_background"
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#EEEEEE"
                 app:chipIconVisible="true"
                 app:chipStrokeWidth="0dp" />
 
