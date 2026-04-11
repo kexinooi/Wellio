@@ -9,19 +9,16 @@
     android:paddingVertical="0dp">
 
     <!-- Very Bad -->
-
-    <!-- Bad -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_very_bad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="#E2D4FB"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="#E2D4FB">
+        app:strokeWidth="0dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="110dp"
@@ -37,28 +34,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Very Bad"
-                android:textStyle="bold"
-                android:textSize="10sp"
                 android:layout_marginTop="8dp"
                 android:text="Very Bad"
                 android:textColor="@color/text_black"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Okay -->
+    <!-- Bad -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_bad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="#FBD6C7"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="#FBD6C7">
+        app:strokeWidth="0dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="110dp"
@@ -74,27 +68,25 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bad"
-                android:textStyle="bold"
-                android:textSize="10sp"
                 android:layout_marginTop="8dp"
                 android:text="Bad"
                 android:textColor="@color/text_black"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- Okay -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_okay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="#F8DDB4"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="#F8DDB4">
+        app:strokeWidth="0dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="110dp"
@@ -110,13 +102,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Okay"
-                android:textStyle="bold"
-                android:textSize="10sp"
                 android:layout_marginTop="8dp"
                 android:text="Okay"
                 android:textColor="@color/text_black"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -127,11 +117,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="#FDFDFD"
+        app:cardBackgroundColor="#CEFDCF"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="#CEFDCF">
+        app:strokeWidth="0dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="110dp"
@@ -147,13 +136,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Good"
-                android:textStyle="bold"
-                android:textSize="10sp"
                 android:layout_marginTop="8dp"
                 android:text="Good"
                 android:textColor="@color/text_black"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -164,12 +151,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="#F1FBF9"
+        app:cardBackgroundColor="#CDF8EF"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
         app:strokeColor="#26A69A"
-        app:cardBackgroundColor="#CDF8EF">
+        app:strokeWidth="0dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="110dp"
