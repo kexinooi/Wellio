@@ -35,12 +35,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_black" />
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:src="@android:drawable/ic_dialog_info"
-                app:tint="@color/text_black" />
         </RelativeLayout>
 
         <TextView
@@ -51,13 +45,15 @@
             android:textStyle="bold"
             android:layout_marginTop="32dp"
             android:textColor="@color/text_black" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select your mood"
-            android:textSize="14sp"
             android:layout_marginTop="4dp"
-            android:textColor="@color/text_grey_light" />
+            android:text="Select your mood"
+            android:textColor="@color/text_grey_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <!-- Mood Selection Row -->
         <include
@@ -78,76 +74,95 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select all that apply"
-            android:textSize="14sp"
             android:layout_marginTop="4dp"
-            android:textColor="@color/text_grey_light" />
+            android:text="Select all that apply"
+            android:textColor="@color/text_grey_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <!-- Influence Chips -->
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_mood"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:chipSpacingHorizontal="8dp"
-            app:chipSpacingVertical="8dp"
-            app:singleSelection="false">
+            app:chipSpacingHorizontal="15dp"
+            app:chipSpacingVertical="8dp">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_stressed"
+                android:id="@+id/chip3"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stressed"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                android:elevation="4dp"
+                android:text="Exhausted"
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_motivated"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:text="Happy"
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:elevation="4dp"
                 android:text="Motivated"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#EEEEEE"
+                app:chipIconVisible="true"
+                app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_tired"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tired"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_focused"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:checked="true"
+                android:elevation="4dp"
                 android:text="Focused"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#EEEEEE"
+                app:chipIconVisible="true"
+                app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_anxious"
+                android:id="@+id/chip2"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:text="Stressed"
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="4dp"
                 android:text="Anxious"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_happy"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Happy"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                android:elevation="4dp"
+                android:text="Tired"
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
+
         </com.google.android.material.chip.ChipGroup>
 
         <TextView

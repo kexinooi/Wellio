@@ -8,12 +8,21 @@
     <color name="bg_dashboard">#F8F2ED</color>
     <color name="bg_soft">#FEF9E7</color>
     <color name="card_bg">#FFFFFF</color>
+    <color name="insights_bg">#F0F4FF</color>
 
     <!-- Primary & Gradients -->
     <color name="purple_start">#7F6AFF</color>
     <color name="purple_end">#4158D0</color>
     <color name="primary_blue">#5E72E4</color>
     <color name="primary_blue_light">#E9F0FF</color>
+
+    <!-- Sleep Trend Colors -->
+    <color name="sleep_purple">#7B61FF</color>
+    <color name="sleep_purple_soft">#DED9FF</color>
+    <color name="sleep_chip_bg">#F1F4FF</color>
+    <color name="sleep_chip_selected_bg">#4E54C8</color>
+    <color name="sleep_trend_bg">#F8F9FF</color>
+    <color name="sleep_bar_color">#9FA8FF</color>
 
     <!-- Text Colors -->
     <color name="text_black">#1A1A1A</color>

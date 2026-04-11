@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dashboard"
@@ -39,7 +40,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
-                android:src="@android:drawable/ic_menu_manage"
+                android:src="@drawable/ic_settings"
                 app:tint="@color/text_black" />
         </RelativeLayout>
 
@@ -54,11 +55,6 @@
                 android:background="@drawable/circle_blue_bg"
                 android:backgroundTint="#B2EBF2" />
 
-            <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_gravity="center"
-                android:src="@android:drawable/sym_def_app_icon" />
         </FrameLayout>
 
         <TextView
@@ -82,20 +78,22 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="Keep it up!"
+            android:textColor="@color/text_grey_dark"
             android:textSize="14sp"
-            android:textColor="@color/text_grey_dark" />
+            android:textStyle="bold" />
 
         <!-- Your Stats Card -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_height="210dp"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="24dp"
-            app:cardElevation="2dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#E0E0E0"
-            app:cardBackgroundColor="@color/white">
+            app:cardElevation="4dp"
+            app:strokeColor="#E1E1DA"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -107,150 +105,177 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your Stats"
-                    android:textStyle="bold"
+                    android:textColor="@color/text_black"
                     android:textSize="16sp"
-                    android:textColor="@color/text_black" />
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="16dp">
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
 
                     <!-- Avg Mood -->
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_height="140dp"
                         android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="#EAF8EC"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="0dp"
-                        app:strokeWidth="1dp"
-                        app:strokeColor="#A5D6A7"
-                        app:cardBackgroundColor="#E8F5E9">
+                        app:strokeColor="#91AA9D"
+                        app:strokeWidth="2dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="12dp">
+                            android:orientation="vertical"
+                            android:padding="17dp">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginBottom="4dp"
+                                android:src="@drawable/mood_good" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Avg Mood"
+                                android:textColor="@color/text_grey_dark"
                                 android:textSize="12sp"
-                                android:textColor="@color/text_grey_dark" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_marginTop="4dp"
-                                android:src="@drawable/mood_good" />
+                                tools:textStyle="bold" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="Good"
-                                android:textStyle="bold"
+                                android:textColor="@color/text_black"
                                 android:textSize="16sp"
-                                android:layout_marginTop="4dp"
-                                android:textColor="@color/text_black" />
+                                android:textStyle="bold" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="This Month"
+                                android:textColor="@color/text_grey_light"
                                 android:textSize="10sp"
-                                android:textColor="@color/text_grey_light" />
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
                     <!-- Avg Sleep -->
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_height="140dp"
                         android:layout_marginHorizontal="4dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="#D7E6F7"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="0dp"
-                        app:strokeWidth="1dp"
-                        app:strokeColor="#9FA8DA"
-                        app:cardBackgroundColor="#E8EAF6">
+                        app:strokeColor="#A4B8CB"
+                        app:strokeWidth="2dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="12dp">
+                            android:orientation="vertical"
+                            android:padding="17dp">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginBottom="4dp"
+                                android:src="@android:drawable/ic_lock_idle_alarm"
+                                app:tint="#3F51B5" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Avg Sleep"
+                                android:textColor="@color/text_grey_dark"
                                 android:textSize="12sp"
-                                android:textColor="@color/text_grey_dark" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_marginTop="4dp"
-                                android:src="@android:drawable/ic_lock_idle_alarm"
-                                app:tint="#3F51B5" />
+                                android:textStyle="bold" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="6.4 h"
-                                android:textStyle="bold"
+                                android:textColor="@color/text_black"
                                 android:textSize="16sp"
-                                android:layout_marginTop="4dp"
-                                android:textColor="@color/text_black" />
+                                android:textStyle="bold" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="This Week"
+                                android:textColor="@color/text_grey_light"
                                 android:textSize="10sp"
-                                android:textColor="@color/text_grey_light" />
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
                     <!-- Productivity -->
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_height="140dp"
                         android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        app:cardBackgroundColor="#E3DCF6"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="0dp"
-                        app:strokeWidth="1dp"
-                        app:strokeColor="#B39DDB"
-                        app:cardBackgroundColor="#F3E5F5">
+                        app:strokeColor="#B5B0DA"
+                        app:strokeWidth="2dp">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
                             android:gravity="center"
-                            android:padding="12dp">
+                            android:orientation="vertical"
+                            android:padding="17dp">
+
+                            <ImageView
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_marginTop="3dp"
+                                android:layout_marginBottom="4dp"
+                                android:src="@android:drawable/ic_notification_overlay"
+                                app:tint="#D32F2F" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Productivity"
+                                android:textColor="@color/text_grey_dark"
                                 android:textSize="12sp"
-                                android:textColor="@color/text_grey_dark" />
-                            <ImageView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
-                                android:layout_marginTop="4dp"
-                                android:src="@android:drawable/ic_notification_overlay"
-                                app:tint="#D32F2F" />
+                                android:textStyle="bold" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="75%"
-                                android:textStyle="bold"
+                                android:textColor="@color/text_black"
                                 android:textSize="16sp"
-                                android:layout_marginTop="4dp"
-                                android:textColor="@color/text_black" />
+                                android:textStyle="bold" />
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
                                 android:text="This Week"
+                                android:textColor="@color/text_grey_light"
                                 android:textSize="10sp"
-                                android:textColor="@color/text_grey_light" />
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
@@ -261,54 +286,63 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Achievements"
+            android:textColor="@color/text_black"
             android:textSize="16sp"
-            android:textStyle="bold"
-            android:layout_marginTop="32dp"
-            android:textColor="@color/text_black" />
+            android:textStyle="bold" />
 
         <!-- Achievement 1 -->
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            app:cardBackgroundColor="#BFE9C8"
             app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#C8E6C9">
+            app:cardElevation="4dp"
+            app:strokeColor="#ACD1B4"
+            app:strokeWidth="2dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="16dp"
-                android:gravity="center_vertical">
+                android:padding="16dp">
+
                 <ImageView
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:src="@android:drawable/ic_menu_today"
-                    app:tint="#00695C"
                     android:background="@drawable/circle_blue_bg"
                     android:backgroundTint="#80CBC4"
-                    android:padding="8dp" />
+                    android:padding="8dp"
+                    android:src="@android:drawable/ic_menu_today"
+                    app:tint="#00695C" />
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="16dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="7-Day Streak"
-                        android:textStyle="bold"
                         android:textColor="@color/text_black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Logged mood for 7 days"
+                        android:textColor="@color/text_grey_dark"
                         android:textSize="12sp"
-                        android:textColor="@color/text_grey_dark" />
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
@@ -323,52 +357,63 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="40dp"
+            app:cardBackgroundColor="#DCD1F6"
             app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:cardBackgroundColor="#E1BEE7">
+            app:cardElevation="4dp"
+            app:strokeColor="#C5BEE2"
+            app:strokeWidth="2dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="16dp"
-                android:gravity="center_vertical">
+                android:padding="16dp">
+
                 <FrameLayout
                     android:layout_width="40dp"
                     android:layout_height="40dp">
+
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@android:drawable/btn_star_big_on"
                         app:tint="#7B1FA2" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="3"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
                 </FrameLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginStart="16dp"
+                    android:layout_weight="1"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mindful Reflections"
-                        android:textStyle="bold"
                         android:textColor="@color/text_black"
-                        android:textSize="16sp" />
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Added 5 notes"
+                        android:textColor="@color/text_grey_dark"
                         android:textSize="12sp"
-                        android:textColor="@color/text_grey_dark" />
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
