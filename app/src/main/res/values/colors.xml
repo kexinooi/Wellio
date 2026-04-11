@@ -100,4 +100,5 @@
 
     <!-- UI Elements -->
     <color name="divider">#E0E0E0</color>
+    <color name="chip_unchecked_bg">#EEEEEE</color>
 </resources>

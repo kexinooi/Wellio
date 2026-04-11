@@ -30,4 +30,12 @@
     <style name="CircleImage" parent="">
         <item name="cornerSize">50%</item>
     </style>
+
+    <!-- Custom Chip style for mood selection -->
+    <style name="Widget.App.Chip.Choice" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background_selector</item>
+        <item name="android:textColor">@color/chip_text_color_selector</item>
+        <item name="chipStrokeColor">@color/chip_background_selector</item>
+        <item name="checkedIconTint">@color/white</item>
+    </style>
 </resources>
