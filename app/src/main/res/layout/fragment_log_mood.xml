@@ -19,22 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/btn_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_back_chevron"
-                app:tint="@color/text_black" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="Log Mood"
+                android:textColor="@color/text_black"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_black" />
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <TextView
@@ -90,7 +82,7 @@
             app:chipSpacingVertical="8dp">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip3"
+                android:id="@+id/chip_exhausted"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -101,6 +93,7 @@
                 app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_happy"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,6 +103,7 @@
                 app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_motivated"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,6 +116,7 @@
                 app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_focused"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -134,7 +129,7 @@
                 app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip2"
+                android:id="@+id/chip_stressed"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -145,6 +140,7 @@
                 app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_anxious"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,6 +150,7 @@
                 app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
+                android:id="@+id/chip_tired"
                 style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

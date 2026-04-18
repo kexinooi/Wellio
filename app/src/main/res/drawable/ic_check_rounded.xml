@@ -1,9 +1,28 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="24dp"
-    android:height="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <!-- Square Squircle Background (Light Blue) -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M9,16.17L4.83,11.99L3.41,13.41L9,18.83L21,6.83L19.59,5.41L9,16.17Z" />
+        android:pathData="M25,5H75C90,5 95,10 95,25V75C95,90 90,95 75,95H25C10,95 5,90 5,75V25C5,10 10,5 25,5Z"
+        android:fillColor="#DDEAF6" />
+
+    <!-- Reduced size Bar Chart Style Icon (Dark Navy) -->
+    <!-- Bar 1 -->
+    <path
+        android:fillColor="#2D3461"
+        android:pathData="M35,60 h6 v12 h-6 z" />
+    <!-- Bar 2 -->
+    <path
+        android:fillColor="#2D3461"
+        android:pathData="M45,48 h6 v24 h-6 z" />
+    <!-- Bar 3 -->
+    <path
+        android:fillColor="#2D3461"
+        android:pathData="M55,55 h6 v17 h-6 z" />
+    <!-- Bar 4 -->
+    <path
+        android:fillColor="#2D3461"
+        android:pathData="M65,40 h6 v32 h-6 z" />
 </vector>

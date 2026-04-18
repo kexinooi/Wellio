@@ -9,13 +9,13 @@
         android:icon="@drawable/ic_log"
         android:title="Log" />
     <item
-        android:id="@+id/navigation_insights"
-        android:icon="@drawable/ic_insights"
-        android:title="Insights" />
-    <item
         android:id="@+id/navigation_calendar"
         android:icon="@drawable/ic_calendar"
         android:title="Calendar" />
+    <item
+        android:id="@+id/navigation_insights"
+        android:icon="@drawable/ic_insights"
+        android:title="Insights" />
     <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_profile"

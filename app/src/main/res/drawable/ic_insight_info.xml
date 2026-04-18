@@ -1,0 +1,24 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+    <!-- Light Blue Squircle Background -->
+    <path
+        android:fillColor="#E3F2FD"
+        android:pathData="M8,0h24c4.4,0 8,3.6 8,8v24c0,4.4 -3.6,8 -8,8H8c-4.4,0 -8,-3.6 -8,-8V8c0,-4.4 3.6,-8 8,-8z" />
+    <!-- Dark Blue Info Icon -->
+    <group android:translateX="10" android:translateY="10">
+        <path
+            android:strokeColor="#0D47A1"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M10,10m-9,0a9,9 0,1 1,18 0a9,9 0,1 1,-18 0" />
+        <path
+            android:strokeColor="#0D47A1"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:pathData="M10,14v-4 M10,7h0.01" />
+    </group>
+</vector>

@@ -376,21 +376,6 @@
         </com.google.android.material.card.MaterialCardView>
 
         <!-- Log Mood Button with Shadow -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_log_mood"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/btn_gradient_purple"
-            android:text="+ Log Mood"
-            android:textAllCaps="false"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:backgroundTint="@null"
-            app:cornerRadius="50dp"
-            app:elevation="4dp"
-            tools:elevation="4dp" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
