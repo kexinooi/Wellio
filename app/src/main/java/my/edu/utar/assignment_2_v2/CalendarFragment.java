@@ -131,7 +131,7 @@ public class CalendarFragment extends Fragment {
                 
                 // Show AddDeadlineFragment with the selected date
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, AddDeadlineFragment.newInstance(formattedDate))
+                        .replace(R.id.fragment_container,AddDeadlineFragment.newInstance(formattedDate))
                         .addToBackStack(null)
                         .commit();
             });

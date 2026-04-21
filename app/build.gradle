@@ -5,7 +5,11 @@ plugins {
 
 android {
     namespace 'my.edu.utar.assignment_2_v2'
-    compileSdk 36
+    compileSdk {
+        version = release(36) {
+            minorApiLevel = 1
+        }
+    }
 
     defaultConfig {
         applicationId "my.edu.utar.assignment_2_v2"
@@ -37,6 +41,8 @@ dependencies {
     implementation libs.mpandroidchart
     implementation libs.firebase.firestore
     implementation libs.firebase.auth
+    implementation libs.firebase.ai
+    implementation libs.play.services.auth
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

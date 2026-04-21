@@ -1,4 +1,4 @@
-package my.edu.utar.assignment_2_v2.Mood;
+package my.edu.utar.assignment_2_v2.model;
 
 public class Mood {
     private String feel;

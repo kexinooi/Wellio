@@ -17,7 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.material.chip.Chip;
 import java.util.ArrayList;
 import java.util.List;
-import my.edu.utar.assignment_2_v2.Mood.*;
+import my.edu.utar.assignment_2_v2.model.*;
 
 public class LogMoodFragment extends Fragment {
 

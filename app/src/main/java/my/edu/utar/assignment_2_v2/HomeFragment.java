@@ -15,6 +15,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.util.Calendar;
+import my.edu.utar.assignment_2_v2.R;
 
 public class HomeFragment extends Fragment {
 
