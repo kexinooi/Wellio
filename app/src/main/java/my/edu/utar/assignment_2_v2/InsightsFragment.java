@@ -5,108 +5,87 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-
-import java.util.ArrayList;
+import androidx.fragment.app.FragmentTransaction;
 
 public class InsightsFragment extends Fragment {
 
-    private BarChart barChart;
+    private TextView tabMood, tabSleep, tabAcademic;
+    private View indicatorMood, indicatorSleep, indicatorAcademic;
+    private View containerMood, containerSleep, containerAcademic;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_insights, container, false);
+
+        tabMood = view.findViewById(R.id.tv_tab_mood);
+        tabSleep = view.findViewById(R.id.tv_tab_sleep);
+        tabAcademic = view.findViewById(R.id.tv_tab_academic);
         
-        barChart = view.findViewById(R.id.sleep_bar_chart);
-        setupSleepChart();
+        containerMood = view.findViewById(R.id.tab_mood);
+        containerSleep = view.findViewById(R.id.tab_sleep);
+        containerAcademic = view.findViewById(R.id.tab_academic);
         
+        indicatorMood = view.findViewById(R.id.indicator_mood);
+        indicatorSleep = view.findViewById(R.id.indicator_sleep);
+        indicatorAcademic = view.findViewById(R.id.indicator_academic);
+
+        // Set Sleep as initial tab to match your image
+        updateTabs("sleep");
+        loadTabFragment(new SleepTrendsFragment());
+
+        containerMood.setOnClickListener(v -> {
+            updateTabs("mood");
+            loadTabFragment(new MoodTrendsFragment());
+        });
+        
+        containerSleep.setOnClickListener(v -> {
+            updateTabs("sleep");
+            loadTabFragment(new SleepTrendsFragment());
+        });
+        
+        containerAcademic.setOnClickListener(v -> {
+            updateTabs("academic");
+            loadTabFragment(new AcademicTrendsFragment());
+        });
+
         return view;
     }
 
-    private void setupSleepChart() {
-        // Basic configuration
-        barChart.getDescription().setEnabled(false);
-        barChart.setDrawGridBackground(false);
-        barChart.setDrawBarShadow(false);
-        barChart.getLegend().setEnabled(false);
-        barChart.setTouchEnabled(true);
-        barChart.setScaleEnabled(false);
-        barChart.setPinchZoom(false);
-
-        // Y-Axis (Left) - Showing text-like indicators
-        YAxis leftAxis = barChart.getAxisLeft();
-        leftAxis.setDrawGridLines(true);
-        leftAxis.setGridColor(Color.parseColor("#F0F0F0"));
-        leftAxis.setAxisMinimum(0f);
-        leftAxis.setAxisMaximum(10f);
-        leftAxis.setLabelCount(5);
-        leftAxis.setTextColor(Color.parseColor("#BCBCBC"));
-        leftAxis.setDrawAxisLine(false);
-        // Custom formatting for left side to mimic "Goal" markers
-        leftAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"DEEP", "", "REM", "", "LIGHT"}));
-
-        // Y-Axis (Right) - Showing 1, 2, 3 as in the image
-        YAxis rightAxis = barChart.getAxisRight();
-        rightAxis.setEnabled(true);
-        rightAxis.setDrawGridLines(false);
-        rightAxis.setAxisMinimum(0f);
-        rightAxis.setAxisMaximum(4f);
-        rightAxis.setLabelCount(4, true);
-        rightAxis.setTextColor(Color.parseColor("#BCBCBC"));
-        rightAxis.setDrawAxisLine(false);
-
-        // X-Axis (Days)
-        XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setDrawGridLines(false);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setTextColor(Color.parseColor("#BCBCBC"));
-        xAxis.setGranularity(1f);
-        xAxis.setYOffset(10f);
+    private void updateTabs(String activeTab) {
+        // Reset all
+        tabMood.setTextColor(Color.parseColor("#787885"));
+        tabSleep.setTextColor(Color.parseColor("#787885"));
+        tabAcademic.setTextColor(Color.parseColor("#787885"));
         
-        final String[] days = new String[]{"29/30", "1/02", "3/04", "5/06", "7/08", "9/10", "11/12"};
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(days));
+        indicatorMood.setVisibility(View.INVISIBLE);
+        indicatorSleep.setVisibility(View.INVISIBLE);
+        indicatorAcademic.setVisibility(View.INVISIBLE);
 
-        // Add the Yellow Limit Line (Target/Average line)
-        LimitLine ll = new LimitLine(6.5f, "");
-        ll.setLineColor(Color.parseColor("#FBC02D"));
-        ll.setLineWidth(2f);
-        leftAxis.addLimitLine(ll);
+        // Activate one
+        switch (activeTab) {
+            case "mood":
+                tabMood.setTextColor(Color.BLACK);
+                indicatorMood.setVisibility(View.VISIBLE);
+                break;
+            case "sleep":
+                tabSleep.setTextColor(Color.BLACK);
+                indicatorSleep.setVisibility(View.VISIBLE);
+                break;
+            case "academic":
+                tabAcademic.setTextColor(Color.BLACK);
+                indicatorAcademic.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
 
-        // Generate Sample Data
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(0, 6.2f));
-        entries.add(new BarEntry(1, 5.8f));
-        entries.add(new BarEntry(2, 8.4f));
-        entries.add(new BarEntry(3, 7.5f));
-        entries.add(new BarEntry(4, 6.4f));
-        entries.add(new BarEntry(5, 5.2f));
-        entries.add(new BarEntry(6, 6.8f));
-
-        BarDataSet dataSet = new BarDataSet(entries, "Sleep Hours");
-        
-        // Periwinkle/Blue color from image
-        dataSet.setColor(Color.parseColor("#8BA4F7"));
-        dataSet.setDrawValues(false); 
-        dataSet.setHighLightColor(Color.parseColor("#FFD54F")); // Marker color
-        
-        BarData barData = new BarData(dataSet);
-        barData.setBarWidth(0.4f); 
-
-        barChart.setData(barData);
-        barChart.animateY(1000); // Add a nice entrance animation
-        barChart.invalidate();
+    private void loadTabFragment(Fragment fragment) {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.replace(R.id.insights_tab_container, fragment);
+        transaction.commit();
     }
 }

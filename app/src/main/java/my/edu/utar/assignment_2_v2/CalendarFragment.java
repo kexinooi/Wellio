@@ -58,7 +58,10 @@ public class CalendarFragment extends Fragment {
         
         if (btnAddEntry != null) {
             btnAddEntry.setOnClickListener(v -> {
-                // Handle add entry
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new LogMoodFragment())
+                        .addToBackStack(null)
+                        .commit();
             });
         }
 
@@ -121,6 +124,16 @@ public class CalendarFragment extends Fragment {
                 selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth);
                 updateCalendar(); // Refresh selection UI
                 updateSelectedDateText();
+                
+                // Format the selected date to pass to the next fragment
+                SimpleDateFormat dateSdf = new SimpleDateFormat("MMMM d, yyyy", Locale.getDefault());
+                String formattedDate = dateSdf.format(selectedDate.getTime());
+                
+                // Show AddDeadlineFragment with the selected date
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, AddDeadlineFragment.newInstance(formattedDate))
+                        .addToBackStack(null)
+                        .commit();
             });
 
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();

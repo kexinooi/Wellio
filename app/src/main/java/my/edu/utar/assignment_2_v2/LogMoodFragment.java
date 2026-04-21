@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,17 +35,27 @@ public class LogMoodFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_log_mood, container, false);
 
+        // Back button logic
+        ImageView btnBack = view.findViewById(R.id.btn_back);
+        if (btnBack != null) {
+            btnBack.setOnClickListener(v -> {
+                if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                    getParentFragmentManager().popBackStack();
+                }
+            });
+        }
+
         cardVeryBad = view.findViewById(R.id.card_very_bad);
         cardBad = view.findViewById(R.id.card_bad);
         cardOkay = view.findViewById(R.id.card_okay);
         cardGood = view.findViewById(R.id.card_good);
         cardAmazing = view.findViewById(R.id.card_amazing);
 
-        cardVeryBad.setOnClickListener(v -> selectMood("Very Bad"));
-        cardBad.setOnClickListener(v -> selectMood("Bad"));
-        cardOkay.setOnClickListener(v -> selectMood("Okay"));
-        cardGood.setOnClickListener(v -> selectMood("Good"));
-        cardAmazing.setOnClickListener(v -> selectMood("Amazing"));
+        if (cardVeryBad != null) cardVeryBad.setOnClickListener(v -> selectMood("Very Bad"));
+        if (cardBad != null) cardBad.setOnClickListener(v -> selectMood("Bad"));
+        if (cardOkay != null) cardOkay.setOnClickListener(v -> selectMood("Okay"));
+        if (cardGood != null) cardGood.setOnClickListener(v -> selectMood("Good"));
+        if (cardAmazing != null) cardAmazing.setOnClickListener(v -> selectMood("Amazing"));
 
         chipStressed = view.findViewById(R.id.chip_stressed);
         chipMotivated = view.findViewById(R.id.chip_motivated);
@@ -60,7 +71,9 @@ public class LogMoodFragment extends Fragment {
         db = FirebaseFirestore.getInstance();
 
         // button click
-        saveMoodBtn.setOnClickListener(v -> saveMood());
+        if (saveMoodBtn != null) {
+            saveMoodBtn.setOnClickListener(v -> saveMood());
+        }
 
         return view;
     }
@@ -78,20 +91,11 @@ public class LogMoodFragment extends Fragment {
         // Convert List<String> to one String for Mood.java
         String feelText = TextUtils.join(", ", feelings);
 
-        // TEMP USER
-        // String userId = "testUser1";
-
         // Create Mood object
         Mood moodObj = new Mood();
         moodObj.setMood(selectedMood);
         moodObj.setFeel(feelText);
         moodObj.setNote(note);
-        //moodObj.put("timestamp", FieldValue.serverTimestamp());
-        // moodLog.put("userId", userId);
-        // moodLog.put("sleepHours", 6.5); // dummy for now
-        //moodLog.put("stressLevel", "Low");
-        //moodLog.put("focusLevel", "Medium");
-
 
         db.collection("mood_logs")
                 .add(moodObj)
@@ -107,9 +111,7 @@ public class LogMoodFragment extends Fragment {
 
     private void selectMood(String mood) {
         selectedMood = mood;
-
         Toast.makeText(getContext(), "Selected: " + mood, Toast.LENGTH_SHORT).show();
-
         resetSelection();
 
         switch (mood) {
@@ -160,12 +162,12 @@ public class LogMoodFragment extends Fragment {
     private List<String> getSelectedFeelings() {
         List<String> feelings = new ArrayList<>();
 
-        if (chipStressed.isChecked()) feelings.add("Stressed");
-        if (chipMotivated.isChecked()) feelings.add("Motivated");
-        if (chipTired.isChecked()) feelings.add("Tired");
-        if (chipFocused.isChecked()) feelings.add("Focused");
-        if (chipAnxious.isChecked()) feelings.add("Anxious");
-        if (chipHappy.isChecked()) feelings.add("Happy");
+        if (chipStressed != null && chipStressed.isChecked()) feelings.add("Stressed");
+        if (chipMotivated != null && chipMotivated.isChecked()) feelings.add("Motivated");
+        if (chipTired != null && chipTired.isChecked()) feelings.add("Tired");
+        if (chipFocused != null && chipFocused.isChecked()) feelings.add("Focused");
+        if (chipAnxious != null && chipAnxious.isChecked()) feelings.add("Anxious");
+        if (chipHappy != null && chipHappy.isChecked()) feelings.add("Happy");
 
         return feelings;
     }
