@@ -8,12 +8,21 @@
     <color name="bg_dashboard">#F8F2ED</color>
     <color name="bg_soft">#FEF9E7</color>
     <color name="card_bg">#FFFFFF</color>
+    <color name="insights_bg">#F0F4FF</color>
 
     <!-- Primary & Gradients -->
     <color name="purple_start">#7F6AFF</color>
     <color name="purple_end">#4158D0</color>
     <color name="primary_blue">#5E72E4</color>
     <color name="primary_blue_light">#E9F0FF</color>
+
+    <!-- Sleep Trend Colors -->
+    <color name="sleep_purple">#7B61FF</color>
+    <color name="sleep_purple_soft">#DED9FF</color>
+    <color name="sleep_chip_bg">#F1F4FF</color>
+    <color name="sleep_chip_selected_bg">#4E54C8</color>
+    <color name="sleep_trend_bg">#F8F9FF</color>
+    <color name="sleep_bar_color">#9FA8FF</color>
 
     <!-- Text Colors -->
     <color name="text_black">#1A1A1A</color>
@@ -42,12 +51,23 @@
 
     <!-- General Mood Colors -->
     <color name="trend_green">#4CAF50</color>
+    <color name="trend_red">#F44336</color>
     <color name="today_badge_bg">#E9F0FF</color>
     <color name="today_badge_text">#5E9FFF</color>
 
     <!-- Glance Cards -->
+    <color name="glance_sleep_badge">#FFF3E0</color>
+    <color name="glance_focus_badge">#E8F5E9</color>
+    <color name="glance_stress_badge">#E0F2F1</color>
+
+    <color name="glance_sleep_dot">#FFA726</color>
+    <color name="glance_focus_dot">#66BB6A</color>
+    <color name="glance_stress_dot">#26A69A</color>
+
     <color name="glance_blue_bg">#E8F1FF</color>
     <color name="glance_yellow_bg">#FFF8E1</color>
+    <color name="glance_orange_light">#FFF3E0</color>
+    <color name="glance_green_light">#E8F5E9</color>
     <color name="glance_purple_bg">#F3E5F5</color>
 
     <color name="glance_sleep_bg">#E8F1FF</color>
@@ -70,7 +90,18 @@
     <color name="dot_green">#4CAF50</color>
 
     <color name="status_yellow">#FFC107</color>
+    <color name="status_orange">#E67E22</color>
     <color name="status_green">#4CAF50</color>
+
+    <!-- Deadline Design Colors -->
+    <color name="deadline_header_text">#9E9E9E</color>
+    <color name="deadline_pending_bg">#F2F2F2</color>
+    <color name="deadline_pending_text">#757575</color>
+    <color name="deadline_icon_bg">#EDF7ED</color>
+    <color name="deadline_red_bg">#FDECEA</color>
+    <color name="deadline_red_text">#D32F2F</color>
+    <color name="deadline_orange_bg">#FFF4E5</color>
+    <color name="deadline_orange_text">#B07219</color>
 
     <!-- Accent Colors -->
     <color name="accent_sleep">#5E72E4</color>

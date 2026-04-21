@@ -28,23 +28,64 @@
                 android:src="@drawable/ic_back_chevron"
                 app:tint="@color/text_black" />
 
+            <ImageView
+                android:id="@+id/btn_prev_month"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_toStartOf="@id/tv_month_year"
+                android:layout_marginEnd="8dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_back_chevron"
+                app:tint="@color/text_black" />
+
             <TextView
+                android:id="@+id/tv_month_year"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
                 android:text="May 2024"
                 android:textColor="@color/text_black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <TextView
+            <ImageView
+                android:id="@+id/btn_next_month"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_toEndOf="@id/tv_month_year"
+                android:layout_marginStart="8dp"
+                android:layout_centerVertical="true"
+                android:rotation="180"
+                android:src="@drawable/ic_back_chevron"
+                app:tint="@color/text_black" />
+
+            <LinearLayout
+                android:id="@+id/btn_add_entry"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="Today"
-                android:textColor="@color/primary_blue"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:clickable="true"
+                android:focusable="true"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_today_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Today"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view_today_indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@color/primary_blue" />
+            </LinearLayout>
         </RelativeLayout>
 
         <!-- Weekdays -->
@@ -55,71 +96,86 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/tv_weekday_sun"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Sun"
                 android:textColor="@color/text_grey_dark"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_weekday_mon"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Mon"
                 android:textColor="@color/text_grey_dark"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_weekday_tue"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Tue"
                 android:textColor="@color/text_grey_dark"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_weekday_wed"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Wed"
                 android:textColor="@color/text_grey_dark"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_weekday_thu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Thu"
                 android:textColor="@color/text_grey_dark"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_weekday_fri"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Fri"
                 android:textColor="@color/text_grey_dark"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tv_weekday_sat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="Sat"
                 android:textColor="@color/text_grey_dark"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Calendar Grid -->
         <GridLayout
+            android:id="@+id/calendar_grid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -150,10 +206,12 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
             </LinearLayout>
             <!-- Thu 2 -->
             <LinearLayout
@@ -164,14 +222,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
 
                 <View
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
+                    android:id="@+id/view_indicator_2"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/circle_yellow" />
             </LinearLayout>
@@ -184,14 +245,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="3"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
 
                 <View
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
+                    android:id="@+id/view_indicator_3"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/dot_green" />
             </LinearLayout>
@@ -204,14 +268,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
 
                 <View
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
+                    android:id="@+id/view_indicator_4"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/circle_yellow" />
             </LinearLayout>
@@ -225,10 +292,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="5"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view_indicator_5"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_blue_bg" />
             </LinearLayout>
 
             <LinearLayout
@@ -239,17 +315,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="6"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
 
                 <View
-                    android:layout_width="8dp"
-                    android:layout_height="6dp"
+                    android:id="@+id/view_indicator_6"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/circle_blue_bg"
-                    app:tint="#3F51B5" />
+                    android:background="@drawable/dot_orange" />
             </LinearLayout>
 
             <LinearLayout
@@ -260,50 +338,43 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_7"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="7"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
 
                 <View
-                    android:layout_width="8dp"
-                    android:layout_height="8dp"
+                    android:id="@+id/view_indicator_7"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/dot_green" />
             </LinearLayout>
             <!-- Selected 8 -->
-            <FrameLayout
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_columnWeight="1">
+                android:layout_columnWeight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_day_8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="8"
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
 
                 <View
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/calendar_selection" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="8"
-                        android:textColor="@color/text_black"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
-                        android:layout_marginTop="2dp"
-                        android:background="@drawable/circle_blue_bg"
-                        app:tint="#1A237E" />
-                </LinearLayout>
-            </FrameLayout>
+                    android:id="@+id/view_indicator_8"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_blue_bg" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -313,10 +384,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_9"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="9"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_green" />
             </LinearLayout>
 
             <LinearLayout
@@ -327,10 +407,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="10"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_orange" />
             </LinearLayout>
 
             <LinearLayout
@@ -341,10 +430,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="11"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view29"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_teal" />
             </LinearLayout>
 
             <!-- Row 3 -->
@@ -356,10 +454,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view30"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_blue_bg" />
             </LinearLayout>
 
             <LinearLayout
@@ -370,10 +477,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="13"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view31"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_green" />
             </LinearLayout>
 
             <LinearLayout
@@ -384,10 +500,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="14"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view32"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_teal" />
             </LinearLayout>
 
             <LinearLayout
@@ -398,10 +523,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_15"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="15"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view33"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_blue_bg" />
             </LinearLayout>
 
             <LinearLayout
@@ -412,10 +546,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="16"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view34"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_teal" />
             </LinearLayout>
 
             <LinearLayout
@@ -426,10 +569,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_17"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="17"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view35"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_yellow" />
             </LinearLayout>
 
             <LinearLayout
@@ -440,10 +592,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_18"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="18"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view36"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_orange" />
             </LinearLayout>
 
             <!-- Row 4 -->
@@ -455,10 +616,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_19"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="19"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view37"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_orange" />
             </LinearLayout>
 
             <LinearLayout
@@ -469,10 +639,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_20"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="20"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view38"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_teal" />
             </LinearLayout>
 
             <LinearLayout
@@ -483,10 +662,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_21"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="21"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view39"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_blue_bg" />
             </LinearLayout>
 
             <LinearLayout
@@ -497,10 +685,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="22"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view40"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_green" />
             </LinearLayout>
 
             <LinearLayout
@@ -511,10 +708,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_23"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="23"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view41"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_teal" />
             </LinearLayout>
 
             <LinearLayout
@@ -525,10 +731,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="24"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view42"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_blue_bg" />
             </LinearLayout>
 
             <LinearLayout
@@ -539,10 +754,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_25"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="25"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view43"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_orange" />
             </LinearLayout>
 
             <!-- Row 5 -->
@@ -554,10 +778,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_26"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="26"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view44"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/dot_green" />
             </LinearLayout>
 
             <LinearLayout
@@ -568,10 +801,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_27"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="27"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view45"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_blue_bg" />
             </LinearLayout>
 
             <LinearLayout
@@ -582,10 +824,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_28"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="28"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view46"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_yellow" />
             </LinearLayout>
 
             <LinearLayout
@@ -596,10 +847,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_29"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="29"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view47"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_blue_bg" />
             </LinearLayout>
 
             <LinearLayout
@@ -610,10 +870,19 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="30"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
+                <View
+                    android:id="@+id/view48"
+                    android:layout_width="11dp"
+                    android:layout_height="11dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/circle_blue_bg" />
             </LinearLayout>
 
             <LinearLayout
@@ -624,10 +893,13 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_day_31"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="31"
-                    android:textColor="@color/text_black" />
+                    android:textColor="@color/text_black"
+                    android:textStyle="bold" />
+
             </LinearLayout>
 
         </GridLayout>
@@ -640,21 +912,20 @@
             android:layout_marginBottom="40dp"
             app:cardBackgroundColor="#E8EAF6"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp">
+            app:cardElevation="4dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#E3E2F5"
-                android:elevation="3dp"
                 android:orientation="vertical"
-                android:padding="20dp"
-                tools:elevation="4dp">
+                android:padding="20dp">
 
                 <TextView
+                    android:id="@+id/tv_selected_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="May 8, 2024"
+                    android:text="May 30, 2024"
                     android:textColor="@color/text_black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -663,11 +934,10 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="4dp"
-                    app:strokeColor="#E0E0E0"
                     app:strokeWidth="0dp">
 
                     <LinearLayout
@@ -682,6 +952,7 @@
                             android:layout_height="54dp">
 
                             <View
+                                android:id="@+id/view_sphere_shadow_1"
                                 android:layout_width="26dp"
                                 android:layout_height="4dp"
                                 android:layout_gravity="bottom|center_horizontal"
@@ -689,6 +960,7 @@
                                 android:background="@drawable/sphere_shadow" />
 
                             <ImageView
+                                android:id="@+id/iv_mood_1"
                                 android:layout_width="match_parent"
                                 android:layout_height="42dp"
                                 android:layout_gravity="top"
@@ -703,6 +975,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tv_log_1_mood"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Good"
@@ -711,23 +984,27 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_log_1_tags"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Motivated, Focused"
                                 android:textColor="@color/text_grey_dark"
                                 android:textSize="12sp"
-                                android:textStyle="italic" />
+                                android:textStyle="bold|italic" />
 
                             <TextView
+                                android:id="@+id/tv_log_1_note"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:text="Had a productive study session."
                                 android:textColor="@color/text_grey_dark"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <ImageView
+                            android:id="@+id/btn_play_1"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@android:drawable/ic_media_play"
@@ -743,7 +1020,6 @@
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="4dp"
-                    app:strokeColor="#E0E0E0"
                     app:strokeWidth="0dp">
 
                     <LinearLayout
@@ -758,6 +1034,7 @@
                             android:layout_height="54dp">
 
                             <View
+                                android:id="@+id/view_sphere_shadow_2"
                                 android:layout_width="26dp"
                                 android:layout_height="4dp"
                                 android:layout_gravity="bottom|center_horizontal"
@@ -765,6 +1042,7 @@
                                 android:background="@drawable/sphere_shadow" />
 
                             <ImageView
+                                android:id="@+id/iv_mood_2"
                                 android:layout_width="match_parent"
                                 android:layout_height="42dp"
                                 android:layout_gravity="top"
@@ -779,6 +1057,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tv_log_2_mood"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Okay"
@@ -787,23 +1066,27 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_log_2_tags"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Tired"
                                 android:textColor="@color/text_grey_dark"
                                 android:textSize="12sp"
-                                android:textStyle="italic" />
+                                android:textStyle="bold|italic" />
 
                             <TextView
+                                android:id="@+id/tv_log_2_note"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="2dp"
                                 android:text="Slept late, but getting back on track."
                                 android:textColor="@color/text_grey_dark"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
 
                         <ImageView
+                            android:id="@+id/btn_play_2"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:src="@android:drawable/ic_media_play"
@@ -815,23 +1098,27 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="18dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
                     <View
+                        android:id="@+id/view_legend_very_bad"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
-                        android:background="@drawable/mood_very_bad" />
+                        android:background="@drawable/circle_blue_bg" />
 
                     <TextView
+                        android:id="@+id/tv_legend_very_bad"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:text="Very Bad"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
 
                     <View
+                        android:id="@+id/view_legend_bad"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginStart="12dp"
@@ -839,52 +1126,63 @@
                         app:tint="#81C784" />
 
                     <TextView
+                        android:id="@+id/tv_legend_bad"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:text="Bad"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
 
                     <View
+                        android:id="@+id/view_legend_okay"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginStart="12dp"
-                        android:background="@drawable/mood_okay" />
+                        android:background="@drawable/dot_orange" />
 
                     <TextView
+                        android:id="@+id/tv_legend_okay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:text="Okay"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
 
                     <View
+                        android:id="@+id/view_legend_good"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginStart="12dp"
-                        android:background="@drawable/mood_good"
+                        android:background="@drawable/dot_green"
                         app:tint="#FF9800" />
 
                     <TextView
+                        android:id="@+id/tv_legend_good"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:text="Good"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
 
                     <View
+                        android:id="@+id/view_legend_amazing"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginStart="12dp"
-                        android:background="@drawable/mood_amazing"
+                        android:background="@drawable/dot_teal"
                         app:tint="#F44336" />
 
                     <TextView
+                        android:id="@+id/tv_legend_amazing"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="4dp"
                         android:text="Amazing"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </LinearLayout>

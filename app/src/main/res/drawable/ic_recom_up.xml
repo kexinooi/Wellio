@@ -1,0 +1,19 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="40dp"
+    android:viewportWidth="40"
+    android:viewportHeight="40">
+    <!-- Teal Squircle Background -->
+    <path
+        android:fillColor="#E0F2F1"
+        android:pathData="M8,0h24c4.4,0 8,3.6 8,8v24c0,4.4 -3.6,8 -8,8H8c-4.4,0 -8,-3.6 -8,-8V8c0,-4.4 3.6,-8 8,-8z" />
+    <!-- Dark Teal Up Arrow -->
+    <group android:translateX="10" android:translateY="10">
+        <path
+            android:strokeColor="#004D40"
+            android:strokeWidth="2"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M10,19V1 M1,10l9,-9 9,9" />
+    </group>
+</vector>

@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_recommendations"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_soft"
+    android:background="#F6F0EB"
     android:fillViewport="true">
 
     <LinearLayout
+        android:id="@+id/layout_recommendations_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- Toolbar area -->
+        <RelativeLayout
+            android:id="@+id/layout_recommendations_toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="Recommendations"
-            android:textColor="@color/text_black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_back_chevron"
+                app:tint="@color/text_black"
+                android:clickable="true"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/tv_recommendations_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="Recommendations"
+                android:textColor="@color/text_black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_personalized_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
@@ -33,35 +55,39 @@
 
         <!-- Sleep Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_rec_sleep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/rec_sleep_bg"
+            app:cardBackgroundColor="#DAD1F6"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp">
+            app:cardElevation="4dp"
+            app:strokeWidth="1dp"
+            tools:strokeColor="#BDB7E1">
 
             <RelativeLayout
+                android:id="@+id/layout_rec_sleep_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp">
 
                 <ImageView
-                    android:id="@+id/icon_sleep"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_sleep"
-                    app:tint="@color/rec_sleep_accent" />
+                    android:id="@+id/iv_rec_sleep_icon"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_moon_star" />
 
                 <LinearLayout
+                    android:id="@+id/layout_rec_sleep_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="40dp"
-                    android:layout_toEndOf="@id/icon_sleep"
+                    android:layout_toEndOf="@id/iv_rec_sleep_icon"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_rec_sleep_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sleep"
@@ -70,6 +96,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_rec_sleep_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -79,6 +106,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_rec_sleep_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -87,6 +115,7 @@
                         android:textSize="13sp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_set_sleep_reminder"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_marginTop="12dp"
@@ -98,10 +127,11 @@
                         android:text="Set Sleep Reminder"
                         android:textAllCaps="false"
                         android:textSize="12sp"
-                        app:cornerRadius="18dp" />
+                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iv_rec_sleep_chevron"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
@@ -113,35 +143,39 @@
 
         <!-- Movement Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_rec_movement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/rec_movement_bg"
+            app:cardBackgroundColor="#C7EBD0"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp">
+            app:cardElevation="4dp"
+            app:strokeColor="#B9DABE"
+            app:strokeWidth="1dp">
 
             <RelativeLayout
+                android:id="@+id/layout_rec_movement_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp">
 
                 <ImageView
-                    android:id="@+id/icon_movement"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_movement"
-                    app:tint="@color/rec_movement_accent" />
+                    android:id="@+id/iv_rec_movement_icon"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_runner" />
 
                 <LinearLayout
+                    android:id="@+id/layout_rec_movement_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="40dp"
-                    android:layout_toEndOf="@id/icon_movement"
+                    android:layout_toEndOf="@id/iv_rec_movement_icon"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_rec_movement_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Movement"
@@ -150,6 +184,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_rec_movement_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -159,6 +194,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_rec_movement_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -167,6 +203,7 @@
                         android:textSize="13sp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_explore_workouts"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_marginTop="12dp"
@@ -178,10 +215,11 @@
                         android:text="Explore Workouts"
                         android:textAllCaps="false"
                         android:textSize="12sp"
-                        app:cornerRadius="18dp" />
+                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iv_rec_movement_chevron"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
@@ -193,35 +231,39 @@
 
         <!-- Mind Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_rec_mind"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:cardBackgroundColor="@color/rec_mind_bg"
+            app:cardBackgroundColor="#FBEAD3"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp">
+            app:cardElevation="4dp"
+            app:strokeColor="#EACEB0"
+            app:strokeWidth="1dp">
 
             <RelativeLayout
+                android:id="@+id/layout_rec_mind_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp">
 
                 <ImageView
-                    android:id="@+id/icon_mind"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_mind"
-                    app:tint="@color/rec_mind_accent" />
+                    android:id="@+id/iv_rec_mind_icon"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_brain" />
 
                 <LinearLayout
+                    android:id="@+id/layout_rec_mind_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="40dp"
-                    android:layout_toEndOf="@id/icon_mind"
+                    android:layout_toEndOf="@id/iv_rec_mind_icon"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_rec_mind_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mind"
@@ -230,6 +272,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_rec_mind_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -239,6 +282,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_rec_mind_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -247,6 +291,7 @@
                         android:textSize="13sp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_try_breathing"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_marginTop="12dp"
@@ -258,10 +303,11 @@
                         android:text="Try Breathing Exercises"
                         android:textAllCaps="false"
                         android:textSize="12sp"
-                        app:cornerRadius="18dp" />
+                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iv_rec_mind_chevron"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"
@@ -273,36 +319,40 @@
 
         <!-- Habit Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_rec_habit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp"
-            app:cardBackgroundColor="@color/rec_habit_bg"
+            app:cardBackgroundColor="#EBF5FF"
             app:cardCornerRadius="24dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp">
+            app:cardElevation="4dp"
+            app:strokeColor="#B3CAE3"
+            app:strokeWidth="1dp">
 
             <RelativeLayout
+                android:id="@+id/layout_rec_habit_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp">
 
                 <ImageView
-                    android:id="@+id/icon_habit"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:src="@drawable/ic_habit"
-                    app:tint="@color/rec_habit_accent" />
+                    android:id="@+id/iv_rec_habit_icon"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/ic_open_book" />
 
                 <LinearLayout
+                    android:id="@+id/layout_rec_habit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
+                    android:layout_marginStart="16dp"
                     android:layout_marginEnd="40dp"
-                    android:layout_toEndOf="@id/icon_habit"
+                    android:layout_toEndOf="@id/iv_rec_habit_icon"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_rec_habit_category"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Habit"
@@ -311,6 +361,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_rec_habit_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -320,6 +371,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_rec_habit_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -328,6 +380,7 @@
                         android:textSize="13sp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_start_habit"
                         android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_marginTop="12dp"
@@ -339,10 +392,11 @@
                         android:text="Start Habit"
                         android:textAllCaps="false"
                         android:textSize="12sp"
-                        app:cornerRadius="18dp" />
+                        app:cornerRadius="10dp" />
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iv_rec_habit_chevron"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_alignParentEnd="true"

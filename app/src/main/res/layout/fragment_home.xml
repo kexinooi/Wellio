@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dashboard"
@@ -19,21 +20,22 @@
         android:gravity="center_horizontal">
 
         <!-- Toolbar area -->
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/tv_toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/dm_sans"
+                android:fontFamily="@font/roboto"
                 android:text="Dashboard"
                 android:textColor="@color/text_black"
                 android:textSize="28sp"
                 android:textStyle="bold" />
 
             <ImageView
+                android:id="@+id/iv_notifications"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
@@ -43,24 +45,30 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_greeting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Good Morning, Kexin! ☀️"
-            android:textSize="18sp"
-            android:textStyle="bold"
             android:layout_marginTop="20dp"
-            android:textColor="@color/text_black" />
+            android:fontFamily="@font/roboto"
+            android:text="Good Morning, Kexin! ☀️"
+            android:textColor="@color/text_black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_sub_greeting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You've got this. Let's make today a good one."
-            android:textSize="14sp"
             android:layout_marginTop="4dp"
-            android:textColor="@color/text_grey_dark" />
+            android:fontFamily="@font/roboto"
+            android:text="You've got this. Let's make today a good one."
+            android:textColor="@color/text_grey_dark"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <!-- Mood Overview Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_mood_overview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
@@ -81,6 +89,7 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/tv_mood_overview_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mood Overview"
@@ -89,6 +98,7 @@
                         android:textStyle="bold" />
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_today_chip"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
@@ -101,6 +111,7 @@
                         app:contentPaddingTop="6dp">
 
                         <TextView
+                            android:id="@+id/tv_today_chip_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Today"
@@ -122,6 +133,7 @@
                         android:layout_height="100dp">
                         <!-- Sphere shadow -->
                         <View
+                            android:id="@+id/view_mood_sphere_shadow"
                             android:layout_width="39dp"
                             android:layout_height="7dp"
                             android:layout_gravity="bottom|center_horizontal"
@@ -129,6 +141,7 @@
                             android:background="@drawable/sphere_shadow" />
 
                         <ImageView
+                            android:id="@+id/iv_mood_icon"
                             android:layout_width="match_parent"
                             android:layout_height="83dp"
                             android:padding="4dp"
@@ -142,11 +155,13 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_feeling_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Feeling"
                             android:textColor="@color/text_grey_light"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -155,6 +170,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/tv_mood_status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Good"
@@ -162,12 +178,6 @@
                                 android:textSize="26sp"
                                 android:textStyle="bold" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="4dp"
-                                android:text=" 😊"
-                                android:textSize="22sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -178,6 +188,7 @@
                             android:orientation="horizontal">
 
                             <TextView
+                                android:id="@+id/tv_mood_trend"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="↑ 12%"
@@ -186,12 +197,14 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_mood_vs_yesterday"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
                                 android:text=" vs yesterday"
                                 android:textColor="@color/text_grey_light"
-                                android:textSize="14sp" />
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -199,6 +212,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
+            android:id="@+id/tv_glance_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="18dp"
@@ -208,8 +222,9 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/layout_glance_container"
             android:layout_width="match_parent"
-            android:layout_height="112dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:clipChildren="false"
             android:clipToPadding="false"
@@ -220,7 +235,7 @@
                 android:id="@+id/card_sleep"
                 layout="@layout/item_glance"
                 android:layout_width="0dp"
-                android:layout_height="110dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="1" />
 
@@ -228,7 +243,7 @@
                 android:id="@+id/card_focus"
                 layout="@layout/item_glance"
                 android:layout_width="0dp"
-                android:layout_height="110dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="1" />
 
@@ -236,27 +251,19 @@
                 android:id="@+id/card_stress"
                 layout="@layout/item_glance"
                 android:layout_width="0dp"
-                android:layout_height="110dp"
+                android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:text="Upcoming Deadlines"
-            android:textColor="@color/text_black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
+        <!-- Assignments Due Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_assignments_due"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
             android:layout_marginHorizontal="2dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            app:cardBackgroundColor="@color/card_bg"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="24dp"
             app:cardElevation="4dp"
             app:strokeWidth="0dp">
@@ -264,130 +271,258 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="15dp">
+                android:orientation="vertical">
 
-                <!-- Deadline 1 -->
+                <!-- Header -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="8dp">
+                    android:paddingHorizontal="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="12dp">
 
-                    <ImageView
-                        android:id="@+id/icon_mad"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_deadline_clipboard" />
+                    <TextView
+                        android:id="@+id/tv_assignments_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="ASSIGNMENTS DUE"
+                        android:textColor="@color/deadline_header_text"
+                        android:textSize="12sp"
+                        android:letterSpacing="0.05"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_pending_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        app:cardBackgroundColor="@color/deadline_pending_bg"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
+
+                        <TextView
+                            android:id="@+id/tv_pending_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="4dp"
+                            android:text="2 pending"
+                            android:textColor="@color/deadline_pending_text"
+                            android:textSize="12sp"
+                            android:fontFamily="sans-serif-medium" />
+                    </com.google.android.material.card.MaterialCardView>
+                </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_assignments_divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F5F5F5" />
+
+                <!-- Assignment 1 -->
+                <RelativeLayout
+                    android:id="@+id/layout_assignment_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="16dp">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/icon_container_1"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:cardBackgroundColor="@color/deadline_icon_bg"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/iv_assignment_icon_1"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_deadline_clipboard"
+                            app:tint="#4CAF50" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_toEndOf="@id/icon_mad"
+                        android:layout_toEndOf="@id/icon_container_1"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_assignment_name_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="MAD Assignment"
                             android:textColor="@color/text_black"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_assignment_due_1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="May 12, 2024"
+                            android:text="Due May 12, 2024"
                             android:textColor="@color/text_grey_light"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
-                    <TextView
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_deadline_status_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/badge_red_outline"
-                        android:paddingHorizontal="14dp"
-                        android:paddingVertical="6dp"
-                        android:text="2 Days Left"
-                        android:textColor="@color/badge_red_text"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        app:cardBackgroundColor="@color/deadline_red_bg"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="6dp">
+
+                            <View
+                                android:id="@+id/view_status_dot_1"
+                                android:layout_width="6dp"
+                                android:layout_height="6dp"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/circle_red" />
+
+                            <TextView
+                                android:id="@+id/tv_deadline_days_left_1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="2 days left"
+                                android:textColor="@color/deadline_red_text"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </RelativeLayout>
 
                 <View
+                    android:id="@+id/view_assignment_divider_1"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginVertical="4dp"
-                    android:background="#F0F0F0" />
+                    android:layout_marginHorizontal="20dp"
+                    android:background="#F5F5F5" />
 
-                <!-- Deadline 2 -->
+                <!-- Assignment 2 -->
                 <RelativeLayout
+                    android:id="@+id/layout_assignment_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingVertical="8dp">
+                    android:paddingHorizontal="20dp"
+                    android:paddingVertical="16dp">
 
-                    <ImageView
-                        android:id="@+id/icon_me"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:src="@drawable/ic_deadline_clipboard" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/icon_container_2"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        app:cardBackgroundColor="@color/deadline_icon_bg"
+                        app:cardCornerRadius="12dp"
+                        app:cardElevation="0dp">
+
+                        <ImageView
+                            android:id="@+id/iv_assignment_icon_2"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_deadline_clipboard"
+                            app:tint="#4CAF50" />
+                    </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
-                        android:layout_toEndOf="@id/icon_me"
+                        android:layout_toEndOf="@id/icon_container_2"
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_assignment_name_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="ME Assignment"
                             android:textColor="@color/text_black"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_assignment_due_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="May 18, 2024"
+                            android:text="Due May 18, 2024"
                             android:textColor="@color/text_grey_light"
-                            android:textSize="12sp" />
+                            android:textSize="14sp" />
                     </LinearLayout>
 
-                    <TextView
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_deadline_status_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/badge_orange_outline"
-                        android:paddingHorizontal="14dp"
-                        android:paddingVertical="6dp"
-                        android:text="8 Days Left"
-                        android:textColor="@color/badge_orange_text"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
+                        app:cardBackgroundColor="@color/deadline_orange_bg"
+                        app:cardCornerRadius="14dp"
+                        app:cardElevation="0dp">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="6dp">
+
+                            <View
+                                android:id="@+id/view_status_dot_2"
+                                android:layout_width="6dp"
+                                android:layout_height="6dp"
+                                android:layout_marginEnd="6dp"
+                                android:background="@drawable/circle_orange" />
+
+                            <TextView
+                                android:id="@+id/tv_deadline_days_left_2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="8 days left"
+                                android:textColor="@color/deadline_orange_text"
+                                android:textSize="12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </RelativeLayout>
+
+                <View
+                    android:id="@+id/view_assignment_divider_footer"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#F5F5F5" />
+
+                <!-- Footer / Show All -->
+                <TextView
+                    android:id="@+id/btn_show_all_deadlines"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:paddingHorizontal="24dp"
+                    android:paddingVertical="16dp"
+                    android:text="Show all &#8594;"
+                    android:textColor="#3474E0"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:background="?attr/selectableItemBackground" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
-        <!-- Log Mood Button with Shadow -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_log_mood"
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="24dp"
-            android:layout_marginBottom="40dp"
-            android:background="@drawable/btn_gradient_purple"
-            android:text="+ Log Mood"
-            android:textAllCaps="false"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:backgroundTint="@null"
-            app:cornerRadius="50dp"
-            app:elevation="8dp" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

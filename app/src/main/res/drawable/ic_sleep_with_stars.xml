@@ -1,0 +1,66 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <!-- Crescent Moon with Gradient -->
+    <path android:pathData="M70.1,67.6C54.1,84.4 27,82.7 13,63.9 1,48.1 4.5,23.1 20.8,11.1 22.8,9.7 25.4,8.8 28.1,8.3 22,17.2 20.3,29.1 23.9,40.1 28.6,54.7 43.1,63.8 58.1,61.8 62.4,61.2 66.5,59.8 70.1,57.7 71.4,61.2 71.3,64.9 70.1,67.6Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:centerX="40"
+                android:centerY="40"
+                android:gradientRadius="60"
+                android:type="radial">
+                <item android:offset="0" android:color="#4A71FF" />
+                <item android:offset="1" android:color="#1D3BB9" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Large Star with Gradient -->
+    <path android:pathData="M68,21L70.5,27.5L77,30L70.5,32.5L68,39L65.5,32.5L59,30L65.5,27.5L68,21Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="59"
+                android:startY="21"
+                android:endX="77"
+                android:endY="39"
+                android:type="linear">
+                <item android:offset="0" android:color="#FFF176" />
+                <item android:offset="1" android:color="#FFB300" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Small Star Top-Right -->
+    <path android:pathData="M81,39L82.5,42.5L86,44L82.5,45.5L81,49L79.5,45.5L76,44L79.5,42.5L81,39Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="76"
+                android:startY="39"
+                android:endX="86"
+                android:endY="49"
+                android:type="linear">
+                <item android:offset="0" android:color="#FFF176" />
+                <item android:offset="1" android:color="#FFB300" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- Small Star Bottom -->
+    <path android:pathData="M61,42L62.5,45.5L66,47L62.5,48.5L61,52L59.5,48.5L56,47L59.5,45.5L61,42Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:startX="56"
+                android:startY="42"
+                android:endX="66"
+                android:endY="52"
+                android:type="linear">
+                <item android:offset="0" android:color="#FFF176" />
+                <item android:offset="1" android:color="#FFB300" />
+            </gradient>
+        </aapt:attr>
+    </path>
+</vector>

@@ -7,6 +7,7 @@
     android:clipToPadding="false">
 
     <LinearLayout
+        android:id="@+id/layout_log_mood_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -16,34 +17,34 @@
 
         <!-- Toolbar area -->
         <RelativeLayout
+            android:id="@+id/layout_log_mood_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/btn_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:clickable="true"
-                android:focusable="true"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/ic_back_chevron"
-                app:tint="@color/text_black" />
+                app:tint="@color/text_black"
+                android:clickable="true"
+                android:focusable="true" />
+
             <TextView
+                android:id="@+id/tv_log_mood_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:text="Log Mood"
+                android:textColor="@color/text_black"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_black" />
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:src="@android:drawable/ic_dialog_info"
-                app:tint="@color/text_black" />
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_feeling_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="How are you feeling today?"
@@ -51,22 +52,27 @@
             android:textStyle="bold"
             android:layout_marginTop="32dp"
             android:textColor="@color/text_black" />
+
         <TextView
+            android:id="@+id/tv_select_mood_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select your mood"
-            android:textSize="14sp"
             android:layout_marginTop="4dp"
-            android:textColor="@color/text_grey_light" />
+            android:text="Select your mood"
+            android:textColor="@color/text_grey_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <!-- Mood Selection Row -->
         <include
+            android:id="@+id/layout_mood_selector"
             layout="@layout/item_mood_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp" />
 
         <TextView
+            android:id="@+id/tv_influence_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -76,81 +82,108 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_select_influence_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select all that apply"
-            android:textSize="14sp"
             android:layout_marginTop="4dp"
-            android:textColor="@color/text_grey_light" />
+            android:text="Select all that apply"
+            android:textColor="@color/text_grey_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <!-- Influence Chips -->
 
         <com.google.android.material.chip.ChipGroup
-            android:id="@+id/chip_group_mood"
+            android:id="@+id/chip_group_influences"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            app:chipSpacingHorizontal="8dp"
-            app:chipSpacingVertical="8dp"
-            app:singleSelection="false">
+            app:chipSpacingHorizontal="15dp"
+            app:chipSpacingVertical="8dp">
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_stressed"
+                android:id="@+id/chip_exhausted"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Stressed"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                android:elevation="4dp"
+                android:text="Exhausted"
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_happy"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:text="Happy"
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_motivated"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="false"
+                android:elevation="4dp"
                 android:text="Motivated"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
-
-            <com.google.android.material.chip.Chip
-                android:id="@+id/chip_tired"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tired"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#EEEEEE"
+                app:chipIconVisible="true"
+                app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_focused"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
+                android:elevation="4dp"
                 android:text="Focused"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#EEEEEE"
+                app:chipIconVisible="true"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_stressed"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:elevation="4dp"
+                android:text="Stressed"
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_anxious"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:elevation="4dp"
                 android:text="Anxious"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chip_happy"
+                android:id="@+id/chip_tired"
+                style="@style/Widget.MaterialComponents.Chip.Choice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Happy"
-                style="@style/Widget.App.Chip.Choice"
-                android:checkable="true"
-                app:checkedIconVisible="true"/>
+                android:elevation="4dp"
+                android:text="Tired"
+                android:textColor="@color/text_grey_dark"
+                app:chipBackgroundColor="#F0F0F0"
+                app:chipStrokeWidth="0dp" />
+
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
+            android:id="@+id/tv_add_note_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -160,6 +193,7 @@
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_note_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -170,6 +204,7 @@
             app:strokeWidth="0dp">
 
             <RelativeLayout
+                android:id="@+id/layout_note_relative"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="16dp">

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_mood_selector_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="4dp"
@@ -9,20 +10,18 @@
     android:paddingVertical="0dp">
 
     <!-- Very Bad -->
-
-    <!-- Bad -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_very_bad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
         app:strokeWidth="0dp"
         app:cardBackgroundColor="#E2D4FB">
         <LinearLayout
+            android:id="@+id/layout_very_bad_content"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:gravity="center"
@@ -30,36 +29,36 @@
             android:padding="8dp">
 
             <ImageView
+                android:id="@+id/iv_mood_very_bad"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/mood_very_bad" />
 
             <TextView
+                android:id="@+id/tv_label_very_bad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Very Bad"
                 android:textStyle="bold"
-                android:textSize="10sp"
-                android:layout_marginTop="8dp"
-                android:text="Very Bad"
                 android:textColor="@color/text_black"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Okay -->
+    <!-- Bad -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_bad"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
         app:strokeWidth="0dp"
         app:cardBackgroundColor="#FBD6C7">
         <LinearLayout
+            android:id="@+id/layout_bad_content"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:gravity="center"
@@ -67,35 +66,36 @@
             android:padding="8dp">
 
             <ImageView
+                android:id="@+id/iv_mood_bad"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/mood_bad" />
 
             <TextView
+                android:id="@+id/tv_label_bad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bad"
                 android:textStyle="bold"
-                android:textSize="10sp"
-                android:layout_marginTop="8dp"
-                android:text="Bad"
                 android:textColor="@color/text_black"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
+    <!-- Okay -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_okay"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
         app:strokeWidth="0dp"
         app:cardBackgroundColor="#F8DDB4">
         <LinearLayout
+            android:id="@+id/layout_okay_content"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:gravity="center"
@@ -103,20 +103,20 @@
             android:padding="8dp">
 
             <ImageView
+                android:id="@+id/iv_mood_okay"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/mood_okay" />
 
             <TextView
+                android:id="@+id/tv_label_okay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Okay"
                 android:textStyle="bold"
-                android:textSize="10sp"
-                android:layout_marginTop="8dp"
-                android:text="Okay"
                 android:textColor="@color/text_black"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -127,12 +127,12 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
         app:strokeWidth="0dp"
         app:cardBackgroundColor="#CEFDCF">
         <LinearLayout
+            android:id="@+id/layout_good_content"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:gravity="center"
@@ -140,37 +140,36 @@
             android:padding="8dp">
 
             <ImageView
+                android:id="@+id/iv_mood_good"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/mood_good" />
 
             <TextView
+                android:id="@+id/tv_label_good"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Good"
                 android:textStyle="bold"
-                android:textSize="10sp"
-                android:layout_marginTop="8dp"
-                android:text="Good"
                 android:textColor="@color/text_black"
-                android:textSize="10sp" />
+                android:textSize="10sp"
+                android:layout_marginTop="8dp" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Amazing (Selected State Example) -->
+    <!-- Amazing -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_amazing"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
-        app:cardBackgroundColor="#F1FBF9"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
         app:strokeWidth="0dp"
-        app:strokeColor="#26A69A"
         app:cardBackgroundColor="#CDF8EF">
         <LinearLayout
+            android:id="@+id/layout_amazing_content"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:gravity="center"
@@ -178,11 +177,13 @@
             android:padding="8dp">
 
             <ImageView
+                android:id="@+id/iv_mood_amazing"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:src="@drawable/mood_amazing" />
 
             <TextView
+                android:id="@+id/tv_label_amazing"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

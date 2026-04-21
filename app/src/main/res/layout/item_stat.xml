@@ -26,27 +26,31 @@
             android:id="@+id/stat_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Avg Mood"
-            android:textSize="10sp"
             android:layout_marginTop="4dp"
-            android:textColor="@color/text_grey" />
+            android:layout_marginBottom="4dp"
+            android:text="Avg Mood"
+            android:textColor="@color/text_grey"
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/stat_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:text="Good"
+            android:textColor="@color/text_main"
             android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_main" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/stat_period"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="This Month"
+            android:textColor="@color/text_grey"
             android:textSize="10sp"
-            android:textColor="@color/text_grey" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

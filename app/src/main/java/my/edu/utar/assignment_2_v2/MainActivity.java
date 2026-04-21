@@ -23,8 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
             if (itemId == R.id.navigation_home) {
                 selectedFragment = new HomeFragment();
-            } else if (itemId == R.id.navigation_log) {
-                selectedFragment = new LogMoodFragment();
             } else if (itemId == R.id.navigation_insights) {
                 selectedFragment = new InsightsFragment();
             } else if (itemId == R.id.navigation_calendar) {

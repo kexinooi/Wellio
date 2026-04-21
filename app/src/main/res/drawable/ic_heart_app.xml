@@ -1,0 +1,32 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+
+    <!-- Squircle Background with Gradient -->
+    <path android:pathData="M20,10 L80,10 C91,10 90,19 90,30 L90,70 C90,81 81,90 70,90 L30,90 C19,90 10,81 10,70 L10,30 C10,19 19,10 30,10 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient
+                android:endX="90"
+                android:endY="90"
+                android:startX="10"
+                android:startY="10"
+                android:type="linear">
+                <item android:color="#6379FF" android:offset="0.0" />
+                <item android:color="#4F65FF" android:offset="1.0" />
+            </gradient>
+        </aapt:attr>
+    </path>
+
+    <!-- White Heart with better shape -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M50,55 C50,55 32,44 32,32 C32,26 36,22 41,22 C44,22 48,24 50,27 C52,24 56,22 59,22 C64,22 68,26 68,32 C68,44 50,55 50,55 Z" />
+
+    <!-- Teal Curved Sprout Shape -->
+    <path
+        android:fillColor="#6BE3D0"
+        android:pathData="M32,48 C32,48 35,62 50,62 C65,62 68,48 68,48 C68,48 65,56 50,56 C35,56 32,48 32,48 Z" />
+</vector>
