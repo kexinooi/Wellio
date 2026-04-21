@@ -9,7 +9,7 @@
         <item name="android:windowLightStatusBar">true</item>
 
         <!-- Global Font Family -->
-        <item name="fontFamily">@font/</item>
+        <item name="fontFamily">@font/roboto</item>
         <item name="android:fontFamily">@font/roboto</item>
     </style>
 

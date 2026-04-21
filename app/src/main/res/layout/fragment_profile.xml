@@ -2,12 +2,14 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_profile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dashboard"
     android:clipToPadding="false">
 
     <LinearLayout
+        android:id="@+id/layout_profile_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -16,6 +18,7 @@
 
         <!-- Toolbar area -->
         <RelativeLayout
+            android:id="@+id/layout_profile_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -27,7 +30,9 @@
                 android:focusable="true"
                 android:src="@drawable/ic_back_chevron"
                 app:tint="@color/text_black" />
+
             <TextView
+                android:id="@+id/tv_profile_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -35,6 +40,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/text_black" />
+
             <ImageView
                 android:id="@+id/btn_settings"
                 android:layout_width="24dp"
@@ -46,18 +52,20 @@
 
         <!-- Avatar -->
         <FrameLayout
+            android:id="@+id/layout_avatar_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp">
             <View
+                android:id="@+id/view_avatar_bg"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:background="@drawable/circle_blue_bg"
                 android:backgroundTint="#B2EBF2" />
-
         </FrameLayout>
 
         <TextView
+            android:id="@+id/tv_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Kexin"
@@ -67,6 +75,7 @@
             android:textColor="@color/text_black" />
 
         <TextView
+            android:id="@+id/tv_streak_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="7-Day Logging Streak 🔥"
@@ -76,6 +85,7 @@
             android:textColor="@color/text_black" />
 
         <TextView
+            android:id="@+id/tv_streak_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -86,6 +96,7 @@
 
         <!-- Your Stats Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_stats"
             android:layout_width="match_parent"
             android:layout_height="210dp"
             android:layout_marginTop="16dp"
@@ -96,12 +107,14 @@
             app:strokeWidth="1dp">
 
             <LinearLayout
+                android:id="@+id/layout_stats_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="16dp">
 
                 <TextView
+                    android:id="@+id/tv_stats_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your Stats"
@@ -110,6 +123,7 @@
                     android:textStyle="bold" />
 
                 <LinearLayout
+                    android:id="@+id/layout_stats_row"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -117,6 +131,7 @@
 
                     <!-- Avg Mood -->
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_avg_mood"
                         android:layout_width="0dp"
                         android:layout_height="140dp"
                         android:layout_marginEnd="8dp"
@@ -128,6 +143,7 @@
                         app:strokeWidth="2dp">
 
                         <LinearLayout
+                            android:id="@+id/layout_avg_mood_content"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -135,6 +151,7 @@
                             android:padding="17dp">
 
                             <ImageView
+                                android:id="@+id/iv_avg_mood_icon"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_marginTop="3dp"
@@ -142,14 +159,15 @@
                                 android:src="@drawable/mood_good" />
 
                             <TextView
+                                android:id="@+id/tv_avg_mood_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Avg Mood"
                                 android:textColor="@color/text_grey_dark"
-                                android:textSize="12sp"
-                                tools:textStyle="bold" />
+                                android:textSize="12sp" />
 
                             <TextView
+                                android:id="@+id/tv_avg_mood_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -159,6 +177,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_avg_mood_period"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -171,6 +190,7 @@
 
                     <!-- Avg Sleep -->
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_avg_sleep"
                         android:layout_width="0dp"
                         android:layout_height="140dp"
                         android:layout_marginHorizontal="4dp"
@@ -182,6 +202,7 @@
                         app:strokeWidth="2dp">
 
                         <LinearLayout
+                            android:id="@+id/layout_avg_sleep_content"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -189,6 +210,7 @@
                             android:padding="17dp">
 
                             <ImageView
+                                android:id="@+id/iv_avg_sleep_icon"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_marginTop="3dp"
@@ -197,6 +219,7 @@
                                 app:tint="#3F51B5" />
 
                             <TextView
+                                android:id="@+id/tv_avg_sleep_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Avg Sleep"
@@ -205,6 +228,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_avg_sleep_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -214,6 +238,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_avg_sleep_period"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -226,6 +251,7 @@
 
                     <!-- Productivity -->
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_productivity"
                         android:layout_width="0dp"
                         android:layout_height="140dp"
                         android:layout_marginStart="8dp"
@@ -237,6 +263,7 @@
                         app:strokeWidth="2dp">
 
                         <LinearLayout
+                            android:id="@+id/layout_productivity_content"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
@@ -244,6 +271,7 @@
                             android:padding="17dp">
 
                             <ImageView
+                                android:id="@+id/iv_productivity_icon"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
                                 android:layout_marginTop="3dp"
@@ -252,6 +280,7 @@
                                 app:tint="#D32F2F" />
 
                             <TextView
+                                android:id="@+id/tv_productivity_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Productivity"
@@ -260,6 +289,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_productivity_value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -269,6 +299,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tv_productivity_period"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
@@ -284,6 +315,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <TextView
+            android:id="@+id/tv_achievements_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -294,6 +326,7 @@
 
         <!-- Achievement 1 -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_achievement_streak"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -304,6 +337,7 @@
             app:strokeWidth="2dp">
 
             <LinearLayout
+                android:id="@+id/layout_achievement_streak_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -311,6 +345,7 @@
                 android:padding="16dp">
 
                 <ImageView
+                    android:id="@+id/iv_streak_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/circle_blue_bg"
@@ -320,6 +355,7 @@
                     app:tint="#00695C" />
 
                 <LinearLayout
+                    android:id="@+id/layout_streak_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -327,6 +363,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_achievement_streak_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="7-Day Streak"
@@ -335,6 +372,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_achievement_streak_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Logged mood for 7 days"
@@ -344,6 +382,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iv_streak_check"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@android:drawable/checkbox_on_background"
@@ -353,6 +392,7 @@
 
         <!-- Achievement 2 -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_achievement_mindful"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -364,6 +404,7 @@
             app:strokeWidth="2dp">
 
             <LinearLayout
+                android:id="@+id/layout_achievement_mindful_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
@@ -371,16 +412,19 @@
                 android:padding="16dp">
 
                 <FrameLayout
+                    android:id="@+id/layout_mindful_star_container"
                     android:layout_width="40dp"
                     android:layout_height="40dp">
 
                     <ImageView
+                        android:id="@+id/iv_mindful_star"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@android:drawable/btn_star_big_on"
                         app:tint="#7B1FA2" />
 
                     <TextView
+                        android:id="@+id/tv_mindful_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -391,6 +435,7 @@
                 </FrameLayout>
 
                 <LinearLayout
+                    android:id="@+id/layout_mindful_text"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -398,6 +443,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_achievement_mindful_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mindful Reflections"
@@ -406,6 +452,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_achievement_mindful_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Added 5 notes"
@@ -415,6 +462,7 @@
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/iv_mindful_check"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@android:drawable/checkbox_on_background"

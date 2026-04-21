@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_signup"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_auth">
@@ -20,12 +21,14 @@
         app:tint="#2D3142" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_signup"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/bottom_prompt_container"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/layout_signup_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
@@ -60,6 +63,7 @@
 
             <!-- Full Name Input Card -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_full_name_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="2dp"
@@ -80,6 +84,7 @@
                     app:startIconTint="#2D3142">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_full_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -94,6 +99,7 @@
 
             <!-- Email Input Card -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_email_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="2dp"
@@ -114,6 +120,7 @@
                     app:startIconTint="#2D3142">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -128,6 +135,7 @@
 
             <!-- Password Input Card -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_password_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="2dp"
@@ -149,6 +157,7 @@
                     app:startIconTint="#2D3142">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@android:color/transparent"
@@ -163,6 +172,7 @@
 
             <!-- Sign Up Button Card -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_signup_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="2dp"
@@ -189,6 +199,7 @@
 
             <!-- Social Divider -->
             <LinearLayout
+                android:id="@+id/layout_social_divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -196,12 +207,14 @@
                 android:orientation="horizontal">
 
                 <View
+                    android:id="@+id/view_divider_left"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"
                     android:background="#D1D1D1" />
 
                 <TextView
+                    android:id="@+id/tv_social_divider_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="16dp"
@@ -210,6 +223,7 @@
                     android:textSize="12sp" />
 
                 <View
+                    android:id="@+id/view_divider_right"
                     android:layout_width="0dp"
                     android:layout_height="1dp"
                     android:layout_weight="1"
@@ -236,6 +250,7 @@
                 app:strokeColor="#E0E0E0" />
 
             <View
+                android:id="@+id/view_signup_bottom_spacing"
                 android:layout_width="match_parent"
                 android:layout_height="100dp" />
 
@@ -254,6 +269,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
+            android:id="@+id/tv_login_prompt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"

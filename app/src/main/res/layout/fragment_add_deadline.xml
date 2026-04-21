@@ -2,12 +2,14 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scroll_add_deadline"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFBF5"
     android:clipToPadding="false">
 
     <LinearLayout
+        android:id="@+id/layout_add_deadline_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -15,6 +17,7 @@
 
         <!-- Toolbar -->
         <RelativeLayout
+            android:id="@+id/layout_add_deadline_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
@@ -30,6 +33,7 @@
                 app:tint="@color/text_black" />
 
             <TextView
+                android:id="@+id/tv_add_deadline_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -41,6 +45,7 @@
 
         <!-- Deadline Type Section -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_deadline_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -51,12 +56,14 @@
             app:strokeWidth="0dp">
 
             <LinearLayout
+                android:id="@+id/layout_deadline_type_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="20dp">
 
                 <TextView
+                    android:id="@+id/tv_deadline_type_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="DEADLINE TYPE"
@@ -65,6 +72,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_deadline_type_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
@@ -74,6 +82,7 @@
                     android:textStyle="bold" />
 
                 <GridLayout
+                    android:id="@+id/grid_deadline_types"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -91,6 +100,7 @@
                         app:cardElevation="2dp">
 
                         <LinearLayout
+                            android:id="@+id/layout_type_assignment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -98,11 +108,13 @@
                             android:padding="14dp">
 
                             <ImageView
+                                android:id="@+id/iv_type_assignment_icon"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/ic_type_assignment" />
 
                             <TextView
+                                android:id="@+id/tv_type_assignment_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
@@ -125,6 +137,7 @@
                         app:cardElevation="0dp">
 
                         <LinearLayout
+                            android:id="@+id/layout_type_quiz"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -132,12 +145,14 @@
                             android:padding="14dp">
 
                             <ImageView
+                                android:id="@+id/iv_type_quiz_icon"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/ic_type_quiz"
                                 app:tint="#5E72E4" />
 
                             <TextView
+                                android:id="@+id/tv_type_quiz_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
@@ -160,6 +175,7 @@
                         app:cardElevation="0dp">
 
                         <LinearLayout
+                            android:id="@+id/layout_type_test"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -167,12 +183,14 @@
                             android:padding="14dp">
 
                             <ImageView
+                                android:id="@+id/iv_type_test_icon"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/ic_type_test"
                                 app:tint="#5E72E4" />
 
                             <TextView
+                                android:id="@+id/tv_type_test_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
@@ -195,6 +213,7 @@
                         app:cardElevation="0dp">
 
                         <LinearLayout
+                            android:id="@+id/layout_type_midterm"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
@@ -202,12 +221,14 @@
                             android:padding="14dp">
 
                             <ImageView
+                                android:id="@+id/iv_type_midterm_icon"
                                 android:layout_width="20dp"
                                 android:layout_height="20dp"
                                 android:src="@drawable/ic_type_midterm"
                                 app:tint="#5E72E4" />
 
                             <TextView
+                                android:id="@+id/tv_type_midterm_label"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
@@ -223,6 +244,7 @@
 
         <!-- Title Section -->
         <TextView
+            android:id="@+id/tv_title_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -233,6 +255,7 @@
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_title_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -242,12 +265,14 @@
             app:cardElevation="2dp"
             app:strokeWidth="0dp">
             <LinearLayout
+                android:id="@+id/layout_title_input_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="18dp">
                 <ImageView
+                    android:id="@+id/iv_edit_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@android:drawable/ic_menu_edit"
@@ -267,6 +292,7 @@
 
         <!-- Date & Time Section -->
         <TextView
+            android:id="@+id/tv_date_time_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -277,6 +303,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/layout_date_time_selection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -294,6 +321,7 @@
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp">
                 <RelativeLayout
+                    android:id="@+id/layout_date_btn_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
@@ -326,6 +354,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <ImageView
+                        android:id="@+id/iv_date_chevron"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_alignParentEnd="true"
@@ -346,6 +375,7 @@
                 app:cardElevation="2dp"
                 app:strokeWidth="0dp">
                 <RelativeLayout
+                    android:id="@+id/layout_time_btn_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
@@ -378,6 +408,7 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
                     <ImageView
+                        android:id="@+id/iv_time_chevron"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_alignParentEnd="true"
@@ -390,6 +421,7 @@
 
         <!-- Priority Level Section -->
         <TextView
+            android:id="@+id/tv_priority_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -400,6 +432,7 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/layout_priority_selection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -418,16 +451,19 @@
                 app:strokeColor="#24A15E"
                 app:strokeWidth="1dp">
                 <LinearLayout
+                    android:id="@+id/layout_priority_low_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingVertical="10dp">
                     <View
+                        android:id="@+id/view_priority_low_dot"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:background="@drawable/circle_blue_bg"
                         android:backgroundTint="#24A15E" />
                     <TextView
+                        android:id="@+id/tv_priority_low_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -448,16 +484,19 @@
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
                 <LinearLayout
+                    android:id="@+id/layout_priority_medium_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingVertical="10dp">
                     <View
+                        android:id="@+id/view_priority_medium_dot"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:background="@drawable/circle_blue_bg"
                         android:backgroundTint="#E67E22" />
                     <TextView
+                        android:id="@+id/tv_priority_medium_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -478,16 +517,19 @@
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
                 <LinearLayout
+                    android:id="@+id/layout_priority_high_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:paddingVertical="10dp">
                     <View
+                        android:id="@+id/view_priority_high_dot"
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:background="@drawable/circle_blue_bg"
                         android:backgroundTint="#FF5252" />
                     <TextView
+                        android:id="@+id/tv_priority_high_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
@@ -501,6 +543,7 @@
 
         <!-- Set Reminder Section -->
         <TextView
+            android:id="@+id/tv_set_reminder_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -511,6 +554,7 @@
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_reminder_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -521,12 +565,14 @@
             app:strokeWidth="0dp">
 
             <LinearLayout
+                android:id="@+id/layout_reminder_settings_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="20dp">
 
                 <RelativeLayout
+                    android:id="@+id/layout_reminder_switch_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
@@ -539,6 +585,7 @@
                         app:tint="#787885" />
 
                     <TextView
+                        android:id="@+id/tv_set_reminder_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -559,11 +606,13 @@
                 </RelativeLayout>
 
                 <RadioGroup
+                    android:id="@+id/rg_reminder_options"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp">
 
                     <RadioButton
+                        android:id="@+id/rb_1_day"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
@@ -573,9 +622,10 @@
                         android:buttonTint="#6C7BFF"
                         android:checked="true" />
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" />
+                    <View android:id="@+id/view_reminder_divider_1" android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" />
 
                     <RadioButton
+                        android:id="@+id/rb_3_days"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
@@ -584,9 +634,10 @@
                         android:textSize="15sp"
                         android:buttonTint="#BDBDBD" />
 
-                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" />
+                    <View android:id="@+id/view_reminder_divider_2" android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" />
 
                     <RadioButton
+                        android:id="@+id/rb_1_week"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="12dp"
@@ -600,6 +651,7 @@
 
         <!-- Notes Section -->
         <TextView
+            android:id="@+id/tv_notes_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -610,6 +662,7 @@
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_notes_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -619,6 +672,7 @@
             app:cardElevation="2dp"
             app:strokeWidth="0dp">
             <LinearLayout
+                android:id="@+id/layout_notes_input_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top"
@@ -627,11 +681,13 @@
                 android:paddingTop="18dp"
                 android:paddingBottom="40dp">
                 <ImageView
+                    android:id="@+id/iv_notes_icon"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_log"
                     app:tint="#BDBDBD" />
                 <EditText
+                    android:id="@+id/et_notes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
@@ -656,16 +712,19 @@
             app:cardElevation="6dp"
             app:strokeWidth="0dp">
             <LinearLayout
+                android:id="@+id/layout_save_deadline_btn_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="horizontal">
                 <ImageView
+                    android:id="@+id/iv_save_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_download"
                     app:tint="@color/white" />
                 <TextView
+                    android:id="@+id/tv_save_deadline_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"

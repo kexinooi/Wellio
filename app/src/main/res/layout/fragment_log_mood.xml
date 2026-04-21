@@ -7,6 +7,7 @@
     android:clipToPadding="false">
 
     <LinearLayout
+        android:id="@+id/layout_log_mood_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -16,6 +17,7 @@
 
         <!-- Toolbar area -->
         <RelativeLayout
+            android:id="@+id/layout_log_mood_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -31,6 +33,7 @@
                 android:focusable="true" />
 
             <TextView
+                android:id="@+id/tv_log_mood_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
@@ -41,6 +44,7 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/tv_feeling_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="How are you feeling today?"
@@ -50,6 +54,7 @@
             android:textColor="@color/text_black" />
 
         <TextView
+            android:id="@+id/tv_select_mood_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -60,12 +65,14 @@
 
         <!-- Mood Selection Row -->
         <include
+            android:id="@+id/layout_mood_selector"
             layout="@layout/item_mood_selector"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp" />
 
         <TextView
+            android:id="@+id/tv_influence_question"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -75,6 +82,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tv_select_influence_hint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -86,6 +94,7 @@
         <!-- Influence Chips -->
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chip_group_influences"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -174,6 +183,7 @@
         </com.google.android.material.chip.ChipGroup>
 
         <TextView
+            android:id="@+id/tv_add_note_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
@@ -183,6 +193,7 @@
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_note_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
@@ -193,6 +204,7 @@
             app:strokeWidth="0dp">
 
             <RelativeLayout
+                android:id="@+id/layout_note_relative"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:padding="16dp">
