@@ -20,15 +20,6 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/btn_back"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:src="@drawable/ic_back_chevron"
-                app:tint="@color/text_black" />
-
-            <ImageView
                 android:id="@+id/btn_prev_month"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -906,10 +897,11 @@
 
         <!-- Daily Logs Card -->
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_daily_logs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="16dp"
             app:cardBackgroundColor="#E8EAF6"
             app:cardCornerRadius="24dp"
             app:cardElevation="4dp">
@@ -1187,6 +1179,21 @@
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
+
+        <!-- Log Mood Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_log_mood_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="100dp"
+            android:text="Log Mood"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:cornerRadius="28dp"
+            app:backgroundTint="@color/purple_start"
+            app:elevation="4dp"/>
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

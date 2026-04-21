@@ -6,9 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.card.MaterialCardView;
 
@@ -39,11 +41,14 @@ public class AddDeadlineFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_deadline, container, false);
 
-        ImageView btnBack = view.findViewById(R.id.btn_back);
+        View btnBack = view.findViewById(R.id.btn_back_container);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> {
                 if (getParentFragmentManager().getBackStackEntryCount() > 0) {
                     getParentFragmentManager().popBackStack();
+                } else {
+                    // Fallback if not in backstack
+                    requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 }
             });
         }
@@ -87,39 +92,68 @@ public class AddDeadlineFragment extends Fragment {
         resetTypeCard(typeTest);
         resetTypeCard(typeMidterm);
 
-        // Highlight selected with peach background and blue border
-        selected.setCardBackgroundColor(Color.parseColor("#F8F2ED"));
-        selected.setStrokeWidth(2);
-        selected.setStrokeColor(Color.parseColor("#5E72E4"));
-        selected.setCardElevation(0f);
+        // Highlight selected with light blue background and blue border
+        selected.setCardBackgroundColor(Color.parseColor("#EFF2FD"));
+        selected.setStrokeWidth(4);
+        selected.setStrokeColor(Color.parseColor("#5C6BC0"));
+        
+        // Update icons/text of selected if needed
+        updateTypeCardContent(selected, true);
     }
 
     private void resetTypeCard(MaterialCardView card) {
-        card.setCardBackgroundColor(Color.TRANSPARENT);
+        card.setCardBackgroundColor(Color.WHITE);
         card.setStrokeWidth(0);
-        card.setCardElevation(0f);
+        updateTypeCardContent(card, false);
+    }
+    
+    private void updateTypeCardContent(MaterialCardView card, boolean isSelected) {
+        int color = isSelected ? Color.parseColor("#5C6BC0") : Color.parseColor("#9E9E9E");
+        int bgIconColor = isSelected ? Color.parseColor("#E8EAF6") : Color.parseColor("#F5F5F5");
+        
+        // Find children
+        RelativeLayout layout = (RelativeLayout) card.getChildAt(0);
+        MaterialCardView iconBg = (MaterialCardView) layout.getChildAt(0);
+        ImageView icon = (ImageView) iconBg.getChildAt(0);
+        TextView label = (TextView) layout.getChildAt(1);
+        
+        icon.setColorFilter(color);
+        iconBg.setCardBackgroundColor(bgIconColor);
+        label.setTextColor(color);
     }
 
     private void selectPriority(MaterialCardView selected) {
         // Reset all priority cards to neutral state
-        resetPriorityCard(priorityLow, "#E6F6EF");
-        resetPriorityCard(priorityMedium, "#FFF2E9");
-        resetPriorityCard(priorityHigh, "#FFF2F2");
+        resetPriorityCard(priorityLow, "#E8F5E9", "#4CAF50");
+        resetPriorityCard(priorityMedium, "#FFFFFF", "#9E9E9E");
+        resetPriorityCard(priorityHigh, "#FFFFFF", "#9E9E9E");
 
         // Highlight selected
-        selected.setStrokeWidth(4);
         if (selected == priorityLow) {
-            selected.setStrokeColor(Color.parseColor("#24A15E"));
+            selected.setCardBackgroundColor(Color.parseColor("#E8F5E9"));
+            selected.setStrokeWidth(2);
+            selected.setStrokeColor(Color.parseColor("#4CAF50"));
         } else if (selected == priorityMedium) {
-            selected.setStrokeColor(Color.parseColor("#E67E22"));
+            selected.setCardBackgroundColor(Color.parseColor("#FFF8E1"));
+            selected.setStrokeWidth(2);
+            selected.setStrokeColor(Color.parseColor("#FFC107"));
         } else if (selected == priorityHigh) {
-            selected.setStrokeColor(Color.parseColor("#FF5252"));
+            selected.setCardBackgroundColor(Color.parseColor("#FDECEA"));
+            selected.setStrokeWidth(2);
+            selected.setStrokeColor(Color.parseColor("#D32F2F"));
         }
+        
+        // Update label color
+        TextView label = (TextView) selected.getChildAt(0);
+        if (selected == priorityLow) label.setTextColor(Color.parseColor("#4CAF50"));
+        else if (selected == priorityMedium) label.setTextColor(Color.parseColor("#FFC107"));
+        else if (selected == priorityHigh) label.setTextColor(Color.parseColor("#D32F2F"));
     }
 
-    private void resetPriorityCard(MaterialCardView card, String bgColor) {
-        card.setStrokeWidth(1);
-        card.setStrokeColor(Color.parseColor("#D1D1D6"));
-        card.setCardBackgroundColor(Color.parseColor(bgColor));
+    private void resetPriorityCard(MaterialCardView card, String bgColor, String textColor) {
+        card.setStrokeWidth(0);
+        card.setCardBackgroundColor(Color.WHITE);
+        TextView label = (TextView) card.getChildAt(0);
+        label.setTextColor(Color.parseColor("#9E9E9E"));
     }
 }
