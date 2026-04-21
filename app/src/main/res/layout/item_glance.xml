@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/glance_card"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/white"
+    android:layout_height="120dp"
+    app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="20dp"
-    app:cardElevation="2dp"
-    app:strokeColor="#1A000000"
+    app:cardElevation="4dp"
+    app:strokeColor="#10000000"
     app:strokeWidth="1dp">
 
     <LinearLayout
         android:id="@+id/glance_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="12dp">
 
@@ -21,88 +22,44 @@
             android:id="@+id/glance_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SLEEP"
-            android:textColor="#555555"
-            android:textSize="11sp"
-            android:textAllCaps="true"
-            android:letterSpacing="0.05"
-            android:fontFamily="sans-serif-medium"
+            android:text="Sleep"
+            android:textColor="@color/text_black"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="6dp"
-            android:background="#D1D1D1" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:gravity="bottom"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/glance_value_num"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="6.5"
-                android:textColor="#111111"
-                android:textSize="26sp"
-                android:includeFontPadding="false"
-                android:fontFamily="sans-serif-medium"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/glance_value_unit"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="2dp"
-                android:layout_marginBottom="3dp"
-                android:text="h"
-                android:textColor="#444444"
-                android:textSize="12sp"
-                android:maxLines="1"
-                android:ellipsize="end"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/status_badge"
+        <TextView
+            android:id="@+id/glance_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="0dp"
-            app:strokeWidth="0dp">
+            android:text="6.5 h"
+            android:textColor="@color/text_black"
+            android:textSize="13sp"
+            android:textStyle="italic" />
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/status_dot"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginEnd="6dp"
+                android:background="@drawable/circle_yellow" />
+
+            <TextView
+                android:id="@+id/glance_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingHorizontal="10dp"
-                android:paddingVertical="4dp">
-
-                <View
-                    android:id="@+id/status_dot"
-                    android:layout_width="6dp"
-                    android:layout_height="6dp"
-                    android:layout_marginEnd="6dp"
-                    android:background="@drawable/circle_yellow" />
-
-                <TextView
-                    android:id="@+id/glance_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fair"
-                    android:textColor="#222222"
-                    android:textSize="11sp"
-                    android:fontFamily="sans-serif-medium"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                android:text="Fair"
+                android:textColor="@color/text_grey_dark"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
