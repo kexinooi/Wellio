@@ -1,7 +1,10 @@
 package my.edu.utar.assignment_2_v2.Utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -13,49 +16,85 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-public class FirebaseAuthManager {
+import my.edu.utar.assignment_2_v2.R;
+import my.edu.utar.assignment_2_v2.model.User;
 
+public class FirebaseAuthManager {
+    private static final String TAG = "GoogleSignInHelper";
+    private static final int RC_SIGN_IN = 9001;
+
+    private final Activity activity;
     private final FirebaseAuth mAuth;
     private final GoogleSignInClient mGoogleSignInClient;
+    private final AuthCallback callback;
 
-    public FirebaseAuthManager(Context context, String webClientId) {
-        mAuth = FirebaseAuth.getInstance();
+    public FirebaseAuthManager(Activity activity, AuthCallback callback) {
+        this.activity = activity;
+        this.callback = callback;
+        this.mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(webClientId)
+                .requestIdToken(activity.getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-        mGoogleSignInClient = GoogleSignIn.getClient(context, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(activity, gso);
     }
 
-    public Intent getSignInIntent() {
-        return mGoogleSignInClient.getSignInIntent();
-    }
-
-    public void handleSignInResult(Intent data, AuthCallback callback) {
-        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-        try {
-            GoogleSignInAccount account = task.getResult(ApiException.class);
-            firebaseAuthWithGoogle(account.getIdToken(), callback);
-        } catch (ApiException e) {
-            callback.onFailure("Google sign-in failed. Error code: " + e.getStatusCode());
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                Log.w(TAG, "Google sign in failed", e);
+                callback.onFailure("Google sign in failed: " + e.getMessage());
+            }
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken, AuthCallback callback) {
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        mAuth.signInWithCredential(credential).addOnCompleteListener(task -> {
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential).addOnCompleteListener(activity,task -> {
             if (task.isSuccessful()) {
-                callback.onSuccess(mAuth.getCurrentUser());
+                Log.d(TAG, "signInWithCredential:success");
+                FirebaseUser user = mAuth.getCurrentUser();
+                saveUserToFirestore(user, acct);
+                callback.onSuccess(user);
             } else {
+                Log.w(TAG, "signInWithCredential:failure", task.getException());
                 callback.onFailure("Firebase Auth Failed: " + task.getException().getMessage());
             }
         });
+    }
+
+    private void saveUserToFirestore(FirebaseUser firebaseUser, GoogleSignInAccount googleAccount) {
+        if (firebaseUser != null) {
+            User user = new User(
+                    firebaseUser.getUid(),
+                    firebaseUser.getDisplayName(),
+                    firebaseUser.getEmail(),
+                    firebaseUser.getPhotoUrl() != null ? firebaseUser.getPhotoUrl().toString() : null
+            );
+
+            Firebase.getInstance().saveUser(user)
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "User data saved successfully"))
+                    .addOnFailureListener(e -> Log.w(TAG, "Failed to save user data", e));
+        }
+    }
+
+    public void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        activity.startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     // New method to allow changing users
     public void signOut() {
         mAuth.signOut();
         mGoogleSignInClient.signOut();
+    }
+
+    public boolean isUserLoggedIn() {
+        return mAuth.getCurrentUser() != null;
     }
 
     public interface AuthCallback {

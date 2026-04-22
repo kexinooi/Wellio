@@ -13,8 +13,8 @@ import my.edu.utar.assignment_2_v2.model.Assignment;
 import my.edu.utar.assignment_2_v2.model.Mood;
 import my.edu.utar.assignment_2_v2.model.User;
 
-public class firebase {
-    private static firebase instance;
+public class Firebase {
+    private static Firebase instance;
     private final FirebaseAuth mAuth;
     private final FirebaseFirestore db;
 
@@ -23,7 +23,7 @@ public class firebase {
     private final CollectionReference moodLogsCollection;
     private final CollectionReference assignmentsCollection;
 
-    private firebase() {
+    private Firebase() {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         usersCollection = db.collection("users");
@@ -31,9 +31,9 @@ public class firebase {
         assignmentsCollection = db.collection("assignments");
     }
 
-    public static synchronized firebase getInstance() {
+    public static synchronized Firebase getInstance() {
         if (instance == null) {
-            instance = new firebase();
+            instance = new Firebase();
         }
         return instance;
     }

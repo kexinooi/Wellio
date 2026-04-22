@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.card.MaterialCardView;
 
@@ -41,13 +40,12 @@ public class AddDeadlineFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_deadline, container, false);
 
-        View btnBack = view.findViewById(R.id.btn_back_container);
+        View btnBack = view.findViewById(R.id.btn_back);
         if (btnBack != null) {
             btnBack.setOnClickListener(v -> {
                 if (getParentFragmentManager().getBackStackEntryCount() > 0) {
                     getParentFragmentManager().popBackStack();
                 } else {
-                    // Fallback if not in backstack
                     requireActivity().getSupportFragmentManager().beginTransaction().remove(this).commit();
                 }
             });
@@ -64,71 +62,48 @@ public class AddDeadlineFragment extends Fragment {
         typeTest = view.findViewById(R.id.type_test);
         typeMidterm = view.findViewById(R.id.type_midterm);
 
-        typeAssignment.setOnClickListener(v -> selectType(typeAssignment));
-        typeQuiz.setOnClickListener(v -> selectType(typeQuiz));
-        typeTest.setOnClickListener(v -> selectType(typeTest));
-        typeMidterm.setOnClickListener(v -> selectType(typeMidterm));
+        if (typeAssignment != null) typeAssignment.setOnClickListener(v -> selectType(typeAssignment));
+        if (typeQuiz != null) typeQuiz.setOnClickListener(v -> selectType(typeQuiz));
+        if (typeTest != null) typeTest.setOnClickListener(v -> selectType(typeTest));
+        if (typeMidterm != null) typeMidterm.setOnClickListener(v -> selectType(typeMidterm));
 
         // Initialize Priority Cards
         priorityLow = view.findViewById(R.id.priority_low);
         priorityMedium = view.findViewById(R.id.priority_medium);
         priorityHigh = view.findViewById(R.id.priority_high);
 
-        priorityLow.setOnClickListener(v -> selectPriority(priorityLow));
-        priorityMedium.setOnClickListener(v -> selectPriority(priorityMedium));
-        priorityHigh.setOnClickListener(v -> selectPriority(priorityHigh));
+        if (priorityLow != null) priorityLow.setOnClickListener(v -> selectPriority(priorityLow));
+        if (priorityMedium != null) priorityMedium.setOnClickListener(v -> selectPriority(priorityMedium));
+        if (priorityHigh != null) priorityHigh.setOnClickListener(v -> selectPriority(priorityHigh));
 
         // Set initial selection
-        selectType(typeAssignment);
-        selectPriority(priorityLow);
+        if (typeAssignment != null) selectType(typeAssignment);
+        if (priorityLow != null) selectPriority(priorityLow);
 
         return view;
     }
 
     private void selectType(MaterialCardView selected) {
-        // Reset all type cards
-        resetTypeCard(typeAssignment);
-        resetTypeCard(typeQuiz);
-        resetTypeCard(typeTest);
-        resetTypeCard(typeMidterm);
+        if (typeAssignment != null) resetTypeCard(typeAssignment);
+        if (typeQuiz != null) resetTypeCard(typeQuiz);
+        if (typeTest != null) resetTypeCard(typeTest);
+        if (typeMidterm != null) resetTypeCard(typeMidterm);
 
-        // Highlight selected with light blue background and blue border
         selected.setCardBackgroundColor(Color.parseColor("#EFF2FD"));
         selected.setStrokeWidth(4);
         selected.setStrokeColor(Color.parseColor("#5C6BC0"));
-        
-        // Update icons/text of selected if needed
-        updateTypeCardContent(selected, true);
     }
 
     private void resetTypeCard(MaterialCardView card) {
         card.setCardBackgroundColor(Color.WHITE);
         card.setStrokeWidth(0);
-        updateTypeCardContent(card, false);
-    }
-    
-    private void updateTypeCardContent(MaterialCardView card, boolean isSelected) {
-        int color = isSelected ? Color.parseColor("#5C6BC0") : Color.parseColor("#9E9E9E");
-        int bgIconColor = isSelected ? Color.parseColor("#E8EAF6") : Color.parseColor("#F5F5F5");
-        
-        // Find children
-        RelativeLayout layout = (RelativeLayout) card.getChildAt(0);
-        MaterialCardView iconBg = (MaterialCardView) layout.getChildAt(0);
-        ImageView icon = (ImageView) iconBg.getChildAt(0);
-        TextView label = (TextView) layout.getChildAt(1);
-        
-        icon.setColorFilter(color);
-        iconBg.setCardBackgroundColor(bgIconColor);
-        label.setTextColor(color);
     }
 
     private void selectPriority(MaterialCardView selected) {
-        // Reset all priority cards to neutral state
-        resetPriorityCard(priorityLow, "#E8F5E9", "#4CAF50");
-        resetPriorityCard(priorityMedium, "#FFFFFF", "#9E9E9E");
-        resetPriorityCard(priorityHigh, "#FFFFFF", "#9E9E9E");
+        if (priorityLow != null) resetPriorityCard(priorityLow);
+        if (priorityMedium != null) resetPriorityCard(priorityMedium);
+        if (priorityHigh != null) resetPriorityCard(priorityHigh);
 
-        // Highlight selected
         if (selected == priorityLow) {
             selected.setCardBackgroundColor(Color.parseColor("#E8F5E9"));
             selected.setStrokeWidth(2);
@@ -142,18 +117,10 @@ public class AddDeadlineFragment extends Fragment {
             selected.setStrokeWidth(2);
             selected.setStrokeColor(Color.parseColor("#D32F2F"));
         }
-        
-        // Update label color
-        TextView label = (TextView) selected.getChildAt(0);
-        if (selected == priorityLow) label.setTextColor(Color.parseColor("#4CAF50"));
-        else if (selected == priorityMedium) label.setTextColor(Color.parseColor("#FFC107"));
-        else if (selected == priorityHigh) label.setTextColor(Color.parseColor("#D32F2F"));
     }
 
-    private void resetPriorityCard(MaterialCardView card, String bgColor, String textColor) {
+    private void resetPriorityCard(MaterialCardView card) {
         card.setStrokeWidth(0);
         card.setCardBackgroundColor(Color.WHITE);
-        TextView label = (TextView) card.getChildAt(0);
-        label.setTextColor(Color.parseColor("#9E9E9E"));
     }
 }
