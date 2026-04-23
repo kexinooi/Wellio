@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Assignment_2_v2" parent="Theme.Material3.Light.NoActionBar">
+    <style name="Base.Theme.Assignment_2_v2" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/purple_start</item>
         <item name="android:windowBackground">@color/bg_dashboard</item>

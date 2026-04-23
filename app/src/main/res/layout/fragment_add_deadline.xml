@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scroll_add_deadline"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6F0EB"
+    android:background="@color/bg_dashboard"
     android:clipToPadding="false">
 
     <LinearLayout
@@ -30,10 +29,12 @@
                 android:layout_height="40dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/deadline_form_surface"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:strokeColor="@color/deadline_form_stroke"
+                app:strokeWidth="1dp">
+
                 <ImageView
                     android:id="@+id/btn_back"
                     android:layout_width="match_parent"
@@ -54,7 +55,7 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-        <!-- Deadline Type Section -->
+        <!-- Type -->
         <TextView
             android:id="@+id/tv_type_header"
             android:layout_width="wrap_content"
@@ -62,7 +63,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             android:text="TYPE"
-            android:textColor="#9E9E9E"
+            android:textColor="@color/deadline_form_muted"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -72,186 +73,224 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deadline_form_surface"
             app:cardCornerRadius="20dp"
             app:cardElevation="2dp"
-            app:strokeWidth="0dp">
+            app:strokeColor="@color/deadline_form_stroke"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Assignment (Selected) -->
+                <!-- Assignment -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/type_assignment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="#F3F5FF"
-                    app:cardCornerRadius="20dp"
+                    app:cardBackgroundColor="@color/deadline_form_surface"
+                    app:cardCornerRadius="0dp"
                     app:cardElevation="0dp"
-                    app:strokeWidth="2dp"
-                    app:strokeColor="#5C6BC0">
-                    <RelativeLayout
+                    app:strokeWidth="0dp">
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp">
+                        android:gravity="center_vertical"
+                        android:minHeight="78dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="14dp">
+
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/iv_type_assign_bg"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            app:cardBackgroundColor="#E8EAF6"
-                            app:cardCornerRadius="8dp"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            app:cardBackgroundColor="@color/deadline_type_unselected_icon_bg"
+                            app:cardCornerRadius="10dp"
                             app:cardElevation="0dp">
+
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="8dp"
+                                android:padding="9dp"
                                 android:src="@drawable/ic_type_assignment"
-                                app:tint="#5C6BC0" />
+                                app:tint="@color/deadline_type_unselected_tint" />
                         </com.google.android.material.card.MaterialCardView>
+
                         <TextView
                             android:id="@+id/tv_type_assignment_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/iv_type_assign_bg"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="14dp"
                             android:text="Assignment"
-                            android:textColor="#5C6BC0"
-                            android:textSize="14sp"
+                            android:textColor="@color/deadline_form_muted"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
-                    </RelativeLayout>
+                    </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F5F5F5" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/deadline_form_divider" />
 
                 <!-- Quiz -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/type_quiz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/deadline_form_surface"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="0dp">
-                    <RelativeLayout
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp">
+                        android:gravity="center_vertical"
+                        android:minHeight="78dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="14dp">
+
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/iv_type_quiz_bg"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            app:cardBackgroundColor="#F5F5F5"
-                            app:cardCornerRadius="8dp"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            app:cardBackgroundColor="@color/deadline_type_unselected_icon_bg"
+                            app:cardCornerRadius="10dp"
                             app:cardElevation="0dp">
+
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="8dp"
+                                android:padding="9dp"
                                 android:src="@drawable/ic_type_quiz"
-                                app:tint="#9E9E9E" />
+                                app:tint="@color/deadline_type_unselected_tint" />
                         </com.google.android.material.card.MaterialCardView>
+
                         <TextView
                             android:id="@+id/tv_type_quiz_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/iv_type_quiz_bg"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="14dp"
                             android:text="Quiz"
-                            android:textColor="#9E9E9E"
-                            android:textSize="14sp"
+                            android:textColor="@color/deadline_form_muted"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
-                    </RelativeLayout>
+                    </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F5F5F5" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/deadline_form_divider" />
 
                 <!-- Test -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/type_test"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/deadline_form_surface"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="0dp">
-                    <RelativeLayout
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp">
+                        android:gravity="center_vertical"
+                        android:minHeight="78dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="14dp">
+
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/iv_type_test_bg"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            app:cardBackgroundColor="#F5F5F5"
-                            app:cardCornerRadius="8dp"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            app:cardBackgroundColor="@color/deadline_type_unselected_icon_bg"
+                            app:cardCornerRadius="10dp"
                             app:cardElevation="0dp">
+
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="8dp"
+                                android:padding="9dp"
                                 android:src="@drawable/ic_clock"
-                                app:tint="#9E9E9E" />
+                                app:tint="@color/deadline_type_unselected_tint" />
                         </com.google.android.material.card.MaterialCardView>
+
                         <TextView
                             android:id="@+id/tv_type_test_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/iv_type_test_bg"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="14dp"
                             android:text="Test"
-                            android:textColor="#9E9E9E"
-                            android:textSize="14sp"
+                            android:textColor="@color/deadline_form_muted"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
-                    </RelativeLayout>
+                    </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F5F5F5" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/deadline_form_divider" />
 
                 <!-- Midterm -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/type_midterm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/white"
+                    app:cardBackgroundColor="@color/deadline_form_surface"
                     app:cardCornerRadius="0dp"
                     app:cardElevation="0dp"
                     app:strokeWidth="0dp">
-                    <RelativeLayout
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="16dp">
+                        android:gravity="center_vertical"
+                        android:minHeight="78dp"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="16dp"
+                        android:paddingVertical="14dp">
+
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/iv_type_midterm_bg"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            app:cardBackgroundColor="#F5F5F5"
-                            app:cardCornerRadius="8dp"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            app:cardBackgroundColor="@color/deadline_type_unselected_icon_bg"
+                            app:cardCornerRadius="10dp"
                             app:cardElevation="0dp">
+
                             <ImageView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:padding="8dp"
+                                android:padding="9dp"
                                 android:src="@android:drawable/btn_star_big_off"
-                                app:tint="#9E9E9E" />
+                                app:tint="@color/deadline_type_unselected_tint" />
                         </com.google.android.material.card.MaterialCardView>
+
                         <TextView
                             android:id="@+id/tv_type_midterm_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/iv_type_midterm_bg"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="14dp"
                             android:text="Midterm"
-                            android:textColor="#9E9E9E"
-                            android:textSize="14sp"
+                            android:textColor="@color/deadline_form_muted"
+                            android:textSize="15sp"
                             android:textStyle="bold" />
-                    </RelativeLayout>
+                    </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Title Section -->
+        <!-- Title -->
         <TextView
             android:id="@+id/tv_title_header"
             android:layout_width="wrap_content"
@@ -259,7 +298,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="TITLE"
-            android:textColor="#9E9E9E"
+            android:textColor="@color/deadline_form_muted"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -268,22 +307,25 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deadline_form_surface"
             app:cardCornerRadius="16dp"
             app:cardElevation="1dp"
             app:strokeWidth="1dp"
-            app:strokeColor="#F0F0F0">
+            app:strokeColor="@color/deadline_form_stroke">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingHorizontal="16dp">
+
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@android:drawable/ic_menu_edit"
-                    app:tint="#CCCCCC" />
+                    app:tint="@color/deadline_form_icon_muted" />
+
                 <EditText
                     android:id="@+id/et_title"
                     android:layout_width="match_parent"
@@ -292,12 +334,12 @@
                     android:hint="Enter deadline title..."
                     android:padding="16dp"
                     android:textColor="@color/text_black"
-                    android:textColorHint="#CCCCCC"
+                    android:textColorHint="@color/deadline_form_icon_muted"
                     android:textSize="15sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Date & Time Section -->
+        <!-- Date & Time -->
         <TextView
             android:id="@+id/tv_date_time_header"
             android:layout_width="wrap_content"
@@ -305,7 +347,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="DATE &amp; TIME"
-            android:textColor="#9E9E9E"
+            android:textColor="@color/deadline_form_muted"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -315,21 +357,25 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deadline_form_surface"
             app:cardCornerRadius="16dp"
             app:cardElevation="1dp"
-            app:strokeWidth="0dp">
+            app:strokeColor="@color/deadline_form_stroke"
+            app:strokeWidth="1dp">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp">
+
                 <ImageView
                     android:id="@+id/iv_date_icon"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_calendar"
-                    app:tint="#5C6BC0" />
+                    app:tint="@color/deadline_primary_accent" />
+
                 <TextView
                     android:id="@+id/tv_date_label"
                     android:layout_width="wrap_content"
@@ -337,9 +383,10 @@
                     android:layout_marginStart="8dp"
                     android:layout_toEndOf="@id/iv_date_icon"
                     android:text="DATE"
-                    android:textColor="#5C6BC0"
+                    android:textColor="@color/deadline_primary_accent"
                     android:textSize="10sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_selected_date"
                     android:layout_width="wrap_content"
@@ -360,21 +407,25 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="8dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deadline_form_surface"
             app:cardCornerRadius="16dp"
             app:cardElevation="1dp"
-            app:strokeWidth="0dp">
+            app:strokeColor="@color/deadline_form_stroke"
+            app:strokeWidth="1dp">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="12dp">
+
                 <ImageView
                     android:id="@+id/iv_time_icon"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_clock"
-                    app:tint="#5C6BC0" />
+                    app:tint="@color/deadline_primary_accent" />
+
                 <TextView
                     android:id="@+id/tv_time_label"
                     android:layout_width="wrap_content"
@@ -382,9 +433,10 @@
                     android:layout_marginStart="8dp"
                     android:layout_toEndOf="@id/iv_time_icon"
                     android:text="TIME"
-                    android:textColor="#5C6BC0"
+                    android:textColor="@color/deadline_primary_accent"
                     android:textSize="10sp"
                     android:textStyle="bold" />
+
                 <TextView
                     android:id="@+id/tv_selected_time"
                     android:layout_width="wrap_content"
@@ -399,7 +451,7 @@
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Priority Section -->
+        <!-- Priority -->
         <TextView
             android:id="@+id/tv_priority_header"
             android:layout_width="wrap_content"
@@ -407,7 +459,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="PRIORITY"
-            android:textColor="#9E9E9E"
+            android:textColor="@color/deadline_form_muted"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -424,11 +476,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="#E8F5E9"
+                app:cardBackgroundColor="@color/deadline_priority_low_bg"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
-                app:strokeColor="#4CAF50"
+                app:strokeColor="@color/deadline_priority_low_text"
                 app:strokeWidth="1dp">
+
                 <TextView
                     android:id="@+id/tv_priority_low_label"
                     android:layout_width="wrap_content"
@@ -436,7 +489,7 @@
                     android:layout_gravity="center"
                     android:paddingVertical="10dp"
                     android:text="● Low"
-                    android:textColor="#4CAF50"
+                    android:textColor="@color/deadline_priority_low_text"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
@@ -447,9 +500,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="4dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/deadline_priority_medium_bg"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="@color/deadline_form_stroke"
+                app:strokeWidth="1dp">
+
                 <TextView
                     android:id="@+id/tv_priority_medium_label"
                     android:layout_width="wrap_content"
@@ -457,7 +513,7 @@
                     android:layout_gravity="center"
                     android:paddingVertical="10dp"
                     android:text="● Medium"
-                    android:textColor="#9E9E9E"
+                    android:textColor="@color/deadline_priority_medium_text"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
@@ -468,9 +524,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="6dp"
                 android:layout_weight="1"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="@color/deadline_priority_high_bg"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="@color/deadline_form_stroke"
+                app:strokeWidth="1dp">
+
                 <TextView
                     android:id="@+id/tv_priority_high_label"
                     android:layout_width="wrap_content"
@@ -478,13 +537,13 @@
                     android:layout_gravity="center"
                     android:paddingVertical="10dp"
                     android:text="● High"
-                    android:textColor="#9E9E9E"
+                    android:textColor="@color/deadline_priority_high_text"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
 
-        <!-- Reminder Section -->
+        <!-- Reminder -->
         <TextView
             android:id="@+id/tv_reminder_header"
             android:layout_width="wrap_content"
@@ -492,7 +551,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="REMINDER"
-            android:textColor="#9E9E9E"
+            android:textColor="@color/deadline_form_muted"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -501,10 +560,11 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:layout_marginTop="10dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/deadline_form_surface"
             app:cardCornerRadius="20dp"
             app:cardElevation="2dp"
-            app:strokeWidth="0dp">
+            app:strokeColor="@color/deadline_form_stroke"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -515,21 +575,24 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/iv_remind_bg"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
-                        app:cardBackgroundColor="#F3E5F5"
+                        app:cardBackgroundColor="@color/deadline_reminder_icon_bg"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="0dp">
+
                         <ImageView
                             android:id="@+id/iv_bell"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:padding="8dp"
                             android:src="@drawable/ic_bell"
-                            app:tint="#7B61FF" />
+                            app:tint="@color/deadline_reminder_icon_tint" />
                     </com.google.android.material.card.MaterialCardView>
+
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -537,6 +600,7 @@
                         android:layout_marginStart="12dp"
                         android:layout_toEndOf="@id/iv_remind_bg"
                         android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tv_set_reminder_label"
                             android:layout_width="wrap_content"
@@ -545,14 +609,16 @@
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
+
                         <TextView
                             android:id="@+id/tv_reminder_description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Notify me before due date"
-                            android:textColor="#B2BEC3"
+                            android:textColor="@color/deadline_form_subtext"
                             android:textSize="12sp" />
                     </LinearLayout>
+
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switch_reminder"
                         android:layout_width="wrap_content"
@@ -560,10 +626,14 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:checked="true"
-                        app:trackTint="#26A69A" />
+                        app:trackTint="@color/mood_amazing" />
                 </RelativeLayout>
 
-                <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F5F5F5" android:layout_marginHorizontal="16dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@color/deadline_form_divider" />
 
                 <RadioGroup
                     android:id="@+id/rg_reminder_options"
@@ -576,58 +646,58 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:button="@null"
+                        android:buttonTint="@color/deadline_primary_accent"
+                        android:checked="true"
                         android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                        android:gravity="center_vertical"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:text="1 day before"
                         android:textColor="@color/text_black"
-                        android:textSize="14sp"
-                        android:buttonTint="#5C6BC0"
-                        android:checked="true"
-                        android:gravity="center_vertical" />
+                        android:textSize="14sp" />
 
                     <RadioButton
                         android:id="@+id/rb_3_days"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:button="@null"
+                        android:buttonTint="@color/deadline_form_icon_muted"
                         android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                        android:gravity="center_vertical"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:text="3 days before"
                         android:textColor="@color/text_black"
-                        android:textSize="14sp"
-                        android:buttonTint="#CCCCCC"
-                        android:gravity="center_vertical" />
+                        android:textSize="14sp" />
 
                     <RadioButton
                         android:id="@+id/rb_1_week"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:button="@null"
+                        android:buttonTint="@color/deadline_form_icon_muted"
                         android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+                        android:gravity="center_vertical"
                         android:paddingHorizontal="16dp"
                         android:paddingVertical="12dp"
                         android:text="1 week before"
                         android:textColor="@color/text_black"
-                        android:textSize="14sp"
-                        android:buttonTint="#CCCCCC"
-                        android:gravity="center_vertical" />
+                        android:textSize="14sp" />
                 </RadioGroup>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Save Button -->
+        <!-- Save -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_deadline"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="32dp"
-            android:backgroundTint="#5C6BC0"
+            android:backgroundTint="@color/deadline_primary_accent"
             android:text="Save deadline"
             android:textAllCaps="false"
-            android:textColor="@color/white"
+            android:textColor="@color/calendar_button_text"
             android:textSize="16sp"
             android:textStyle="bold"
             app:cornerRadius="28dp" />

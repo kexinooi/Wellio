@@ -14,44 +14,52 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Toolbar area -->
         <RelativeLayout
             android:id="@+id/layout_settings_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/btn_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:contentDescription="Back"
+                android:padding="4dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/text_black" />
+
             <TextView
                 android:id="@+id/tv_settings_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
                 android:text="Settings"
+                android:textColor="@color/text_black"
                 android:textSize="20sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_black" />
+                android:textStyle="bold" />
         </RelativeLayout>
 
-        <!-- Account Section -->
         <TextView
             android:id="@+id/tv_account_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Account"
-            android:textSize="14sp"
-            android:textStyle="bold"
             android:layout_marginTop="32dp"
-            android:textColor="#555555" />
+            android:text="Account"
+            android:textColor="@color/text_grey_dark"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_account_settings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="20dp"
             app:cardElevation="2dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#E0E0E0"
-            app:cardBackgroundColor="@color/white">
+            app:strokeColor="@color/divider"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:id="@+id/layout_account_options"
@@ -59,7 +67,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Edit Profile -->
                 <RelativeLayout
                     android:id="@+id/btn_edit_profile"
                     android:layout_width="match_parent"
@@ -67,47 +74,53 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="16dp">
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_profile_icon_bg"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        app:cardBackgroundColor="#F4F2EE"
+                        app:cardBackgroundColor="@color/card_white"
                         app:cardCornerRadius="8dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/divider"
+                        app:strokeWidth="1dp">
+
                         <ImageView
                             android:id="@+id/iv_profile_icon"
                             android:layout_width="24dp"
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_profile"
-                            app:tint="#555555" />
+                            app:tint="@color/text_grey_dark" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:id="@+id/layout_profile_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toEndOf="@id/card_profile_icon_bg"
+                        android:layout_centerVertical="true"
                         android:layout_marginStart="16dp"
-                        android:layout_centerVertical="true">
+                        android:layout_toEndOf="@id/card_profile_icon_bg"
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tv_edit_profile_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Edit Profile"
+                            android:textColor="@color/text_black"
                             android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#333333" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_profile_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Email: kexin@example.com"
-                            android:textColor="#999999"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="13sp" />
                     </LinearLayout>
+
                     <ImageView
                         android:id="@+id/iv_edit_profile_chevron"
                         android:layout_width="20dp"
@@ -115,12 +128,16 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_chevron_right"
-                        app:tint="#CCCCCC" />
+                        app:tint="@color/text_grey_light" />
                 </RelativeLayout>
 
-                <View android:id="@+id/view_account_divider_1" android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginHorizontal="16dp"/>
+                <View
+                    android:id="@+id/view_account_divider_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@color/divider" />
 
-                <!-- Account & Security -->
                 <RelativeLayout
                     android:id="@+id/btn_account_security"
                     android:layout_width="match_parent"
@@ -128,33 +145,38 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="16dp">
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_security_icon_bg"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        app:cardBackgroundColor="#F4F2EE"
+                        app:cardBackgroundColor="@color/card_white"
                         app:cardCornerRadius="8dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/divider"
+                        app:strokeWidth="1dp">
+
                         <ImageView
                             android:id="@+id/iv_security_icon"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_lock_outline"
-                            app:tint="#555555" />
+                            app:tint="@color/text_grey_dark" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
                         android:id="@+id/tv_account_security_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Account &amp; Security"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="#333333"
-                        android:layout_toEndOf="@id/card_security_icon_bg"
+                        android:layout_centerVertical="true"
                         android:layout_marginStart="16dp"
-                        android:layout_centerVertical="true" />
+                        android:layout_toEndOf="@id/card_security_icon_bg"
+                        android:text="Account &amp; Security"
+                        android:textColor="@color/text_black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
                     <ImageView
                         android:id="@+id/iv_security_chevron"
                         android:layout_width="20dp"
@@ -162,32 +184,31 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_chevron_right"
-                        app:tint="#CCCCCC" />
+                        app:tint="@color/text_grey_light" />
                 </RelativeLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Preferences Section -->
         <TextView
             android:id="@+id/tv_preferences_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Preferences"
-            android:textSize="14sp"
-            android:textStyle="bold"
             android:layout_marginTop="24dp"
-            android:textColor="#555555" />
+            android:text="Preferences"
+            android:textColor="@color/text_grey_dark"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_preferences"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="20dp"
             app:cardElevation="2dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#E0E0E0"
-            app:cardBackgroundColor="@color/white">
+            app:strokeColor="@color/divider"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:id="@+id/layout_preference_options"
@@ -195,66 +216,74 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <!-- Mood Reminders -->
                 <RelativeLayout
                     android:id="@+id/layout_mood_reminder"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="16dp">
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_reminder_icon_bg"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        app:cardBackgroundColor="#F4F2EE"
+                        app:cardBackgroundColor="@color/card_white"
                         app:cardCornerRadius="8dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/divider"
+                        app:strokeWidth="1dp">
+
                         <ImageView
                             android:id="@+id/iv_reminder_icon"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_clock_simple"
-                            app:tint="#555555" />
+                            app:tint="@color/text_grey_dark" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:id="@+id/layout_reminder_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toEndOf="@id/card_reminder_icon_bg"
+                        android:layout_centerVertical="true"
                         android:layout_marginStart="16dp"
-                        android:layout_centerVertical="true">
+                        android:layout_toEndOf="@id/card_reminder_icon_bg"
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tv_mood_reminders_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Mood Reminders"
+                            android:textColor="@color/text_black"
                             android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#333333" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_reminder_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Daily at 8:00 PM"
-                            android:textColor="#999999"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="13sp" />
                     </LinearLayout>
+
                     <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/switch_mood_reminders"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:checked="true"
-                        app:trackTint="#26A69A" />
+                        android:checked="true" />
                 </RelativeLayout>
 
-                <View android:id="@+id/view_preferences_divider_1" android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginHorizontal="16dp"/>
+                <View
+                    android:id="@+id/view_preferences_divider_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@color/divider" />
 
-                <!-- Theme -->
                 <RelativeLayout
                     android:id="@+id/btn_theme_selector"
                     android:layout_width="match_parent"
@@ -262,45 +291,50 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="16dp">
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_theme_icon_bg"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        app:cardBackgroundColor="#F4F2EE"
+                        app:cardBackgroundColor="@color/card_white"
                         app:cardCornerRadius="8dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/divider"
+                        app:strokeWidth="1dp">
+
                         <ImageView
                             android:id="@+id/iv_theme_icon"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_academic_busiest"
-                            app:tint="#555555" />
+                            app:tint="@color/text_grey_dark" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:id="@+id/layout_theme_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toEndOf="@id/card_theme_icon_bg"
+                        android:layout_centerVertical="true"
                         android:layout_marginStart="16dp"
-                        android:layout_centerVertical="true">
+                        android:layout_toEndOf="@id/card_theme_icon_bg"
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tv_theme_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Theme"
+                            android:textColor="@color/text_black"
                             android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#333333" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_current_theme"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Light"
-                            android:textColor="#999999"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="13sp" />
                     </LinearLayout>
 
@@ -310,24 +344,23 @@
                         android:layout_height="24dp"
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
-                        android:checked="true"
-                        android:button="@null"
                         android:background="@drawable/ic_check_rounded"
-                        android:backgroundTint="#CCCCCC" />
+                        android:backgroundTint="@color/text_grey_light"
+                        android:button="@null"
+                        android:checked="true" />
                 </RelativeLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Support & About Section -->
         <TextView
             android:id="@+id/tv_support_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Support &amp; About"
-            android:textSize="14sp"
-            android:textStyle="bold"
             android:layout_marginTop="24dp"
-            android:textColor="#555555" />
+            android:text="Support &amp; About"
+            android:textColor="@color/text_grey_dark"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_support_about"
@@ -335,11 +368,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="40dp"
+            app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="20dp"
             app:cardElevation="2dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="#E0E0E0"
-            app:cardBackgroundColor="@color/white">
+            app:strokeColor="@color/divider"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:id="@+id/layout_support_options"
@@ -354,33 +387,38 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="16dp">
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_help_icon_bg"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        app:cardBackgroundColor="#F4F2EE"
+                        app:cardBackgroundColor="@color/card_white"
                         app:cardCornerRadius="8dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/divider"
+                        app:strokeWidth="1dp">
+
                         <ImageView
                             android:id="@+id/iv_help_icon"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_help_circle"
-                            app:tint="#555555" />
+                            app:tint="@color/text_grey_dark" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <TextView
                         android:id="@+id/tv_help_center_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Help Center"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="#333333"
-                        android:layout_toEndOf="@id/card_help_icon_bg"
+                        android:layout_centerVertical="true"
                         android:layout_marginStart="16dp"
-                        android:layout_centerVertical="true" />
+                        android:layout_toEndOf="@id/card_help_icon_bg"
+                        android:text="Help Center"
+                        android:textColor="@color/text_black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
                     <ImageView
                         android:id="@+id/iv_help_chevron"
                         android:layout_width="20dp"
@@ -388,10 +426,15 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_chevron_right"
-                        app:tint="#CCCCCC" />
+                        app:tint="@color/text_grey_light" />
                 </RelativeLayout>
 
-                <View android:id="@+id/view_support_divider_1" android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginHorizontal="16dp"/>
+                <View
+                    android:id="@+id/view_support_divider_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:background="@color/divider" />
 
                 <RelativeLayout
                     android:id="@+id/btn_about_app"
@@ -400,47 +443,53 @@
                     android:clickable="true"
                     android:focusable="true"
                     android:padding="16dp">
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_about_icon_bg"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        app:cardBackgroundColor="#F4F2EE"
+                        app:cardBackgroundColor="@color/card_white"
                         app:cardCornerRadius="8dp"
-                        app:cardElevation="0dp">
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/divider"
+                        app:strokeWidth="1dp">
+
                         <ImageView
                             android:id="@+id/iv_about_icon"
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_insight_info"
-                            app:tint="#555555" />
+                            app:tint="@color/text_grey_dark" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
                         android:id="@+id/layout_about_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_toEndOf="@id/card_about_icon_bg"
+                        android:layout_centerVertical="true"
                         android:layout_marginStart="16dp"
-                        android:layout_centerVertical="true">
+                        android:layout_toEndOf="@id/card_about_icon_bg"
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/tv_about_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="About Well-Being Tracker"
+                            android:textColor="@color/text_black"
                             android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:textColor="#333333" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_app_version"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Version 1.0.0"
-                            android:textColor="#999999"
+                            android:textColor="@color/text_grey_light"
                             android:textSize="13sp" />
                     </LinearLayout>
+
                     <ImageView
                         android:id="@+id/iv_about_chevron"
                         android:layout_width="20dp"
@@ -448,7 +497,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:src="@drawable/ic_chevron_right"
-                        app:tint="#CCCCCC" />
+                        app:tint="@color/text_grey_light" />
                 </RelativeLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

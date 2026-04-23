@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/about_page_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="24dp">
+
+        <!-- Top bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="18dp">
+
+            <ImageView
+                android:id="@+id/btn_back_about"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="Back"
+                android:padding="4dp"
+                android:src="@drawable/ic_arrow_back"
+                app:tint="@color/about_title" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="About Well-Being Tracker"
+                android:textSize="23sp"
+                android:textStyle="bold"
+                android:textColor="@color/about_title"
+                android:layout_marginStart="14dp" />
+        </LinearLayout>
+
+        <!-- Main card -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_about_card"
+            android:padding="20dp"
+            android:elevation="3dp">
+
+            <ImageView
+                android:id="@+id/img_app_logo"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/app_logo"
+                android:scaleType="fitCenter"
+                android:contentDescription="App Logo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Well-Being Tracker"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/about_title"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Version 1.0.0"
+                android:textSize="13sp"
+                android:textColor="@color/about_subtitle"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="About"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/about_section_title" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Well-Being Tracker is a simple mobile application designed to help users monitor their mood, build healthy habits, and improve emotional well-being through daily mood logging, reminders, and personal reflections."
+                android:textSize="13sp"
+                android:textColor="@color/about_body_text"
+                android:lineSpacingExtra="3dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="18dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/about_divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Main Features"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/about_section_title"
+                android:layout_marginTop="18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="• Mood logging and tracking&#10;• Daily mood reminders&#10;• Profile and account management&#10;• Simple wellness support interface"
+                android:textSize="13sp"
+                android:textColor="@color/about_body_text"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginBottom="18dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/about_divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Developers"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/about_section_title"
+                android:layout_marginTop="18dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Developed by Ooi Ke Xin, Chan Wai Hung, Fan Jiun Yuan, Ng Jin Long.&#10;Contact: support@wellio.com"
+                android:textSize="13sp"
+                android:textColor="@color/about_body_text"
+                android:lineSpacingExtra="3dp"
+                android:layout_marginTop="6dp" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

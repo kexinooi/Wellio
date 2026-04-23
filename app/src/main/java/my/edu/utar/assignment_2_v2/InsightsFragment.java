@@ -1,13 +1,14 @@
 package my.edu.utar.assignment_2_v2;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -25,16 +26,16 @@ public class InsightsFragment extends Fragment {
         tabMood = view.findViewById(R.id.tv_tab_mood);
         tabSleep = view.findViewById(R.id.tv_tab_sleep);
         tabAcademic = view.findViewById(R.id.tv_tab_academic);
-        
+
         containerMood = view.findViewById(R.id.tab_mood);
         containerSleep = view.findViewById(R.id.tab_sleep);
         containerAcademic = view.findViewById(R.id.tab_academic);
-        
+
         indicatorMood = view.findViewById(R.id.indicator_mood);
         indicatorSleep = view.findViewById(R.id.indicator_sleep);
         indicatorAcademic = view.findViewById(R.id.indicator_academic);
 
-        // Set Sleep as initial tab to match your image
+        // Default selected tab
         updateTabs("sleep");
         loadTabFragment(new SleepTrendsFragment());
 
@@ -42,12 +43,12 @@ public class InsightsFragment extends Fragment {
             updateTabs("mood");
             loadTabFragment(new MoodTrendsFragment());
         });
-        
+
         containerSleep.setOnClickListener(v -> {
             updateTabs("sleep");
             loadTabFragment(new SleepTrendsFragment());
         });
-        
+
         containerAcademic.setOnClickListener(v -> {
             updateTabs("academic");
             loadTabFragment(new AcademicTrendsFragment());
@@ -57,27 +58,39 @@ public class InsightsFragment extends Fragment {
     }
 
     private void updateTabs(String activeTab) {
-        // Reset all
-        tabMood.setTextColor(Color.parseColor("#787885"));
-        tabSleep.setTextColor(Color.parseColor("#787885"));
-        tabAcademic.setTextColor(Color.parseColor("#787885"));
-        
+        int activeColor = ContextCompat.getColor(requireContext(), R.color.text_black);
+        int inactiveColor = ContextCompat.getColor(requireContext(), R.color.text_grey_light);
+
+        // Reset all tabs
+        tabMood.setTextColor(inactiveColor);
+        tabSleep.setTextColor(inactiveColor);
+        tabAcademic.setTextColor(inactiveColor);
+
+        tabMood.setAlpha(0.7f);
+        tabSleep.setAlpha(0.7f);
+        tabAcademic.setAlpha(0.7f);
+
         indicatorMood.setVisibility(View.INVISIBLE);
         indicatorSleep.setVisibility(View.INVISIBLE);
         indicatorAcademic.setVisibility(View.INVISIBLE);
 
-        // Activate one
+        // Activate selected tab
         switch (activeTab) {
             case "mood":
-                tabMood.setTextColor(Color.BLACK);
+                tabMood.setTextColor(activeColor);
+                tabMood.setAlpha(1f);
                 indicatorMood.setVisibility(View.VISIBLE);
                 break;
+
             case "sleep":
-                tabSleep.setTextColor(Color.BLACK);
+                tabSleep.setTextColor(activeColor);
+                tabSleep.setAlpha(1f);
                 indicatorSleep.setVisibility(View.VISIBLE);
                 break;
+
             case "academic":
-                tabAcademic.setTextColor(Color.BLACK);
+                tabAcademic.setTextColor(activeColor);
+                tabAcademic.setAlpha(1f);
                 indicatorAcademic.setVisibility(View.VISIBLE);
                 break;
         }

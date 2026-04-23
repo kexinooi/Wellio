@@ -73,9 +73,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
             android:layout_marginHorizontal="2dp"
+            app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="24dp"
             app:cardElevation="4dp"
-            app:cardBackgroundColor="@color/card_bg"
             app:strokeWidth="0dp">
 
             <LinearLayout
@@ -102,7 +102,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        app:cardBackgroundColor="#E9F0FF"
+                        app:cardBackgroundColor="@color/today_badge_bg"
                         app:cardCornerRadius="16dp"
                         app:cardElevation="0dp"
                         app:contentPaddingBottom="6dp"
@@ -115,7 +115,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Today"
-                            android:textColor="#5E9FFF"
+                            android:textColor="@color/today_badge_text"
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </com.google.android.material.card.MaterialCardView>
@@ -131,7 +131,7 @@
                     <FrameLayout
                         android:layout_width="100dp"
                         android:layout_height="100dp">
-                        <!-- Sphere shadow -->
+
                         <View
                             android:id="@+id/view_mood_sphere_shadow"
                             android:layout_width="39dp"
@@ -177,7 +177,6 @@
                                 android:textColor="@color/text_black"
                                 android:textSize="26sp"
                                 android:textStyle="bold" />
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -263,7 +262,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:layout_marginHorizontal="2dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="24dp"
             app:cardElevation="4dp"
             app:strokeWidth="0dp">
@@ -317,7 +316,7 @@
                     android:id="@+id/view_assignments_divider"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#F5F5F5" />
+                    android:background="@color/divider" />
 
                 <!-- Assignment 1 -->
                 <RelativeLayout
@@ -341,7 +340,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_deadline_clipboard"
-                            app:tint="#4CAF50" />
+                            app:tint="@color/trend_green" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
@@ -411,7 +410,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginHorizontal="20dp"
-                    android:background="#F5F5F5" />
+                    android:background="@color/divider" />
 
                 <!-- Assignment 2 -->
                 <RelativeLayout
@@ -435,7 +434,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@drawable/ic_deadline_clipboard"
-                            app:tint="#4CAF50" />
+                            app:tint="@color/trend_green" />
                     </com.google.android.material.card.MaterialCardView>
 
                     <LinearLayout
@@ -504,7 +503,7 @@
                     android:id="@+id/view_assignment_divider_footer"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="#F5F5F5" />
+                    android:background="@color/divider" />
 
                 <!-- Footer / Show All -->
                 <TextView
@@ -515,7 +514,7 @@
                     android:paddingHorizontal="24dp"
                     android:paddingVertical="16dp"
                     android:text="Show all &#8594;"
-                    android:textColor="#3474E0"
+                    android:textColor="@color/nav_active"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:clickable="true"

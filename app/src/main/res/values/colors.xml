@@ -123,4 +123,245 @@
     <!-- UI Elements -->
     <color name="divider">#E0E0E0</color>
     <color name="chip_unchecked_bg">#EEEEEE</color>
+
+    <color name="icon_bg">#F4F2EE</color>
+
+
+    <!-- Achievement (Light Mode) -->
+    <color name="achievement_streak_bg">#BFE9C8</color>
+    <color name="achievement_streak_stroke">#ACD1B4</color>
+    <color name="achievement_streak_icon_bg">#80CBC4</color>
+    <color name="achievement_streak_icon_tint">#00695C</color>
+
+    <color name="achievement_mindful_bg">#DCD1F6</color>
+    <color name="achievement_mindful_stroke">#C5BEE2</color>
+    <color name="achievement_mindful_icon_tint">#7B1FA2</color>
+    <color name="achievement_mindful_count_text">#FFFFFF</color>
+
+    <color name="avatar_bg">#B2EBF2</color>
+
+    <!-- calendar page-->
+    <color name="calendar_logs_card_bg">#E8EAF6</color>
+    <color name="calendar_logs_inner_bg">#E3E2F5</color>
+    <color name="calendar_log_item_bg">#FFFFFF</color>
+    <color name="calendar_log_item_stroke">#D9DCE5</color>
+    <color name="calendar_legend_text">#6B7280</color>
+    <color name="calendar_button_text">#FFFFFF</color>
+
+
+    <!-- insights page -->
+    <color name="insights_surface">#FFFFFF</color>
+    <color name="insights_surface_2">#F8F9FF</color>
+    <color name="insights_stroke">#E6EAF2</color>
+
+    <color name="insights_chip_bg">#EAF7EA</color>
+    <color name="insights_chip_text">#2E7D32</color>
+
+    <color name="insights_positive_bg">#EAF7EA</color>
+    <color name="insights_positive_text">#2E7D32</color>
+
+    <color name="insights_summary_bg">#F1F8E9</color>
+    <color name="insights_summary_text">#4D4D4D</color>
+
+    <color name="insight_heading_dark">#2D3436</color>
+    <color name="insight_text_dark">#4D4D4D</color>
+    <color name="insight_text_muted_dark">#8C8C8C</color>
+
+    <color name="insight_weekend_icon_bg_dark">#FFF8E1</color>
+    <color name="insight_weekend_icon_tint_dark">#FFC107</color>
+
+    <color name="insight_sleep_icon_bg_dark">#F3E5F5</color>
+    <color name="insight_sleep_icon_tint_dark">#7B61FF</color>
+
+    <color name="insight_rec_sleep_bg_dark">#E3F2FD</color>
+    <color name="insight_rec_sleep_tint_dark">#2196F3</color>
+
+    <color name="insight_rec_stress_bg_dark">#FCE4EC</color>
+    <color name="insight_rec_stress_tint_dark">#E91E63</color>
+
+    <color name="insight_rec_plan_bg_dark">#E8F5E9</color>
+    <color name="insight_rec_plan_tint_dark">#4CAF50</color>
+
+    <!-- sleep insights page -->
+    <color name="sleep_surface">#FFFFFF</color>
+    <color name="sleep_stroke">#E6EAF2</color>
+    <color name="sleep_icon_bg">#F3E5F5</color>
+    <color name="sleep_icon_tint">#7B61FF</color>
+
+    <color name="sleep_insight_warning_bg">#FFF8E1</color>
+    <color name="sleep_insight_warning_tint">#FFC107</color>
+
+    <color name="sleep_insight_success_bg">#E8F5E9</color>
+    <color name="sleep_insight_success_tint">#4CAF50</color>
+
+    <color name="sleep_rec_clock_bg">#E3F2FD</color>
+    <color name="sleep_rec_clock_tint">#2196F3</color>
+
+    <color name="sleep_rec_stress_bg">#FCE4EC</color>
+    <color name="sleep_rec_stress_tint">#E91E63</color>
+
+    <color name="sleep_reminder_icon_bg">#F3E5F5</color>
+    <color name="sleep_reminder_icon_tint">#7B61FF</color>
+
+    <color name="sleep_reminder_inner_bg">#F9F8F6</color>
+    <color name="sleep_edit_chip_bg">#F3E5F5</color>
+    <color name="sleep_edit_chip_text">#7B61FF</color>
+
+    <!-- academic trends page -->
+    <color name="academic_surface">#FFFFFF</color>
+    <color name="academic_stroke">#E6EAF2</color>
+
+    <color name="academic_timeline_text">#333333</color>
+    <color name="academic_timeline_legend_text">#666666</color>
+    <color name="academic_timeline_icon_tint">#EEEEEE</color>
+
+    <color name="academic_chip_surface">#FFFFFF</color>
+    <color name="academic_chip_stroke">#F0F0F0</color>
+    <color name="academic_chip_title">#333333</color>
+    <color name="academic_chip_date">#999999</color>
+
+    <color name="academic_assign_text">#66BB6A</color>
+    <color name="academic_quiz_text">#FFA726</color>
+    <color name="academic_midterm_text">#7E57C2</color>
+    <color name="academic_final_text">#EF5350</color>
+
+    <color name="academic_alert_bg">#FDECEA</color>
+    <color name="academic_alert_tint">#D32F2F</color>
+
+    <color name="academic_busy_bg">#F3E5F5</color>
+    <color name="academic_busy_tint">#7B61FF</color>
+
+    <color name="academic_clock_bg">#FFF8E1</color>
+    <color name="academic_clock_tint">#FFC107</color>
+
+    <color name="academic_success_bg">#E8F5E9</color>
+    <color name="academic_success_tint">#4CAF50</color>
+
+    <color name="academic_info_bg">#E3F2FD</color>
+    <color name="academic_info_tint">#2196F3</color>
+
+    <!-- log mood page -->
+    <color name="log_mood_surface">#FFFFFF</color>
+    <color name="log_mood_surface_2">#F8F9FF</color>
+    <color name="log_mood_stroke">#E6EAF2</color>
+
+    <color name="log_mood_chip_bg">#F1F3F6</color>
+    <color name="log_mood_chip_text">#4D4D4D</color>
+    <color name="log_mood_note_bg">#FFFFFF</color>
+    <color name="log_mood_note_stroke">#E6EAF2</color>
+
+    <color name="log_mood_chip_selected_bg">#E8F5E9</color>
+    <color name="log_mood_chip_selected_text">#2E7D32</color>
+
+    <!-- add deadline page -->
+    <color name="deadline_form_surface">#FFFFFF</color>
+    <color name="deadline_form_surface_soft">#F8F9FF</color>
+    <color name="deadline_form_stroke">#E6EAF2</color>
+    <color name="deadline_form_muted">#9E9E9E</color>
+    <color name="deadline_form_divider">#F0F0F0</color>
+    <color name="deadline_form_icon_muted">#CCCCCC</color>
+    <color name="deadline_form_subtext">#B2BEC3</color>
+
+    <color name="deadline_type_selected_bg">#F3F5FF</color>
+    <color name="deadline_type_selected_stroke">#5C6BC0</color>
+
+    <color name="deadline_priority_low_bg">#E8F5E9</color>
+    <color name="deadline_priority_low_text">#4CAF50</color>
+    <color name="deadline_priority_medium_bg">#FFFFFF</color>
+    <color name="deadline_priority_medium_text">#9E9E9E</color>
+    <color name="deadline_priority_high_bg">#FFFFFF</color>
+    <color name="deadline_priority_high_text">#9E9E9E</color>
+
+    <color name="deadline_reminder_icon_bg">#F3E5F5</color>
+    <color name="deadline_reminder_icon_tint">#7B61FF</color>
+
+    <color name="deadline_primary_accent">#5C6BC0</color>
+
+    <!-- TYPE SELECT COLORS -->
+    <color name="deadline_type_selected_tint">#AFC0FF</color>
+    <color name="deadline_type_unselected_tint">#8F96A3</color>
+
+    <color name="deadline_type_selected_icon_bg">#2F3B5F</color>
+    <color name="deadline_type_unselected_icon_bg">#252A33</color>
+    <color name="deadline_type_unselected_bg">#1A1D24</color>
+
+    <!-- Light theme mindful card -->
+    <color name="achievement_mindful_title_light">#2E2A47</color>
+    <color name="achievement_mindful_desc_light">#5E5873</color>
+    <color name="achievement_mindful_icon_light">#6C5CE7</color>
+    <color name="achievement_mindful_count_light">#FFFFFF</color>
+    <color name="achievement_mindful_title">#2E2A47</color>
+    <color name="achievement_mindful_desc">#5E5873</color>
+
+    <!-- edit profile page -->
+    <color name="profile_edit_bg">#F6F1EC</color>
+    <color name="profile_edit_card_bg">#FFFFFF</color>
+    <color name="profile_edit_card_stroke">#E8E1D9</color>
+
+    <color name="profile_edit_title">#1F1F1F</color>
+    <color name="profile_edit_label">#2E2E2E</color>
+    <color name="profile_edit_hint">#9A9A9A</color>
+
+    <color name="profile_edit_input_bg">#F8F6F3</color>
+    <color name="profile_edit_input_stroke">#DDD6CE</color>
+
+    <color name="profile_edit_photo_text">#7B61FF</color>
+    <color name="profile_edit_avatar_bg">#E9E4FF</color>
+
+    <!-- account & security page -->
+    <color name="security_page_bg">#F6F1EC</color>
+    <color name="security_card_bg">#FFFFFF</color>
+    <color name="security_card_stroke">#E8E1D9</color>
+    <color name="security_divider">#E5DDD6</color>
+
+    <color name="security_title">#1F1F1F</color>
+    <color name="security_item_title">#222222</color>
+    <color name="security_item_desc">#7A7A7A</color>
+    <color name="security_icon_tint">#5A5A5A</color>
+    <color name="security_arrow_tint">#8A8A8A</color>
+
+    <color name="security_logout">#D9534F</color>
+
+    <!-- change password page -->
+    <color name="password_page_bg">#F6F1EC</color>
+    <color name="password_card_bg">#FFFFFF</color>
+    <color name="password_card_stroke">#E8E1D9</color>
+
+    <color name="password_title">#1F1F1F</color>
+    <color name="password_label">#2E2E2E</color>
+    <color name="password_hint">#9A9A9A</color>
+
+    <color name="password_input_bg">#F8F6F3</color>
+    <color name="password_input_stroke">#DDD6CE</color>
+
+    <!-- help center page -->
+    <color name="help_page_bg">#F6F1EC</color>
+    <color name="help_card_bg">#FFFFFF</color>
+    <color name="help_card_stroke">#E8E1D9</color>
+
+    <color name="help_title">#1F1F1F</color>
+    <color name="help_subtitle">#7A7A7A</color>
+    <color name="help_question_text">#222222</color>
+    <color name="help_answer_text">#6F6F6F</color>
+    <color name="help_arrow_tint">#8A8A8A</color>
+
+    <!-- about page -->
+    <color name="about_page_bg">#F6F1EC</color>
+    <color name="about_card_bg">#FFFFFF</color>
+    <color name="about_card_stroke">#E8E1D9</color>
+
+    <color name="about_title">#1F1F1F</color>
+    <color name="about_subtitle">#7A7A7A</color>
+    <color name="about_section_title">#222222</color>
+    <color name="about_body_text">#6F6F6F</color>
+    <color name="about_divider">#E5DDD6</color>
+
+    <color name="button_text">#FFFFFF</color>
+    <color name="profile_button_bg">#7F6AFF</color> <!-- same purple -->
+
+    <color name="profile_button_start">#B39DDB</color>
+    <color name="profile_button_end">#7F6AFF</color>
+
+    <color name="profile_save_button_bg">#BCA9E9</color>
+    <color name="password_save_button_bg">#BCA9E9</color>
 </resources>

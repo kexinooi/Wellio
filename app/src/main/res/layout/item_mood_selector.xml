@@ -16,10 +16,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
+        app:cardBackgroundColor="#E2D4FB"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="#E2D4FB">
+        app:strokeWidth="0dp">
+
         <LinearLayout
             android:id="@+id/layout_very_bad_content"
             android:layout_width="match_parent"
@@ -38,11 +39,11 @@
                 android:id="@+id/tv_label_very_bad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Very Bad"
-                android:textStyle="bold"
-                android:textColor="@color/text_black"
+                android:textColor="#4B2E83"
                 android:textSize="10sp"
-                android:layout_marginTop="8dp" />
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -53,10 +54,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
+        app:cardBackgroundColor="#FBD6C7"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="#FBD6C7">
+        app:strokeWidth="0dp">
+
         <LinearLayout
             android:id="@+id/layout_bad_content"
             android:layout_width="match_parent"
@@ -75,11 +77,11 @@
                 android:id="@+id/tv_label_bad"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Bad"
-                android:textStyle="bold"
-                android:textColor="@color/text_black"
+                android:textColor="#8A3D00"
                 android:textSize="10sp"
-                android:layout_marginTop="8dp" />
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -90,10 +92,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
+        app:cardBackgroundColor="#F8DDB4"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="#F8DDB4">
+        app:strokeWidth="0dp">
+
         <LinearLayout
             android:id="@+id/layout_okay_content"
             android:layout_width="match_parent"
@@ -112,11 +115,11 @@
                 android:id="@+id/tv_label_okay"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Okay"
-                android:textStyle="bold"
-                android:textColor="@color/text_black"
+                android:textColor="#7A5A00"
                 android:textSize="10sp"
-                android:layout_marginTop="8dp" />
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -127,10 +130,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
+        app:cardBackgroundColor="#CEFDCF"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="#CEFDCF">
+        app:strokeWidth="0dp">
+
         <LinearLayout
             android:id="@+id/layout_good_content"
             android:layout_width="match_parent"
@@ -149,11 +153,11 @@
                 android:id="@+id/tv_label_good"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:text="Good"
-                android:textStyle="bold"
-                android:textColor="@color/text_black"
+                android:textColor="#1F6B2A"
                 android:textSize="10sp"
-                android:layout_marginTop="8dp" />
+                android:textStyle="bold" />
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
@@ -164,10 +168,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
         android:layout_weight="1"
+        app:cardBackgroundColor="#CDF8EF"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp"
-        app:strokeWidth="0dp"
-        app:cardBackgroundColor="#CDF8EF">
+        app:strokeWidth="0dp">
+
         <LinearLayout
             android:id="@+id/layout_amazing_content"
             android:layout_width="match_parent"
@@ -188,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Amazing"
-                android:textColor="@color/text_black"
+                android:textColor="#005F5A"
                 android:textSize="10sp"
                 android:textStyle="bold" />
         </LinearLayout>

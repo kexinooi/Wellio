@@ -47,12 +47,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp">
-            <View
-                android:id="@+id/view_avatar_bg"
+            <ImageView
+                android:id="@+id/img_profile_avatar"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
+                android:src="@android:drawable/sym_def_app_icon"
+                android:scaleType="centerCrop"
                 android:background="@drawable/circle_blue_bg"
-                android:backgroundTint="#B2EBF2" />
+                android:backgroundTint="#B2EBF2"
+                android:clipToOutline="true"
+                android:contentDescription="Profile Avatar" />
         </FrameLayout>
 
         <TextView
@@ -81,10 +85,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            app:cardBackgroundColor="#BFE9C8"
+            app:cardBackgroundColor="@color/achievement_streak_bg"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
-            app:strokeColor="#ACD1B4"
+            app:strokeColor="@color/achievement_streak_stroke"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -100,10 +104,10 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/circle_blue_bg"
-                    android:backgroundTint="#80CBC4"
+                    android:backgroundTint="@color/achievement_streak_icon_bg"
                     android:padding="8dp"
                     android:src="@android:drawable/ic_menu_today"
-                    app:tint="#00695C" />
+                    app:tint="@color/achievement_streak_icon_tint" />
 
                 <LinearLayout
                     android:id="@+id/layout_streak_text"
@@ -141,10 +145,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="40dp"
-            app:cardBackgroundColor="#DCD1F6"
+            app:cardBackgroundColor="@color/achievement_mindful_bg"
             app:cardCornerRadius="20dp"
             app:cardElevation="4dp"
-            app:strokeColor="#C5BEE2"
+            app:strokeColor="@color/achievement_mindful_stroke"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -165,7 +169,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@android:drawable/btn_star_big_on"
-                        app:tint="#7B1FA2" />
+                        app:tint="@color/achievement_mindful_icon_tint" />
 
                     <TextView
                         android:id="@+id/tv_mindful_count"
@@ -173,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:text="3"
-                        android:textColor="@color/white"
+                        android:textColor="@color/achievement_mindful_count_text"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </FrameLayout>
@@ -191,7 +195,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mindful Reflections"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/achievement_mindful_title"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -200,7 +204,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Added 5 notes"
-                        android:textColor="@color/text_grey_dark"
+                        android:textColor="@color/achievement_mindful_desc"
                         android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
