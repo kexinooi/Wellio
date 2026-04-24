@@ -45,18 +45,16 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuthManag
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
-        // Uncomment if you want Firebase auth flow enabled
-        // mAuth = FirebaseAuth.getInstance();
-        // firebaseAuthManager = new FirebaseAuthManager(this, this);
-        //
-        // FirebaseUser currentUser = mAuth.getCurrentUser();
-        // if (currentUser == null) {
-        //     signInWithGoogle();
-        // } else {
-        //     setupUI(savedInstanceState);
-        // }
+         //Uncomment if you want Firebase auth flow enabled
+         mAuth = FirebaseAuth.getInstance();
+         firebaseAuthManager = new FirebaseAuthManager(this, this);
 
-        setupUI(savedInstanceState);
+         FirebaseUser currentUser = mAuth.getCurrentUser();
+         if (currentUser == null) {
+             signInWithGoogle();
+         }
+
+        setupUI();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS)
@@ -70,64 +68,54 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuthManag
         }
     }
 
-    private void setupUI(Bundle savedInstanceState) {
+    private void setupUI() {
         bottomNav = findViewById(R.id.bottom_navigation);
 
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
             int itemId = item.getItemId();
 
-            if (itemId == R.id.navigation_home) {
-                selectedFragment = new HomeFragment();
-            } else if (itemId == R.id.navigation_insights) {
+            if (itemId == R.id.navigation_insights) {
                 selectedFragment = new InsightsFragment();
             } else if (itemId == R.id.navigation_calendar) {
                 selectedFragment = new CalendarFragment();
             } else if (itemId == R.id.navigation_profile) {
                 selectedFragment = new ProfileFragment();
+            }else{
+                selectedFragment = new HomeFragment();
             }
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, selectedFragment)
+                    .commit();
+            return true;
 
-            if (selectedFragment != null) {
-                getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragment_container, selectedFragment)
-                        .commit();
-                return true;
-            }
-
-            return false;
         });
 
-        if (savedInstanceState == null) {
-            bottomNav.setSelectedItemId(R.id.navigation_home);
-        }
     }
 
     public void signInWithGoogle() {
-        if (firebaseAuthManager != null) {
-            firebaseAuthManager.signIn();
-        }
+        firebaseAuthManager.signIn();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (firebaseAuthManager != null) {
-            firebaseAuthManager.onActivityResult(requestCode, resultCode, data);
-        }
+        firebaseAuthManager.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override
     public void onSuccess(FirebaseUser user) {
         Log.d(TAG, "Sign in successful: " + user.getDisplayName());
         Toast.makeText(this, "Welcome back, " + user.getDisplayName() + "!", Toast.LENGTH_SHORT).show();
+        setupUI();
     }
 
     @Override
     public void onFailure(String error) {
         Log.e(TAG, "Sign in failed: " + error);
         Toast.makeText(this, "Sign in failed: " + error, Toast.LENGTH_LONG).show();
-        signInWithGoogle();
+        setupUI();
     }
 
     public void signOut() {

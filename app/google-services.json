@@ -12,7 +12,20 @@
           "package_name": "my.edu.utar.assignment_2_v2"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "100216324548-is96o9a765l074urj8pth9h6lamvm4o5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "my.edu.utar.assignment_2_v2",
+            "certificate_hash": "e07a7124cc0b2b3d1501543f1ca3abf2211a31ae"
+          }
+        },
+        {
+          "client_id": "100216324548-fv7picu46kim0pvpr4duhd588920sopa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAvIbwZyvD78uXUYYrP5CX0khyIcsuXz6o"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "100216324548-fv7picu46kim0pvpr4duhd588920sopa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

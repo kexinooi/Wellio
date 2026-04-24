@@ -20,13 +20,18 @@ import my.edu.utar.assignment_2_v2.R;
 import my.edu.utar.assignment_2_v2.model.User;
 
 public class FirebaseAuthManager {
-    private static final String TAG = "GoogleSignInHelper";
+    private static final String TAG = "FirebaseAuthManager";
     private static final int RC_SIGN_IN = 9001;
 
     private final Activity activity;
     private final FirebaseAuth mAuth;
     private final GoogleSignInClient mGoogleSignInClient;
     private final AuthCallback callback;
+
+    public interface AuthCallback {
+        void onSuccess(FirebaseUser user);
+        void onFailure(String errorMessage);
+    }
 
     public FirebaseAuthManager(Activity activity, AuthCallback callback) {
         this.activity = activity;
@@ -37,6 +42,17 @@ public class FirebaseAuthManager {
                 .requestEmail()
                 .build();
         mGoogleSignInClient = GoogleSignIn.getClient(activity, gso);
+    }
+
+    public void signIn() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        activity.startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    // New method to allow changing users
+    public void signOut() {
+        mAuth.signOut();
+        mGoogleSignInClient.signOut();
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -53,18 +69,21 @@ public class FirebaseAuthManager {
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential).addOnCompleteListener(activity,task -> {
-            if (task.isSuccessful()) {
-                Log.d(TAG, "signInWithCredential:success");
-                FirebaseUser user = mAuth.getCurrentUser();
-                saveUserToFirestore(user, acct);
-                callback.onSuccess(user);
-            } else {
-                Log.w(TAG, "signInWithCredential:failure", task.getException());
-                callback.onFailure("Firebase Auth Failed: " + task.getException().getMessage());
-            }
-        });
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(activity,task -> {
+                    if (task.isSuccessful()) {
+                        Log.d(TAG, "signInWithCredential:success");
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        saveUserToFirestore(user, acct);
+                        callback.onSuccess(user);
+                    } else {
+                        Log.w(TAG, "signInWithCredential:failure", task.getException());
+                        callback.onFailure("Firebase Auth Failed: " + task.getException().getMessage());
+                    }
+                });
     }
 
     private void saveUserToFirestore(FirebaseUser firebaseUser, GoogleSignInAccount googleAccount) {
@@ -82,23 +101,13 @@ public class FirebaseAuthManager {
         }
     }
 
-    public void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-        activity.startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    // New method to allow changing users
-    public void signOut() {
-        mAuth.signOut();
-        mGoogleSignInClient.signOut();
+    public FirebaseUser getCurrentUser() {
+        return mAuth.getCurrentUser();
     }
 
     public boolean isUserLoggedIn() {
         return mAuth.getCurrentUser() != null;
     }
 
-    public interface AuthCallback {
-        void onSuccess(FirebaseUser user);
-        void onFailure(String errorMessage);
-    }
+
 }
