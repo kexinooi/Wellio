@@ -40,10 +40,14 @@ public class AddDeadlineFragment extends Fragment {
     private static final String DATE_FORMAT = "MMMM d, yyyy";
     private static final String TIME_FORMAT = "h:mm a";
     private static final String FULL_DATETIME_FORMAT = "MMMM d, yyyy h:mm a";
+    private static final String ARG_DEADLINE_ID = "deadline_id";
+    private static final String ARG_SELECTED_DATE = "selected_date";
 
     private String selectedDate;
     private Date selectedDueDate;
     private Calendar calendar = Calendar.getInstance();
+    private String editingDeadlineId;
+    private boolean isEditMode = false;
 
     private MaterialCardView typeAssignment, typeQuiz, typeTest, typeMidterm;
     private MaterialCardView priorityLow, priorityMedium, priorityHigh;
@@ -61,7 +65,15 @@ public class AddDeadlineFragment extends Fragment {
     public static AddDeadlineFragment newInstance(String date) {
         AddDeadlineFragment fragment = new AddDeadlineFragment();
         Bundle args = new Bundle();
-        args.putString("selected_date", date);
+        args.putString(ARG_SELECTED_DATE, date);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static AddDeadlineFragment newInstanceForEdit(String deadlineId) {
+        AddDeadlineFragment fragment = new AddDeadlineFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_DEADLINE_ID, deadlineId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,7 +82,9 @@ public class AddDeadlineFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            selectedDate = getArguments().getString("selected_date");
+            selectedDate = getArguments().getString(ARG_SELECTED_DATE);
+            editingDeadlineId = getArguments().getString(ARG_DEADLINE_ID);
+            isEditMode = editingDeadlineId != null;
         }
     }
 
@@ -83,9 +97,13 @@ public class AddDeadlineFragment extends Fragment {
         setupListeners(view);
         parseInitialDate();
 
-        // Default selections
-        if (typeAssignment != null) selectType(typeAssignment);
-        if (priorityLow != null) selectPriority(priorityLow);
+        if (isEditMode) {
+            loadDeadlineForEdit();
+        } else {
+            // Default selections
+            if (typeAssignment != null) selectType(typeAssignment);
+            if (priorityLow != null) selectPriority(priorityLow);
+        }
 
         return view;
     }
@@ -184,6 +202,61 @@ public class AddDeadlineFragment extends Fragment {
         }
     }
 
+    private void loadDeadlineForEdit() {
+        if (editingDeadlineId == null) return;
+
+        Firebase.getInstance().getUserAssignments(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    for (com.google.firebase.firestore.QueryDocumentSnapshot doc : querySnapshot) {
+                        if (editingDeadlineId.equals(doc.getId())) {
+                            Deadline deadline = doc.toObject(Deadline.class);
+                            deadline.setId(doc.getId());
+                            populateFields(deadline);
+                            break;
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to load deadline for edit", e));
+    }
+
+    private void populateFields(Deadline deadline) {
+        // Title
+        if (etTitle != null && deadline.getTitle() != null) {
+            etTitle.setText(deadline.getTitle());
+        }
+
+        // Due date
+        if (deadline.getDueDate() != null) {
+            selectedDueDate = deadline.getDueDate();
+            calendar.setTime(selectedDueDate);
+            if (tvSelectedDate != null) tvSelectedDate.setText(dateFormatter.format(selectedDueDate));
+            if (tvSelectedTime != null) tvSelectedTime.setText(timeFormatter.format(selectedDueDate));
+        }
+
+        // Type
+        String type = deadline.getType();
+        if ("Quiz".equalsIgnoreCase(type) && typeQuiz != null) {
+            selectType(typeQuiz);
+        } else if ("Test".equalsIgnoreCase(type) && typeTest != null) {
+            selectType(typeTest);
+        } else if ("Midterm".equalsIgnoreCase(type) && typeMidterm != null) {
+            selectType(typeMidterm);
+        } else if (typeAssignment != null) {
+            selectType(typeAssignment);
+        }
+
+        // Priority
+        int priority = deadline.getPriority();
+        if (priority == 3 && priorityHigh != null) {
+            selectPriority(priorityHigh);
+        } else if (priority == 2 && priorityMedium != null) {
+            selectPriority(priorityMedium);
+        } else if (priorityLow != null) {
+            selectPriority(priorityLow);
+        }
+    }
+
     private void showDatePicker() {
         DatePickerDialog datePicker = new DatePickerDialog(requireContext(),
                 (view, year, month, dayOfMonth) -> {
@@ -230,24 +303,44 @@ public class AddDeadlineFragment extends Fragment {
         Deadline deadline = new Deadline(user.getUid(), title, title, selectedDueDate, priority);
         deadline.setType(type);
 
-        // Save to Firestore
-        Firebase.getInstance().saveAssignment(deadline)
-                .addOnSuccessListener(documentReference -> {
-                    String docId = documentReference.getId();
-                    deadline.setId(docId);
-                    Toast.makeText(requireContext(), "Deadline saved!", Toast.LENGTH_SHORT).show();
+        if (isEditMode) {
+            // Update existing deadline
+            deadline.setId(editingDeadlineId);
+            Firebase.getInstance().updateAssignment(editingDeadlineId,deadline)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(requireContext(), "Deadline updated!", Toast.LENGTH_SHORT).show();
 
-                    // Add to Google Calendar if reminder is enabled
-                    if (switchReminder != null && switchReminder.isChecked()) {
-                        addToGoogleCalendar(deadline);
-                    }
+                        // Add to Google Calendar if reminder is enabled
+                        if (switchReminder != null && switchReminder.isChecked()) {
+                            addToGoogleCalendar(deadline);
+                        }
 
-                    goBack();
-                })
-                .addOnFailureListener(e -> {
-                    Log.e(TAG, "Failed to save deadline", e);
-                    Toast.makeText(requireContext(), "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                });
+                        goBack();
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e(TAG, "Failed to update deadline", e);
+                        Toast.makeText(requireContext(), "Failed to update: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    });
+        } else {
+            // Create new deadline
+            Firebase.getInstance().saveAssignment(deadline)
+                    .addOnSuccessListener(documentReference -> {
+                        String docId = documentReference.getId();
+                        deadline.setId(docId);
+                        Toast.makeText(requireContext(), "Deadline saved!", Toast.LENGTH_SHORT).show();
+
+                        // Add to Google Calendar if reminder is enabled
+                        if (switchReminder != null && switchReminder.isChecked()) {
+                            addToGoogleCalendar(deadline);
+                        }
+
+                        goBack();
+                    })
+                    .addOnFailureListener(e -> {
+                        Log.e(TAG, "Failed to save deadline", e);
+                        Toast.makeText(requireContext(), "Failed to save: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    });
+        }
     }
 
     private void addToGoogleCalendar(Deadline deadline) {

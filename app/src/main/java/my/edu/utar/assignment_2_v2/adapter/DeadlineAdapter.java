@@ -30,6 +30,8 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
 
     public interface OnDeadlineClickListener {
         void onDeadlineClick(Deadline deadline);
+        void onDeadlineEdit(Deadline deadline);
+        void onDeadlineDelete(Deadline deadline);
     }
 
     public DeadlineAdapter(List<Deadline> deadlines, OnDeadlineClickListener listener) {
@@ -56,6 +58,12 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) listener.onDeadlineClick(deadline);
         });
+        holder.btnEdit.setOnClickListener(v -> {
+            if (listener != null) listener.onDeadlineEdit(deadline);
+        });
+        holder.btnDelete.setOnClickListener(v -> {
+            if (listener != null) listener.onDeadlineDelete(deadline);
+        });
     }
 
     @Override
@@ -68,6 +76,7 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
         View statusDot;
         MaterialCardView statusCard;
         ImageView ivIcon;
+        ImageView btnEdit, btnDelete;
 
         DeadlineViewHolder(View itemView) {
             super(itemView);
@@ -78,6 +87,8 @@ public class DeadlineAdapter extends RecyclerView.Adapter<DeadlineAdapter.Deadli
             statusDot = itemView.findViewById(R.id.view_status_dot);
             statusCard = itemView.findViewById(R.id.card_deadline_status);
             ivIcon = itemView.findViewById(R.id.iv_deadline_icon);
+            btnEdit = itemView.findViewById(R.id.btn_edit_deadline);
+            btnDelete = itemView.findViewById(R.id.btn_delete_deadline);
         }
 
         void bind(Deadline deadline) {

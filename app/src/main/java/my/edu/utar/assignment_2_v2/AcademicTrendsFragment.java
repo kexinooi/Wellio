@@ -1,11 +1,16 @@
 package my.edu.utar.assignment_2_v2;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +36,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import my.edu.utar.assignment_2_v2.Utils.Firebase;
+import my.edu.utar.assignment_2_v2.Utils.GeminiApiService;
 import my.edu.utar.assignment_2_v2.model.Deadline;
 
 public class AcademicTrendsFragment extends Fragment {
@@ -39,8 +45,10 @@ public class AcademicTrendsFragment extends Fragment {
     private List<Deadline> allDeadlines = new ArrayList<>();
     private LinearLayout chipsContainer;
     private LinearLayout insightsContainer;
+    private ImageView timelineImageView;
     private SimpleDateFormat monthFormat = new SimpleDateFormat("MMM", Locale.getDefault());
     private SimpleDateFormat dayFormat = new SimpleDateFormat("MMM d", Locale.getDefault());
+    private GeminiApiService geminiApiService;
 
     @Nullable
     @Override
@@ -49,6 +57,9 @@ public class AcademicTrendsFragment extends Fragment {
 
         chipsContainer = view.findViewById(R.id.chips_container);
         insightsContainer = view.findViewById(R.id.insights_container);
+        timelineImageView = view.findViewById(R.id.img_timeline);
+        
+        geminiApiService = new GeminiApiService();
 
         loadDeadlines(view);
         return view;
@@ -74,6 +85,8 @@ public class AcademicTrendsFragment extends Fragment {
                     });
                     populateChips(rootView);
                     generateInsights(rootView);
+                    createTimelineVisualization();
+                    generateAIInsights();
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to load deadlines", e));
     }
@@ -315,10 +328,187 @@ public class AcademicTrendsFragment extends Fragment {
         return result;
     }
 
-    private long calculateDaysLeft(Date dueDate) {
-        if (dueDate == null) return 999;
-        Date now = new Date();
-        long diff = dueDate.getTime() - now.getTime();
-        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    private void createTimelineVisualization() {
+        if (timelineImageView == null) {
+            Log.d(TAG, "Timeline ImageView is null");
+            return;
+        }
+
+        Log.d(TAG, "Creating timeline visualization, deadlines count: " + allDeadlines.size());
+
+        // Post to ensure ImageView has been laid out and has dimensions
+        timelineImageView.post(() -> {
+            if (timelineImageView.getWidth() <= 0 || timelineImageView.getHeight() <= 0) {
+                Log.d(TAG, "ImageView dimensions: " + timelineImageView.getWidth() + "x" + timelineImageView.getHeight());
+                return;
+            }
+            
+            int width = timelineImageView.getWidth();
+            int height = timelineImageView.getHeight();
+
+            Log.d(TAG, "Creating bitmap with dimensions: " + width + "x" + height);
+
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+
+            // Background
+            Paint bgPaint = new Paint();
+            bgPaint.setColor(ContextCompat.getColor(requireContext(), R.color.academic_chip_surface));
+            canvas.drawRect(0, 0, width, height, bgPaint);
+
+            // Timeline line
+            Paint linePaint = new Paint();
+            linePaint.setColor(ContextCompat.getColor(requireContext(), R.color.text_grey_light));
+            linePaint.setStrokeWidth(4f);
+            canvas.drawLine(50, height / 2, width - 50, height / 2, linePaint);
+
+            // Get upcoming deadlines for next 14 days
+            List<Deadline> upcoming = new ArrayList<>();
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.DAY_OF_MONTH, 14);
+            Date fourteenDaysLater = cal.getTime();
+            
+            for (Deadline d : allDeadlines) {
+                if (d.getDueDate() != null && !d.getDueDate().before(new Date()) && !d.getDueDate().after(fourteenDaysLater)) {
+                    upcoming.add(d);
+                }
+            }
+
+            Log.d(TAG, "Upcoming deadlines in next 14 days: " + upcoming.size());
+
+            if (upcoming.isEmpty()) {
+                Paint textPaint = new Paint();
+                textPaint.setColor(ContextCompat.getColor(requireContext(), R.color.text_grey_dark));
+                textPaint.setTextSize(32f);
+                textPaint.setTextAlign(Paint.Align.CENTER);
+                canvas.drawText("No upcoming deadlines", width / 2, height / 2, textPaint);
+            } else {
+                // Draw deadline points
+                for (int i = 0; i < upcoming.size(); i++) {
+                    Deadline deadline = upcoming.get(i);
+                    long daysFromStart = calculateDaysBetween(new Date(), deadline.getDueDate());
+                    if (daysFromStart < 0) daysFromStart = 0;
+                    if (daysFromStart > 14) daysFromStart = 14;
+                    
+                    float x = 50 + (daysFromStart / 14f) * (width - 100);
+                    float y = height / 2;
+
+                    // Draw circle
+                    Paint circlePaint = new Paint();
+                    circlePaint.setColor(getTypeColor(deadline.getType()));
+                    circlePaint.setAntiAlias(true);
+                    canvas.drawCircle(x, y, 12f, circlePaint);
+
+                    // Draw date label
+                    Paint datePaint = new Paint();
+                    datePaint.setColor(ContextCompat.getColor(requireContext(), R.color.text_grey_dark));
+                    datePaint.setTextSize(18f);
+                    datePaint.setTextAlign(Paint.Align.CENTER);
+                    String dateLabel = dayFormat.format(deadline.getDueDate());
+                    canvas.drawText(dateLabel, x, y - 20, datePaint);
+
+                    // Draw title (abbreviated)
+                    Paint titlePaint = new Paint();
+                    titlePaint.setColor(ContextCompat.getColor(requireContext(), R.color.text_black));
+                    titlePaint.setTextSize(16f);
+                    titlePaint.setTextAlign(Paint.Align.CENTER);
+                    String title = deadline.getTitle();
+                    if (title.length() > 8) title = title.substring(0, 8) + "...";
+                    canvas.drawText(title, x, y + 35, titlePaint);
+                }
+            }
+
+            Log.d(TAG, "Setting bitmap to ImageView");
+            timelineImageView.setImageBitmap(bitmap);
+        });
     }
+
+private long calculateDaysBetween(Date start, Date end) {
+    long diff = end.getTime() - start.getTime();
+    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+}
+
+private long calculateDaysLeft(Date dueDate) {
+    if (dueDate == null) return 999;
+    Date now = new Date();
+    long diff = dueDate.getTime() - now.getTime();
+    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+}
+
+private void generateAIInsights() {
+    // Prepare academic data for AI analysis
+    StringBuilder academicData = new StringBuilder();
+    academicData.append("Academic Workload Analysis:\n\n");
+    
+    // Deadline statistics
+    academicData.append("DEADLINE OVERVIEW:\n");
+    academicData.append("Total deadlines: ").append(allDeadlines.size()).append("\n");
+    
+    // Upcoming deadlines
+    Date now = new Date();
+    List<Deadline> upcoming = new ArrayList<>();
+    List<Deadline> overdue = new ArrayList<>();
+    
+    for (Deadline d : allDeadlines) {
+        if (d.getDueDate() == null) continue;
+        if (d.getDueDate().before(now)) {
+            overdue.add(d);
+        } else {
+            upcoming.add(d);
+        }
+    }
+    
+    academicData.append("Upcoming deadlines: ").append(upcoming.size()).append("\n");
+    academicData.append("Overdue deadlines: ").append(overdue.size()).append("\n\n");
+    
+    // Deadline types distribution
+    Map<String, Integer> typeCount = new HashMap<>();
+    for (Deadline d : allDeadlines) {
+        String type = d.getType() != null ? d.getType() : "assignment";
+        typeCount.put(type, typeCount.getOrDefault(type, 0) + 1);
+    }
+    
+    academicData.append("DEADLINE TYPES:\n");
+    for (Map.Entry<String, Integer> entry : typeCount.entrySet()) {
+        academicData.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+    }
+    
+    // Workload intensity (next 7 days)
+    academicData.append("\nNEXT 7 DAYS WORKLOAD:\n");
+    Calendar sevenDaysLater = Calendar.getInstance();
+    sevenDaysLater.add(Calendar.DAY_OF_MONTH, 7);
+    int nextWeekDeadlines = 0;
+    
+    for (Deadline d : upcoming) {
+        if (d.getDueDate() != null && !d.getDueDate().after(sevenDaysLater.getTime())) {
+            nextWeekDeadlines++;
+        }
+    }
+    academicData.append("Deadlines in next 7 days: ").append(nextWeekDeadlines).append("\n");
+    
+    // Stress indicators
+    academicData.append("\nSTRESS INDICATORS:\n");
+    if (overdue.size() > 0) {
+        academicData.append("- ").append(overdue.size()).append(" overdue deadlines (HIGH STRESS)\n");
+    }
+    if (nextWeekDeadlines >= 3) {
+        academicData.append("- ").append(nextWeekDeadlines).append(" deadlines next week (HIGH WORKLOAD)\n");
+    } else if (nextWeekDeadlines >= 2) {
+        academicData.append("- ").append(nextWeekDeadlines).append(" deadlines next week (MODERATE WORKLOAD)\n");
+    }
+    
+    // Call Gemini API for insights
+    geminiApiService.getAcademicInsights(academicData.toString(), new GeminiApiService.GeminiCallback() {
+        @Override
+        public void onResult(String result) {
+            Log.d(TAG, "AI Academic Insights: " + result);
+            // TODO: Update UI with AI insights when layout is ready
+        }
+        
+        @Override
+        public void onError(String error) {
+            Log.e(TAG, "AI Academic Insights Error: " + error);
+        }
+    });
+}
 }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,6 +32,7 @@ import java.util.concurrent.TimeUnit;
 import my.edu.utar.assignment_2_v2.Utils.Firebase;
 import my.edu.utar.assignment_2_v2.adapter.DeadlineAdapter;
 import my.edu.utar.assignment_2_v2.model.Deadline;
+import my.edu.utar.assignment_2_v2.model.Mood;
 
 public class HomeFragment extends Fragment {
 
@@ -59,7 +61,7 @@ public class HomeFragment extends Fragment {
         }
 
         // Setup Mood Overview
-        updateMoodUI(view, "Good", "Meh", "vs yesterday", R.drawable.mood_amazing, R.color.status_green);
+        updateMoodUI(view, "Good", "Meh", 0.0);
 
         // Glance cards
         setupGlanceCard(view.findViewById(R.id.card_sleep), "SLEEP", "6.5", "h", "Fair", R.color.glance_sleep_badge, R.color.glance_sleep_dot);
@@ -73,6 +75,7 @@ public class HomeFragment extends Fragment {
         }
 
         loadDeadlines(view);
+        loadMood(view);
 
         return view;
     }
@@ -94,6 +97,42 @@ public class HomeFragment extends Fragment {
                     updateAcademicGlance(view);
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to load deadlines", e));
+    }
+
+    private void loadMood(View view) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        // Get today's mood
+        Calendar today = Calendar.getInstance();
+        today.set(Calendar.HOUR_OF_DAY, 0);
+        today.set(Calendar.MINUTE, 0);
+        today.set(Calendar.SECOND, 0);
+        today.set(Calendar.MILLISECOND, 0);
+        
+        Calendar tomorrow = (Calendar) today.clone();
+        tomorrow.add(Calendar.DAY_OF_MONTH, 1);
+
+        Firebase.getInstance().getUserMoodLogsInRange(user.getUid(), today.getTimeInMillis(), tomorrow.getTimeInMillis())
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        // Get the most recent mood for today
+                        Mood todayMood = querySnapshot.getDocuments().get(0).toObject(Mood.class);
+                        if (todayMood != null) {
+                            updateMoodUI(view, todayMood.getMood(), todayMood.getFeel(), todayMood.getSleepHours());
+                        }
+                    }
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to load mood", e));
+    }
+
+    private void updateSleepGlance(View view, double sleepHours) {
+        String sleepText = sleepHours > 0 ? String.format("%.1f", sleepHours) : "--";
+        String status = sleepHours > 0 ? (sleepHours >= 7 ? "Good" : sleepHours >= 5 ? "Fair" : "Poor") : "No data";
+        int badgeColor = sleepHours >= 7 ? R.color.status_green : sleepHours >= 5 ? R.color.deadline_orange_text : R.color.deadline_red_text;
+        int dotColor = sleepHours >= 7 ? R.color.glance_sleep_dot : sleepHours >= 5 ? R.color.glance_focus_dot : R.color.glance_stress_dot;
+        setupGlanceCard(view.findViewById(R.id.card_sleep), "SLEEP", sleepText, "hours", status, badgeColor, dotColor);
     }
 
     private void updateAcademicGlance(View view) {
@@ -196,8 +235,32 @@ public class HomeFragment extends Fragment {
         RecyclerView rv = bottomSheetView.findViewById(R.id.rv_assignments);
         if (rv != null) {
             rv.setLayoutManager(new LinearLayoutManager(requireContext()));
-            deadlineAdapter = new DeadlineAdapter(upcomingDeadlines, deadline -> {
-                // Optional: open detail/edit
+            deadlineAdapter = new DeadlineAdapter(upcomingDeadlines, new DeadlineAdapter.OnDeadlineClickListener() {
+                @Override
+                public void onDeadlineClick(Deadline deadline) {
+                    // Optional: open detail view
+                }
+
+                @Override
+                public void onDeadlineEdit(Deadline deadline) {
+                    bottomSheetDialog.dismiss();
+                    if (getParentFragmentManager() != null) {
+                        getParentFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, AddDeadlineFragment.newInstanceForEdit(deadline.getId()))
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                }
+
+                @Override
+                public void onDeadlineDelete(Deadline deadline) {
+                    deleteDeadline(deadline.getId(), () -> {
+                        loadDeadlines(getView()); // Refresh after deletion
+                        if (deadlineAdapter != null) {
+                            deadlineAdapter.updateList(upcomingDeadlines);
+                        }
+                    });
+                }
             });
             rv.setAdapter(deadlineAdapter);
         }
@@ -206,28 +269,63 @@ public class HomeFragment extends Fragment {
         bottomSheetDialog.show();
     }
 
-    private void updateMoodUI(View view, String status, String trend, String comparison, int iconRes, int trendColorRes) {
-        TextView tvFeelingLabel = view.findViewById(R.id.tv_feeling_label);
-        TextView tvMoodStatus = view.findViewById(R.id.tv_mood_status);
-        TextView tvMoodTrend = view.findViewById(R.id.tv_mood_trend);
-        TextView tvMoodVsYesterday = view.findViewById(R.id.tv_mood_vs_yesterday);
-        ImageView ivMoodIcon = view.findViewById(R.id.iv_mood_icon);
-
-        if (tvFeelingLabel != null) tvFeelingLabel.setText("Feeling");
-        if (tvMoodStatus != null) tvMoodStatus.setText(status + ",");
-        if (tvMoodTrend != null) {
-            if (trend == null || trend.isEmpty()) {
-                tvMoodTrend.setVisibility(View.GONE);
-            } else {
-                tvMoodTrend.setVisibility(View.VISIBLE);
-                tvMoodTrend.setText(trend);
-                tvMoodTrend.setTextColor(ContextCompat.getColor(requireContext(), trendColorRes));
-            }
-        }
-        if (tvMoodVsYesterday != null) tvMoodVsYesterday.setText(" " + comparison);
-        if (ivMoodIcon != null) ivMoodIcon.setImageResource(iconRes);
+    private void deleteDeadline(String deadlineId, Runnable onSuccess) {
+        Firebase.getInstance().deleteAssignment(deadlineId)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(requireContext(), "Deadline deleted", Toast.LENGTH_SHORT).show();
+                    if (onSuccess != null) onSuccess.run();
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Failed to delete deadline", e);
+                    Toast.makeText(requireContext(), "Failed to delete: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                });
     }
 
+    private void updateMoodUI(View view, String mood, String feelings, double sleepHours) {
+        TextView tvMood = view.findViewById(R.id.tv_mood_status);
+        TextView tvMoodVsYesterday = view.findViewById(R.id.tv_mood_vs_yesterday);
+        TextView tvMoodTrend = view.findViewById(R.id.tv_mood_trend);
+        ImageView ivMoodIcon = view.findViewById(R.id.iv_mood_icon);
+
+        if (tvMood != null) tvMood.setText(mood);
+        
+        // Update sleep hours display
+        updateSleepGlance(view, sleepHours);
+        
+        // Set mood icon and color based on mood
+        int iconRes = R.drawable.mood_amazing; // default
+        int colorRes = R.color.status_green; // default
+        
+        switch (mood != null ? mood.toLowerCase() : "") {
+            case "very bad":
+                iconRes = R.drawable.mood_very_bad;
+                colorRes = R.color.deadline_red_text;
+                break;
+            case "bad":
+                iconRes = R.drawable.mood_bad;
+                colorRes = R.color.deadline_orange_text;
+                break;
+            case "okay":
+                iconRes = R.drawable.mood_okay;
+                colorRes = R.color.deadline_priority_low_text;
+                break;
+            case "good":
+                iconRes = R.drawable.mood_good;
+                colorRes = R.color.primary_blue;
+                break;
+            case "amazing":
+                iconRes = R.drawable.mood_amazing;
+                colorRes = R.color.calendar_button_text;
+                break;
+        }
+        
+        if (tvMoodTrend != null) {
+            tvMoodTrend.setText("Today");
+            tvMoodTrend.setTextColor(ContextCompat.getColor(requireContext(), colorRes));
+        }
+        if (tvMoodVsYesterday != null) tvMoodVsYesterday.setText("");
+        if (ivMoodIcon != null) ivMoodIcon.setImageResource(iconRes);
+    }
     private String getGreeting() {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);

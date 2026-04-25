@@ -1,20 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dashboard"
-    android:orientation="vertical">
+    android:clipToPadding="false">
 
-    <!-- Tab Selector -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingHorizontal="24dp"
-        android:background="@color/bg_dashboard">
+        android:background="@color/bg_dashboard"
+        android:orientation="vertical"
+        android:paddingLeft="24dp"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="24dp">
+
+        <!-- Tab Selector -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp"
+            android:background="@color/bg_dashboard">
 
         <!-- Mood Tab (SELECTED DEFAULT) -->
         <LinearLayout
@@ -102,13 +112,14 @@
                 android:background="@color/mood_bad"
                 android:visibility="invisible" />
         </LinearLayout>
+        </LinearLayout>
+
+        <!-- Fragment Container -->
+        <FrameLayout
+            android:id="@+id/insights_tab_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/bg_dashboard" />
+
     </LinearLayout>
-
-    <!-- Fragment Container -->
-    <FrameLayout
-        android:id="@+id/insights_tab_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/bg_dashboard" />
-
-</LinearLayout>
+</androidx.core.widget.NestedScrollView>

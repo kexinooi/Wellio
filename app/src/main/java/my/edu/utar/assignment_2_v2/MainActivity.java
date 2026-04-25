@@ -84,13 +84,15 @@ public class MainActivity extends AppCompatActivity implements FirebaseAuthManag
             }else{
                 selectedFragment = new HomeFragment();
             }
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_container, selectedFragment)
-                    .commit();
+            if (selectedFragment != null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, selectedFragment)
+                        .commit();
+            }
             return true;
 
         });
-
+        bottomNav.setSelectedItemId(R.id.navigation_home);
     }
 
     public void signInWithGoogle() {

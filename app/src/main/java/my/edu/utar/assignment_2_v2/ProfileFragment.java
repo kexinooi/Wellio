@@ -56,7 +56,7 @@ public class ProfileFragment extends Fragment {
 
         SharedPreferences prefs = getActivity().getSharedPreferences("wellio_settings", 0);
 
-        String fullName = prefs.getString("full_name", "Kexin");
+        String fullName = prefs.getString("full_name", "User");
         String imageUriString = prefs.getString("profile_image_uri", null);
 
         tvProfileName.setText(fullName);

@@ -12,7 +12,10 @@
         android:layout_height="wrap_content"
         android:background="@color/bg_dashboard"
         android:orientation="vertical"
-        android:padding="24dp">
+        android:paddingLeft="24dp"
+        android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="24dp">
 
         <!-- Header -->
         <RelativeLayout

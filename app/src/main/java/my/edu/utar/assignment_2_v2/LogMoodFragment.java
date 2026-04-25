@@ -18,11 +18,13 @@ import com.google.android.material.chip.Chip;
 import java.util.ArrayList;
 import java.util.List;
 import my.edu.utar.assignment_2_v2.model.*;
+import my.edu.utar.assignment_2_v2.Utils.Firebase;
 
 public class LogMoodFragment extends Fragment {
 
     private Button saveMoodBtn;
     private EditText noteEditText;
+    private EditText sleepHoursEditText;
     private String selectedMood = "";
     private View cardVeryBad, cardBad, cardOkay, cardGood, cardAmazing;
     private Chip chipStressed, chipMotivated, chipTired, chipFocused, chipAnxious, chipHappy;
@@ -66,6 +68,7 @@ public class LogMoodFragment extends Fragment {
 
         saveMoodBtn = view.findViewById(R.id.btn_save_mood);
         noteEditText = view.findViewById(R.id.et_note);
+        sleepHoursEditText = view.findViewById(R.id.et_sleep_hours);
 
         // initialize Firestore
         db = FirebaseFirestore.getInstance();
@@ -88,23 +91,48 @@ public class LogMoodFragment extends Fragment {
             return;
         }
 
+        // Get current user
+        String userId = Firebase.getInstance().getCurrentUser() != null ? 
+                Firebase.getInstance().getCurrentUser().getUid() : null;
+
+        if (userId == null) {
+            Toast.makeText(getContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Get sleep hours
+        double sleepHours = 0.0;
+        String sleepHoursText = sleepHoursEditText.getText().toString().trim();
+        if (!sleepHoursText.isEmpty()) {
+            try {
+                sleepHours = Double.parseDouble(sleepHoursText);
+                if (sleepHours < 0 || sleepHours > 24) {
+                    Toast.makeText(getContext(), "Please enter valid sleep hours (0-24)", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Please enter valid sleep hours", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
         // Convert List<String> to one String for Mood.java
         String feelText = TextUtils.join(", ", feelings);
 
-        // Create Mood object
-        Mood moodObj = new Mood();
-        moodObj.setMood(selectedMood);
-        moodObj.setFeel(feelText);
-        moodObj.setNote(note);
+        // Create Mood object with userId and sleep hours
+        Mood moodObj = new Mood(userId, feelText, selectedMood, note, sleepHours);
 
-        db.collection("mood_logs")
-                .add(moodObj)
+        // Use Firebase utility to save mood
+        Firebase.getInstance().saveMoodLog(moodObj)
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(getContext(), "Mood saved ✅", Toast.LENGTH_SHORT).show();
                     noteEditText.setText(""); // clear input
+                    sleepHoursEditText.setText(""); // clear sleep hours
+                    resetSelection(); // reset mood selection
+                    selectedMood = ""; // clear selected mood
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Failed ❌", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Failed to save mood: " + e.getMessage(), Toast.LENGTH_LONG).show();
                 });
     }
 
