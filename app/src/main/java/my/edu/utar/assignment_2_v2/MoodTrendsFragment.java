@@ -1,5 +1,6 @@
 package my.edu.utar.assignment_2_v2;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -31,6 +39,7 @@ public class MoodTrendsFragment extends Fragment {
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d", Locale.getDefault());
     private GeminiApiService geminiApiService;
     private View rootView;
+    private LineChart moodLineChart;
 
     @Nullable
     @Override
@@ -38,6 +47,7 @@ public class MoodTrendsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_mood_trends, container, false);
         
         geminiApiService = new GeminiApiService();
+        moodLineChart = rootView.findViewById(R.id.mood_line_chart);
         
         loadMoodData();
         return rootView;
@@ -61,6 +71,7 @@ public class MoodTrendsFragment extends Fragment {
                         moodList.add(mood);
                     }
                     updateMoodAnalytics(rootView);
+                    updateMoodLineChart();
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to load mood data", e));
     }
@@ -107,6 +118,113 @@ public class MoodTrendsFragment extends Fragment {
 
         // Generate AI-powered mood insights
         generateMoodInsights(moodCounts, feelingCounts, sleepHoursList);
+    }
+    
+    private void updateMoodLineChart() {
+        if (moodLineChart == null || moodList.isEmpty()) return;
+        
+        // Convert mood strings to numeric values
+        Map<String, Integer> moodValues = new HashMap<>();
+        moodValues.put("Amazing", 5);
+        moodValues.put("Good", 4);
+        moodValues.put("Okay", 3);
+        moodValues.put("Bad", 2);
+        moodValues.put("Very Bad", 1);
+        
+        // Prepare data points sorted by date
+        List<Entry> entries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        
+        // Sort mood list by date (oldest first)
+        List<Mood> sortedMoods = new ArrayList<>(moodList);
+        for (int i = 0; i < sortedMoods.size() - 1; i++) {
+            for (int j = i + 1; j < sortedMoods.size(); j++) {
+                if (sortedMoods.get(i).getTimestamp().after(sortedMoods.get(j).getTimestamp())) {
+                    Mood temp = sortedMoods.get(i);
+                    sortedMoods.set(i, sortedMoods.get(j));
+                    sortedMoods.set(j, temp);
+                }
+            }
+        }
+        
+        // Create entries for the last 30 days
+        Calendar thirtyDaysAgo = Calendar.getInstance();
+        thirtyDaysAgo.add(Calendar.DAY_OF_MONTH, -30);
+        
+        for (Mood mood : sortedMoods) {
+            if (mood.getTimestamp().before(thirtyDaysAgo.getTime())) continue;
+            
+            String moodType = mood.getMood();
+            if (moodType != null && moodValues.containsKey(moodType)) {
+                entries.add(new Entry(entries.size(), moodValues.get(moodType)));
+                labels.add(dateFormat.format(mood.getTimestamp()));
+            }
+        }
+        
+        if (entries.isEmpty()) return;
+        
+        // Create dataset
+        LineDataSet dataSet = new LineDataSet(entries, "Mood Trend");
+        dataSet.setColor(Color.parseColor("#6366F1"));
+        dataSet.setLineWidth(3f);
+        dataSet.setCircleColor(Color.parseColor("#6366F1"));
+        dataSet.setCircleRadius(5f);
+        dataSet.setDrawCircleHole(true);
+        dataSet.setCircleHoleColor(Color.WHITE);
+        dataSet.setValueTextColor(Color.parseColor("#666666"));
+        dataSet.setValueTextSize(10f);
+        dataSet.setDrawFilled(true);
+        dataSet.setFillColor(Color.parseColor("#E0E7FF"));
+        
+        // Create line data
+        LineData lineData = new LineData(dataSet);
+        
+        // Configure chart
+        moodLineChart.setData(lineData);
+        moodLineChart.getDescription().setEnabled(false);
+        moodLineChart.setDrawGridBackground(false);
+        moodLineChart.setDrawBorders(false);
+        moodLineChart.getLegend().setEnabled(false);
+        moodLineChart.setTouchEnabled(true);
+        moodLineChart.setPinchZoom(true);
+        
+        // Configure X axis
+        XAxis xAxis = moodLineChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setGranularity(1f);
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+        xAxis.setTextColor(Color.parseColor("#666666"));
+        xAxis.setTextSize(11f);
+        
+        // Configure Y axis
+        YAxis yAxis = moodLineChart.getAxisLeft();
+        yAxis.setDrawGridLines(true);
+        yAxis.setGridColor(Color.parseColor("#EEEEEE"));
+        yAxis.setAxisMinimum(0f);
+        yAxis.setAxisMaximum(6f);
+        yAxis.setLabelCount(6, true);
+        yAxis.setValueFormatter(new com.github.mikephil.charting.formatter.ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                switch ((int) value) {
+                    case 1: return "Very Bad";
+                    case 2: return "Bad";
+                    case 3: return "Okay";
+                    case 4: return "Good";
+                    case 5: return "Amazing";
+                    default: return "";
+                }
+            }
+        });
+        yAxis.setTextColor(Color.parseColor("#666666"));
+        yAxis.setTextSize(11f);
+        
+        // Hide right Y axis
+        moodLineChart.getAxisRight().setEnabled(false);
+        
+        // Refresh chart
+        moodLineChart.invalidate();
     }
 
     private void generateMoodInsights(Map<String, Integer> moodCounts, Map<String, Integer> feelingCounts, List<Double> sleepHoursList) {
