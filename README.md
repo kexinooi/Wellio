@@ -5,7 +5,7 @@ WELLIO is a mobile application designed to help students manage their academic w
 
 The system integrates:
 - Academic scheduling
-- Mood tracking
+- Mood and sleep tracking
 - Data analysis and visualisation
 - Stress detection and alert mechanisms
 
@@ -77,18 +77,17 @@ This project uses GitHub for version control.
 - All features are tracked through commits  
 - Commit history clearly reflects individual contributions  
 
-Repository Link: (INSERT YOUR GITHUB LINK HERE)
+Repository Link: [(INSERT YOUR GITHUB LINK HERE)](https://github.com/kexinooi/Wellio.git)
 
 ---
 
 ## 📸 CONTRIBUTION EVIDENCE
 - GitHub commit history serves as proof of individual contributions  
-- Screenshots of commit logs can be included in the report if required  
 
 ---
 
 ## 📌 PROJECT STATUS
-Prototype / Functional System (SELECT ONE)
+Prototype
 
 ---
 
@@ -96,8 +95,3 @@ Prototype / Functional System (SELECT ONE)
 WELLIO demonstrates how the integration of data analytics, scheduling, and user-friendly design can support students in managing both academic responsibilities and mental wellbeing effectively.
 
 ---
-
-## ✨ OPTIONAL (ADD IF NEEDED)
-- Application screenshots  
-- System architecture diagram  
-- Installation and setup guide  
