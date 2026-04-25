@@ -2,6 +2,7 @@ package my.edu.utar.assignment_2_v2;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,16 +14,28 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import my.edu.utar.assignment_2_v2.Utils.Firebase;
+import my.edu.utar.assignment_2_v2.model.Deadline;
 
 public class CalendarFragment extends Fragment {
 
+    private static final String TAG = "CalendarFragment";
     private TextView tvMonthYear, tvSelectedDate;
     private GridLayout calendarGrid;
     private Calendar calendar;
     private Calendar selectedDate;
+    private Map<Integer, String> deadlineDays = new HashMap<>();
 
     @Nullable
     @Override
@@ -41,12 +54,14 @@ public class CalendarFragment extends Fragment {
         calendar = Calendar.getInstance();
         selectedDate = (Calendar) calendar.clone();
 
+        loadDeadlinesForMonth();
         updateCalendar();
         updateSelectedDateText();
 
         if (btnPrevMonth != null) {
             btnPrevMonth.setOnClickListener(v -> {
                 calendar.add(Calendar.MONTH, -1);
+                loadDeadlinesForMonth();
                 updateCalendar();
             });
         }
@@ -54,29 +69,67 @@ public class CalendarFragment extends Fragment {
         if (btnNextMonth != null) {
             btnNextMonth.setOnClickListener(v -> {
                 calendar.add(Calendar.MONTH, 1);
+                loadDeadlinesForMonth();
                 updateCalendar();
             });
         }
 
         if (btnAddEntry != null) {
-            btnAddEntry.setOnClickListener(v -> {
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new LogMoodFragment())
-                        .addToBackStack(null)
-                        .commit();
-            });
+            btnAddEntry.setOnClickListener(v -> openAddDeadline());
         }
 
         if (btnLogMoodBottom != null) {
-            btnLogMoodBottom.setOnClickListener(v -> {
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new LogMoodFragment())
-                        .addToBackStack(null)
-                        .commit();
-            });
+            btnLogMoodBottom.setOnClickListener(v -> openAddDeadline());
         }
 
         return view;
+    }
+
+    private void openAddDeadline() {
+        SimpleDateFormat dateSdf = new SimpleDateFormat("MMMM d, yyyy", Locale.getDefault());
+        String formattedDate = dateSdf.format(selectedDate.getTime());
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, AddDeadlineFragment.newInstance(formattedDate))
+                .addToBackStack(null)
+                .commit();
+    }
+
+    private void loadDeadlinesForMonth() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) return;
+
+        Calendar start = (Calendar) calendar.clone();
+        start.set(Calendar.DAY_OF_MONTH, 1);
+        start.set(Calendar.HOUR_OF_DAY, 0);
+        start.set(Calendar.MINUTE, 0);
+        start.set(Calendar.SECOND, 0);
+
+        Calendar end = (Calendar) calendar.clone();
+        end.set(Calendar.DAY_OF_MONTH, end.getActualMaximum(Calendar.DAY_OF_MONTH));
+        end.set(Calendar.HOUR_OF_DAY, 23);
+        end.set(Calendar.MINUTE, 59);
+        end.set(Calendar.SECOND, 59);
+
+        Firebase.getInstance().getUserAssignments(user.getUid())
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    deadlineDays.clear();
+                    for (QueryDocumentSnapshot doc : querySnapshot) {
+                        Deadline deadline = doc.toObject(Deadline.class);
+                        if (deadline.getDueDate() != null) {
+                            Calendar d = Calendar.getInstance();
+                            d.setTime(deadline.getDueDate());
+                            if (d.get(Calendar.YEAR) == calendar.get(Calendar.YEAR) &&
+                                    d.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
+                                int day = d.get(Calendar.DAY_OF_MONTH);
+                                String type = deadline.getType() != null ? deadline.getType().toLowerCase() : "assignment";
+                                deadlineDays.put(day, type);
+                            }
+                        }
+                    }
+                    updateCalendar();
+                })
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to load deadlines", e));
     }
 
     private void updateCalendar() {
@@ -120,14 +173,24 @@ public class CalendarFragment extends Fragment {
                 dayLayout.setBackgroundColor(Color.TRANSPARENT);
             }
 
-            if (day == 2 || day == 4 || day == 10 || day == 17 || day == 28) {
-                indicator.setBackgroundResource(R.drawable.dot_orange);
-            } else if (day == 3 || day == 7 || day == 9 || day == 13 || day == 22 || day == 26) {
-                indicator.setBackgroundResource(R.drawable.dot_green);
-            } else if (day == 5 || day == 8 || day == 12 || day == 15 || day == 21 || day == 24 || day == 27 || day == 29 || day == 30) {
-                indicator.setBackgroundResource(R.drawable.circle_blue_bg);
-            } else if (day == 11 || day == 14 || day == 16 || day == 20 || day == 23 || day == 25) {
-                indicator.setBackgroundResource(R.drawable.dot_teal);
+            // Show real deadline indicators
+            String type = deadlineDays.get(day);
+            if (type != null) {
+                indicator.setVisibility(View.VISIBLE);
+                switch (type) {
+                    case "quiz":
+                        indicator.setBackgroundResource(R.drawable.dot_orange);
+                        break;
+                    case "test":
+                        indicator.setBackgroundResource(R.drawable.circle_blue_bg);
+                        break;
+                    case "midterm":
+                        indicator.setBackgroundResource(R.drawable.dot_teal);
+                        break;
+                    default:
+                        indicator.setBackgroundResource(R.drawable.dot_green);
+                        break;
+                }
             } else {
                 indicator.setVisibility(View.INVISIBLE);
             }

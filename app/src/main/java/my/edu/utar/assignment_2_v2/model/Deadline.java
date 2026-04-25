@@ -1,25 +1,24 @@
 package my.edu.utar.assignment_2_v2.model;
 
-import com.google.firebase.firestore.ServerTimestamp;
-
 import java.util.Date;
 
-public class Assignment {
+public class Deadline {
     private String id;
     private String userId;
     private String title;
     private String description;
+    private String type;
     private Date dueDate;
     private Date createdAt;
     private String calendarEventId;
     private boolean isCompleted;
     private int priority; // 1-3 scale (Low, Medium, High)
 
-    public Assignment() {
+    public Deadline() {
         // Required for Firebase deserialization
     }
 
-    public Assignment(String userId, String title, String description, Date dueDate, int priority) {
+    public Deadline(String userId, String title, String description, Date dueDate, int priority) {
         this.userId = userId;
         this.title = title;
         this.description = description;
@@ -52,6 +51,14 @@ public class Assignment {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getDescription() {

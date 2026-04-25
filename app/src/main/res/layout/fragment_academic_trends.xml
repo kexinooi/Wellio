@@ -172,6 +172,7 @@
             android:clipToPadding="false">
 
             <LinearLayout
+                android:id="@+id/chips_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -364,6 +365,7 @@
 
         <!-- Insights Section -->
         <LinearLayout
+            android:id="@+id/insights_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"

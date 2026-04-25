@@ -9,7 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import my.edu.utar.assignment_2_v2.model.Assignment;
+import my.edu.utar.assignment_2_v2.model.Deadline;
 import my.edu.utar.assignment_2_v2.model.Mood;
 import my.edu.utar.assignment_2_v2.model.User;
 
@@ -81,12 +81,12 @@ public class Firebase {
     }
 
     // Assignment operations
-    public Task<DocumentReference> saveAssignment(Assignment assignment) {
-        return assignmentsCollection.add(assignment);
+    public Task<DocumentReference> saveAssignment(Deadline deadline) {
+        return assignmentsCollection.add(deadline);
     }
 
-    public Task<Void> updateAssignment(String assignmentId, Assignment assignment) {
-        return assignmentsCollection.document(assignmentId).set(assignment);
+    public Task<Void> updateAssignment(String assignmentId, Deadline deadline) {
+        return assignmentsCollection.document(assignmentId).set(deadline);
     }
 
     public Task<Void> deleteAssignment(String assignmentId) {
