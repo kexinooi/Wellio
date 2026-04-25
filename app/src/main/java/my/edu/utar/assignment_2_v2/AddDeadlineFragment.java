@@ -407,7 +407,7 @@ public class AddDeadlineFragment extends Fragment {
 
     private void resetTypeCard(MaterialCardView card) {
         if (card == null) return;
-        card.setCardBackgroundColor(requireContext().getColor(R.color.deadline_type_unselected_bg));
+        card.setCardBackgroundColor(requireContext().getColor(R.color.deadline_form_surface));
         card.setStrokeWidth(0);
         TextView label = card.findViewById(getLabelId(card.getId()));
         MaterialCardView iconBg = card.findViewById(getIconBgId(card.getId()));
