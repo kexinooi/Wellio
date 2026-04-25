@@ -77,7 +77,7 @@ This project uses GitHub for version control.
 - All features are tracked through commits  
 - Commit history clearly reflects individual contributions  
 
-Repository Link: [(INSERT YOUR GITHUB LINK HERE)](https://github.com/kexinooi/Wellio.git)
+Repository Link: https://github.com/kexinooi/Wellio.git
 
 ---
 
