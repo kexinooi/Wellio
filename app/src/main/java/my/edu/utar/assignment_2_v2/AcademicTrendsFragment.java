@@ -49,23 +49,24 @@ public class AcademicTrendsFragment extends Fragment {
     private SimpleDateFormat monthFormat = new SimpleDateFormat("MMM", Locale.getDefault());
     private SimpleDateFormat dayFormat = new SimpleDateFormat("MMM d", Locale.getDefault());
     private GeminiApiService geminiApiService;
+    private View rootView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_academic_trends, container, false);
+        rootView = inflater.inflate(R.layout.fragment_academic_trends, container, false);
 
-        chipsContainer = view.findViewById(R.id.chips_container);
-        insightsContainer = view.findViewById(R.id.insights_container);
-        timelineImageView = view.findViewById(R.id.img_timeline);
+        chipsContainer = rootView.findViewById(R.id.chips_container);
+        insightsContainer = rootView.findViewById(R.id.insights_container);
+        timelineImageView = rootView.findViewById(R.id.img_timeline);
         
         geminiApiService = new GeminiApiService();
-
-        loadDeadlines(view);
-        return view;
+        
+        loadDeadlines();
+        return rootView;
     }
-
-    private void loadDeadlines(View rootView) {
+    
+    private void loadDeadlines() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
 
@@ -83,25 +84,25 @@ public class AcademicTrendsFragment extends Fragment {
                         if (b.getDueDate() == null) return -1;
                         return a.getDueDate().compareTo(b.getDueDate());
                     });
-                    populateChips(rootView);
-                    generateInsights(rootView);
+                    populateChips();
+                    generateInsights();
                     createTimelineVisualization();
                     generateAIInsights();
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to load deadlines", e));
     }
 
-    private void populateChips(View rootView) {
+    private void populateChips() {
         if (chipsContainer == null) return;
         chipsContainer.removeAllViews();
 
         int count = 0;
         for (Deadline deadline : allDeadlines) {
-            if (count >= 6) break; // Show max 6 chips
+            if (count >= 6) break;
             if (deadline.getDueDate() == null) continue;
 
             long daysLeft = calculateDaysLeft(deadline.getDueDate());
-            if (daysLeft < -1) continue; // Skip deadlines more than 1 day overdue
+            if (daysLeft < -1) continue;
 
             MaterialCardView chip = createChip(deadline);
             chipsContainer.addView(chip);
@@ -185,15 +186,14 @@ public class AcademicTrendsFragment extends Fragment {
         }
     }
 
-    private void generateInsights(View rootView) {
+    private void generateInsights() {
         if (insightsContainer == null) return;
 
         List<String> titles = new ArrayList<>();
         List<String> descriptions = new ArrayList<>();
 
-        // Insight 1: Deadlines in next 5 days
-        List<Deadline> next5Days = new ArrayList<>();
         Date now = new Date();
+        List<Deadline> next5Days = new ArrayList<>();
         for (Deadline d : allDeadlines) {
             if (d.getDueDate() == null) continue;
             long days = calculateDaysLeft(d.getDueDate());
@@ -214,7 +214,6 @@ public class AcademicTrendsFragment extends Fragment {
             descriptions.add("You're in the clear! Use this time to get ahead on future work.");
         }
 
-        // Insight 2: Busiest month
         Map<String, Integer> monthCount = new HashMap<>();
         for (Deadline d : allDeadlines) {
             if (d.getDueDate() == null) continue;
@@ -237,7 +236,6 @@ public class AcademicTrendsFragment extends Fragment {
             descriptions.add("Add your first deadline to start tracking your academic workload.");
         }
 
-        // Insight 3: Nearest important deadline
         Deadline nearestMidterm = null;
         Deadline nearestDeadline = null;
         for (Deadline d : allDeadlines) {
@@ -265,33 +263,6 @@ public class AcademicTrendsFragment extends Fragment {
             descriptions.add("You're all caught up! Great job staying on top of your work.");
         }
 
-        // Insight 4: Deadline clustering / spacing
-        if (allDeadlines.size() >= 2) {
-            List<Deadline> upcoming = new ArrayList<>();
-            for (Deadline d : allDeadlines) {
-                if (d.getDueDate() != null && !d.getDueDate().before(now)) upcoming.add(d);
-            }
-            if (upcoming.size() >= 2) {
-                long gap1 = calculateDaysLeft(upcoming.get(0).getDueDate());
-                long gap2 = calculateDaysLeft(upcoming.get(1).getDueDate());
-                long diff = gap2 - gap1;
-                if (diff <= 2) {
-                    titles.add(upcoming.get(0).getTitle() + " and " + upcoming.get(1).getTitle() + " are close together");
-                    descriptions.add("Two deadlines within " + diff + " day" + (diff != 1 ? "s" : "") + " — consider finishing the first one early.");
-                } else {
-                    titles.add("Good spacing between deadlines");
-                    descriptions.add("Your next two deadlines are " + diff + " days apart — manageable schedule.");
-                }
-            } else {
-                titles.add("Only one deadline remaining");
-                descriptions.add("Focus all your energy on completing it successfully.");
-            }
-        } else {
-            titles.add("Add more deadlines for insights");
-            descriptions.add("With more deadlines tracked, we can give you better scheduling advice.");
-        }
-
-        // Update insight cards
         int insightIndex = 0;
         for (int i = 0; i < insightsContainer.getChildCount(); i++) {
             View child = insightsContainer.getChildAt(i);
@@ -329,40 +300,26 @@ public class AcademicTrendsFragment extends Fragment {
     }
 
     private void createTimelineVisualization() {
-        if (timelineImageView == null) {
-            Log.d(TAG, "Timeline ImageView is null");
-            return;
-        }
+        if (timelineImageView == null) return;
 
-        Log.d(TAG, "Creating timeline visualization, deadlines count: " + allDeadlines.size());
-
-        // Post to ensure ImageView has been laid out and has dimensions
         timelineImageView.post(() -> {
-            if (timelineImageView.getWidth() <= 0 || timelineImageView.getHeight() <= 0) {
-                Log.d(TAG, "ImageView dimensions: " + timelineImageView.getWidth() + "x" + timelineImageView.getHeight());
-                return;
-            }
+            if (timelineImageView.getWidth() <= 0 || timelineImageView.getHeight() <= 0) return;
             
             int width = timelineImageView.getWidth();
             int height = timelineImageView.getHeight();
 
-            Log.d(TAG, "Creating bitmap with dimensions: " + width + "x" + height);
-
             Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
 
-            // Background
             Paint bgPaint = new Paint();
             bgPaint.setColor(ContextCompat.getColor(requireContext(), R.color.academic_chip_surface));
             canvas.drawRect(0, 0, width, height, bgPaint);
 
-            // Timeline line
             Paint linePaint = new Paint();
             linePaint.setColor(ContextCompat.getColor(requireContext(), R.color.text_grey_light));
             linePaint.setStrokeWidth(4f);
             canvas.drawLine(50, height / 2, width - 50, height / 2, linePaint);
 
-            // Get upcoming deadlines for next 14 days
             List<Deadline> upcoming = new ArrayList<>();
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, 14);
@@ -374,8 +331,6 @@ public class AcademicTrendsFragment extends Fragment {
                 }
             }
 
-            Log.d(TAG, "Upcoming deadlines in next 14 days: " + upcoming.size());
-
             if (upcoming.isEmpty()) {
                 Paint textPaint = new Paint();
                 textPaint.setColor(ContextCompat.getColor(requireContext(), R.color.text_grey_dark));
@@ -383,7 +338,6 @@ public class AcademicTrendsFragment extends Fragment {
                 textPaint.setTextAlign(Paint.Align.CENTER);
                 canvas.drawText("No upcoming deadlines", width / 2, height / 2, textPaint);
             } else {
-                // Draw deadline points
                 for (int i = 0; i < upcoming.size(); i++) {
                     Deadline deadline = upcoming.get(i);
                     long daysFromStart = calculateDaysBetween(new Date(), deadline.getDueDate());
@@ -393,13 +347,11 @@ public class AcademicTrendsFragment extends Fragment {
                     float x = 50 + (daysFromStart / 14f) * (width - 100);
                     float y = height / 2;
 
-                    // Draw circle
                     Paint circlePaint = new Paint();
                     circlePaint.setColor(getTypeColor(deadline.getType()));
                     circlePaint.setAntiAlias(true);
                     canvas.drawCircle(x, y, 12f, circlePaint);
 
-                    // Draw date label
                     Paint datePaint = new Paint();
                     datePaint.setColor(ContextCompat.getColor(requireContext(), R.color.text_grey_dark));
                     datePaint.setTextSize(18f);
@@ -407,7 +359,6 @@ public class AcademicTrendsFragment extends Fragment {
                     String dateLabel = dayFormat.format(deadline.getDueDate());
                     canvas.drawText(dateLabel, x, y - 20, datePaint);
 
-                    // Draw title (abbreviated)
                     Paint titlePaint = new Paint();
                     titlePaint.setColor(ContextCompat.getColor(requireContext(), R.color.text_black));
                     titlePaint.setTextSize(16f);
@@ -418,97 +369,129 @@ public class AcademicTrendsFragment extends Fragment {
                 }
             }
 
-            Log.d(TAG, "Setting bitmap to ImageView");
             timelineImageView.setImageBitmap(bitmap);
         });
     }
 
-private long calculateDaysBetween(Date start, Date end) {
-    long diff = end.getTime() - start.getTime();
-    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-}
+    private long calculateDaysBetween(Date start, Date end) {
+        long diff = end.getTime() - start.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
 
-private long calculateDaysLeft(Date dueDate) {
-    if (dueDate == null) return 999;
-    Date now = new Date();
-    long diff = dueDate.getTime() - now.getTime();
-    return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-}
+    private long calculateDaysLeft(Date dueDate) {
+        if (dueDate == null) return 999;
+        Date now = new Date();
+        long diff = dueDate.getTime() - now.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
 
-private void generateAIInsights() {
-    // Prepare academic data for AI analysis
-    StringBuilder academicData = new StringBuilder();
-    academicData.append("Academic Workload Analysis:\n\n");
-    
-    // Deadline statistics
-    academicData.append("DEADLINE OVERVIEW:\n");
-    academicData.append("Total deadlines: ").append(allDeadlines.size()).append("\n");
-    
-    // Upcoming deadlines
-    Date now = new Date();
-    List<Deadline> upcoming = new ArrayList<>();
-    List<Deadline> overdue = new ArrayList<>();
-    
-    for (Deadline d : allDeadlines) {
-        if (d.getDueDate() == null) continue;
-        if (d.getDueDate().before(now)) {
-            overdue.add(d);
-        } else {
-            upcoming.add(d);
-        }
-    }
-    
-    academicData.append("Upcoming deadlines: ").append(upcoming.size()).append("\n");
-    academicData.append("Overdue deadlines: ").append(overdue.size()).append("\n\n");
-    
-    // Deadline types distribution
-    Map<String, Integer> typeCount = new HashMap<>();
-    for (Deadline d : allDeadlines) {
-        String type = d.getType() != null ? d.getType() : "assignment";
-        typeCount.put(type, typeCount.getOrDefault(type, 0) + 1);
-    }
-    
-    academicData.append("DEADLINE TYPES:\n");
-    for (Map.Entry<String, Integer> entry : typeCount.entrySet()) {
-        academicData.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
-    }
-    
-    // Workload intensity (next 7 days)
-    academicData.append("\nNEXT 7 DAYS WORKLOAD:\n");
-    Calendar sevenDaysLater = Calendar.getInstance();
-    sevenDaysLater.add(Calendar.DAY_OF_MONTH, 7);
-    int nextWeekDeadlines = 0;
-    
-    for (Deadline d : upcoming) {
-        if (d.getDueDate() != null && !d.getDueDate().after(sevenDaysLater.getTime())) {
-            nextWeekDeadlines++;
-        }
-    }
-    academicData.append("Deadlines in next 7 days: ").append(nextWeekDeadlines).append("\n");
-    
-    // Stress indicators
-    academicData.append("\nSTRESS INDICATORS:\n");
-    if (overdue.size() > 0) {
-        academicData.append("- ").append(overdue.size()).append(" overdue deadlines (HIGH STRESS)\n");
-    }
-    if (nextWeekDeadlines >= 3) {
-        academicData.append("- ").append(nextWeekDeadlines).append(" deadlines next week (HIGH WORKLOAD)\n");
-    } else if (nextWeekDeadlines >= 2) {
-        academicData.append("- ").append(nextWeekDeadlines).append(" deadlines next week (MODERATE WORKLOAD)\n");
-    }
-    
-    // Call Gemini API for insights
-    geminiApiService.getAcademicInsights(academicData.toString(), new GeminiApiService.GeminiCallback() {
-        @Override
-        public void onResult(String result) {
-            Log.d(TAG, "AI Academic Insights: " + result);
-            // TODO: Update UI with AI insights when layout is ready
+    private void generateAIInsights() {
+        StringBuilder academicData = new StringBuilder();
+        academicData.append("Academic Workload Analysis:\n\n");
+        
+        academicData.append("DEADLINE OVERVIEW:\n");
+        academicData.append("Total deadlines: ").append(allDeadlines.size()).append("\n");
+        
+        Date now = new Date();
+        List<Deadline> upcoming = new ArrayList<>();
+        List<Deadline> overdue = new ArrayList<>();
+        
+        for (Deadline d : allDeadlines) {
+            if (d.getDueDate() == null) continue;
+            if (d.getDueDate().before(now)) {
+                overdue.add(d);
+            } else {
+                upcoming.add(d);
+            }
         }
         
-        @Override
-        public void onError(String error) {
-            Log.e(TAG, "AI Academic Insights Error: " + error);
+        academicData.append("Upcoming deadlines: ").append(upcoming.size()).append("\n");
+        academicData.append("Overdue deadlines: ").append(overdue.size()).append("\n\n");
+        
+        Map<String, Integer> typeCount = new HashMap<>();
+        for (Deadline d : allDeadlines) {
+            String type = d.getType() != null ? d.getType() : "assignment";
+            typeCount.put(type, typeCount.getOrDefault(type, 0) + 1);
         }
-    });
-}
+        
+        academicData.append("DEADLINE TYPES:\n");
+        for (Map.Entry<String, Integer> entry : typeCount.entrySet()) {
+            academicData.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+        }
+        
+        academicData.append("\nNEXT 7 DAYS WORKLOAD:\n");
+        Calendar sevenDaysLater = Calendar.getInstance();
+        sevenDaysLater.add(Calendar.DAY_OF_MONTH, 7);
+        int nextWeekDeadlines = 0;
+        
+        for (Deadline d : upcoming) {
+            if (d.getDueDate() != null && !d.getDueDate().after(sevenDaysLater.getTime())) {
+                nextWeekDeadlines++;
+            }
+        }
+        academicData.append("Deadlines in next 7 days: ").append(nextWeekDeadlines).append("\n");
+        
+        academicData.append("\nSTRESS INDICATORS:\n");
+        if (overdue.size() > 0) {
+            academicData.append("- ").append(overdue.size()).append(" overdue deadlines (HIGH STRESS)\n");
+        }
+        if (nextWeekDeadlines >= 3) {
+            academicData.append("- ").append(nextWeekDeadlines).append(" deadlines next week (HIGH WORKLOAD)\n");
+        } else if (nextWeekDeadlines >= 2) {
+            academicData.append("- ").append(nextWeekDeadlines).append(" deadlines next week (MODERATE WORKLOAD)\n");
+        }
+        
+        geminiApiService.getAcademicInsights(academicData.toString(), new GeminiApiService.GeminiCallback() {
+            @Override
+            public void onResult(String result) {
+                updateAcademicInsightCards(result);
+            }
+            
+            @Override
+            public void onError(String error) {
+                Log.e(TAG, "AI Academic Insights Error: " + error);
+            }
+        });
+    }
+    
+    private void updateAcademicInsightCards(String aiResponse) {
+        if (insightsContainer == null) return;
+        
+        // Find the first 3 MaterialCardViews (insight cards) and update them
+        int insightCardIndex = 0;
+        for (int i = 0; i < insightsContainer.getChildCount(); i++) {
+            View child = insightsContainer.getChildAt(i);
+            if (child instanceof MaterialCardView && insightCardIndex < 3) {
+                List<TextView> textViews = findTextViews(child);
+                if (textViews.size() >= 2) {
+                    // Parse AI response to get individual insights
+                    String[] insights = parseInsights(aiResponse, insightCardIndex);
+                    if (insights[0] != null) textViews.get(0).setText(insights[0]);
+                    if (insights[1] != null) textViews.get(1).setText(insights[1]);
+                }
+                insightCardIndex++;
+            }
+        }
+    }
+    
+    private String[] parseInsights(String aiResponse, int index) {
+        String[] lines = aiResponse.split("\n");
+        String title = null;
+        String desc = null;
+        
+        int found = 0;
+        for (int i = 0; i < lines.length; i++) {
+            if (lines[i].trim().length() > 0) {
+                found++;
+                if (found > index * 2 && title == null) {
+                    title = lines[i].trim();
+                } else if (found > index * 2 && title != null && desc == null) {
+                    desc = lines[i].trim();
+                    break;
+                }
+            }
+        }
+        
+        return new String[]{title != null ? title : "Loading...", desc != null ? desc : "Loading..."};
+    }
 }

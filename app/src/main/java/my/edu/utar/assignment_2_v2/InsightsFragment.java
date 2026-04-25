@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +13,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 public class InsightsFragment extends Fragment {
 
-    private TextView tabMood, tabSleep, tabAcademic;
     private View indicatorMood, indicatorSleep, indicatorAcademic;
     private View containerMood, containerSleep, containerAcademic;
 
@@ -22,10 +20,6 @@ public class InsightsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_insights, container, false);
-
-        tabMood = view.findViewById(R.id.tv_tab_mood);
-        tabSleep = view.findViewById(R.id.tv_tab_sleep);
-        tabAcademic = view.findViewById(R.id.tv_tab_academic);
 
         containerMood = view.findViewById(R.id.tab_mood);
         containerSleep = view.findViewById(R.id.tab_sleep);
@@ -36,8 +30,8 @@ public class InsightsFragment extends Fragment {
         indicatorAcademic = view.findViewById(R.id.indicator_academic);
 
         // Default selected tab
-        updateTabs("sleep");
-        loadTabFragment(new SleepTrendsFragment());
+        updateTabs("mood");
+        loadTabFragment(new MoodTrendsFragment());
 
         containerMood.setOnClickListener(v -> {
             updateTabs("mood");
@@ -62,14 +56,6 @@ public class InsightsFragment extends Fragment {
         int inactiveColor = ContextCompat.getColor(requireContext(), R.color.text_grey_light);
 
         // Reset all tabs
-        tabMood.setTextColor(inactiveColor);
-        tabSleep.setTextColor(inactiveColor);
-        tabAcademic.setTextColor(inactiveColor);
-
-        tabMood.setAlpha(0.7f);
-        tabSleep.setAlpha(0.7f);
-        tabAcademic.setAlpha(0.7f);
-
         indicatorMood.setVisibility(View.INVISIBLE);
         indicatorSleep.setVisibility(View.INVISIBLE);
         indicatorAcademic.setVisibility(View.INVISIBLE);
@@ -77,20 +63,14 @@ public class InsightsFragment extends Fragment {
         // Activate selected tab
         switch (activeTab) {
             case "mood":
-                tabMood.setTextColor(activeColor);
-                tabMood.setAlpha(1f);
                 indicatorMood.setVisibility(View.VISIBLE);
                 break;
 
             case "sleep":
-                tabSleep.setTextColor(activeColor);
-                tabSleep.setAlpha(1f);
                 indicatorSleep.setVisibility(View.VISIBLE);
                 break;
 
             case "academic":
-                tabAcademic.setTextColor(activeColor);
-                tabAcademic.setAlpha(1f);
                 indicatorAcademic.setVisibility(View.VISIBLE);
                 break;
         }

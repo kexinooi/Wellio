@@ -5,10 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import java.text.SimpleDateFormat;
@@ -28,18 +30,20 @@ public class MoodTrendsFragment extends Fragment {
     private List<Mood> moodList = new ArrayList<>();
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d", Locale.getDefault());
     private GeminiApiService geminiApiService;
+    private View rootView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mood_trends, container, false);
+        rootView = inflater.inflate(R.layout.fragment_mood_trends, container, false);
         
         geminiApiService = new GeminiApiService();
-        loadMoodData(view);
-        return view;
+        
+        loadMoodData();
+        return rootView;
     }
 
-    private void loadMoodData(View view) {
+    private void loadMoodData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
 
@@ -56,7 +60,7 @@ public class MoodTrendsFragment extends Fragment {
                         mood.setId(doc.getId());
                         moodList.add(mood);
                     }
-                    updateMoodAnalytics(view);
+                    updateMoodAnalytics(rootView);
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to load mood data", e));
     }
@@ -172,8 +176,7 @@ public class MoodTrendsFragment extends Fragment {
         geminiApiService.getMoodInsights(moodData.toString(), new GeminiApiService.GeminiCallback() {
             @Override
             public void onResult(String result) {
-                Log.d(TAG, "AI Mood Insights: " + result);
-                // TODO: Update UI with AI insights when layout is ready
+                updateInsightCards(result);
             }
             
             @Override
@@ -184,6 +187,154 @@ public class MoodTrendsFragment extends Fragment {
         
         // Generate sleep insights separately
         generateSleepInsights(sleepHoursList);
+    }
+    
+    private void updateInsightCards(String aiResponse) {
+        if (rootView == null) return;
+        
+        // Find the insights section LinearLayout
+        LinearLayout insightsSection = null;
+        for (int i = 0; i < ((ViewGroup) rootView).getChildCount(); i++) {
+            View child = ((ViewGroup) rootView).getChildAt(i);
+            if (child instanceof LinearLayout) {
+                LinearLayout linearLayout = (LinearLayout) child;
+                // Check if this is the insights section (has TextView with "Insights" text)
+                for (int j = 0; j < linearLayout.getChildCount(); j++) {
+                    View subChild = linearLayout.getChildAt(j);
+                    if (subChild instanceof LinearLayout) {
+                        LinearLayout headerLayout = (LinearLayout) subChild;
+                        for (int k = 0; k < headerLayout.getChildCount(); k++) {
+                            View headerChild = headerLayout.getChildAt(k);
+                            if (headerChild instanceof TextView) {
+                                TextView tv = (TextView) headerChild;
+                                if ("Insights".equals(tv.getText().toString())) {
+                                    insightsSection = linearLayout;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        if (insightsSection == null) return;
+        
+        // Find the first 2 MaterialCardViews (insight cards) and update them
+        int insightCardIndex = 0;
+        for (int i = 0; i < insightsSection.getChildCount(); i++) {
+            View child = insightsSection.getChildAt(i);
+            if (child instanceof MaterialCardView && insightCardIndex < 2) {
+                List<TextView> textViews = findTextViews(child);
+                if (textViews.size() >= 2) {
+                    // Parse AI response to get individual insights
+                    String[] insights = parseInsights(aiResponse, insightCardIndex);
+                    if (insights[0] != null) textViews.get(0).setText(insights[0]);
+                    if (insights[1] != null) textViews.get(1).setText(insights[1]);
+                }
+                insightCardIndex++;
+            }
+        }
+        
+        // Find the next 3 MaterialCardViews (recommendation cards) and update them
+        int recCardIndex = 0;
+        for (int i = 0; i < insightsSection.getChildCount(); i++) {
+            View child = insightsSection.getChildAt(i);
+            if (child instanceof MaterialCardView && insightCardIndex >= 2 && recCardIndex < 3) {
+                List<TextView> textViews = findTextViews(child);
+                if (textViews.size() >= 2) {
+                    // Parse AI response to get individual recommendations
+                    String[] recommendations = parseRecommendations(aiResponse, recCardIndex);
+                    if (recommendations[0] != null) textViews.get(0).setText(recommendations[0]);
+                    if (recommendations[1] != null) textViews.get(1).setText(recommendations[1]);
+                }
+                recCardIndex++;
+            }
+        }
+    }
+    
+    private String[] parseInsights(String aiResponse, int index) {
+        String[] lines = aiResponse.split("\n");
+        String title = null;
+        String desc = null;
+        
+        // Simple parsing - in production, you'd want more sophisticated parsing
+        if (index == 0) {
+            // First insight
+            for (int i = 0; i < lines.length; i++) {
+                if (lines[i].trim().length() > 0 && title == null) {
+                    title = lines[i].trim();
+                } else if (lines[i].trim().length() > 0 && title != null && desc == null) {
+                    desc = lines[i].trim();
+                    break;
+                }
+            }
+        } else {
+            // Second insight
+            int found = 0;
+            for (int i = 0; i < lines.length; i++) {
+                if (lines[i].trim().length() > 0) {
+                    found++;
+                    if (found > 2 && title == null) {
+                        title = lines[i].trim();
+                    } else if (found > 2 && title != null && desc == null) {
+                        desc = lines[i].trim();
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return new String[]{title != null ? title : "Loading...", desc != null ? desc : "Loading..."};
+    }
+    
+    private String[] parseRecommendations(String aiResponse, int index) {
+        String[] lines = aiResponse.split("\n");
+        String title = null;
+        String desc = null;
+        
+        // Look for recommendation section
+        boolean inRecSection = false;
+        int recCount = 0;
+        
+        for (int i = 0; i < lines.length; i++) {
+            String line = lines[i].toLowerCase();
+            if (line.contains("recommend") || line.contains("suggest") || line.contains("advice")) {
+                inRecSection = true;
+                continue;
+            }
+            
+            if (inRecSection) {
+                if (lines[i].trim().length() > 0) {
+                    if (lines[i].trim().startsWith("-") || lines[i].trim().startsWith("*")) {
+                        recCount++;
+                        if (recCount == index + 1) {
+                            title = lines[i].trim().substring(1).trim();
+                            // Look for description on next line
+                            if (i + 1 < lines.length && lines[i + 1].trim().length() > 0) {
+                                desc = lines[i + 1].trim();
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return new String[]{title != null ? title : "Loading...", desc != null ? desc : "Loading..."};
+    }
+    
+    private List<TextView> findTextViews(View view) {
+        List<TextView> result = new ArrayList<>();
+        if (view instanceof TextView) {
+            result.add((TextView) view);
+        } else if (view instanceof ViewGroup) {
+            ViewGroup group = (ViewGroup) view;
+            for (int i = 0; i < group.getChildCount(); i++) {
+                result.addAll(findTextViews(group.getChildAt(i)));
+            }
+        }
+        return result;
     }
     
     private void generateSleepInsights(List<Double> sleepHoursList) {
@@ -307,5 +458,40 @@ public class MoodTrendsFragment extends Fragment {
             sum += Math.pow(value - mean, 2);
         }
         return sum / values.size();
+    }
+    
+    private String extractRecommendations(String aiResponse) {
+        // Extract recommendations from AI response
+        // Look for sections that contain actionable advice
+        String[] lines = aiResponse.split("\n");
+        StringBuilder recommendations = new StringBuilder();
+        boolean inRecommendationsSection = false;
+        
+        for (String line : lines) {
+            String lowerLine = line.toLowerCase();
+            if (lowerLine.contains("recommend") || lowerLine.contains("suggest") || 
+                lowerLine.contains("should") || lowerLine.contains("try") ||
+                lowerLine.contains("tip") || lowerLine.contains("advice")) {
+                inRecommendationsSection = true;
+            }
+            
+            if (inRecommendationsSection) {
+                if (line.trim().startsWith("-") || line.trim().startsWith("*") || 
+                    line.trim().matches("\\d+\\.") || line.trim().length() > 0) {
+                    recommendations.append(line).append("\n");
+                }
+            }
+        }
+        
+        // If no specific recommendations found, return the last paragraph
+        if (recommendations.length() == 0) {
+            String[] paragraphs = aiResponse.split("\n\n");
+            if (paragraphs.length > 0) {
+                return paragraphs[paragraphs.length - 1];
+            }
+            return aiResponse;
+        }
+        
+        return recommendations.toString();
     }
 }
