@@ -422,25 +422,24 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_academic_insight_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="3 deadlines in the next 5 days"
+                            android:text="loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_academic_insight_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Chem lab, English essay and Maths set all due this week — high collision risk"
+                            android:text="loading..."
                             android:textColor="@color/text_grey_dark"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-
-
 
 
 
@@ -497,17 +496,19 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_academic_recommendation_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Clear this week's pile first"
+                            android:text="loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_academic_recommendation_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Finish the Chem lab report today — it's due tomorrow and blocks your focus for the rest"
+                            android:text="loading..."
                             android:textColor="@color/text_grey_dark"
                             android:textSize="13sp" />
                     </LinearLayout>

@@ -38,6 +38,8 @@ public class SleepTrendsFragment extends Fragment {
     private BarChart sleepBarChart;
     private TextView tvAverageSleepValue;
     private TextView tvSleepQualityLabel;
+    private TextView tvSleepInsightTitle, tvSleepInsightDesc;
+    private TextView tvSleepRecommendationTitle, tvSleepRecommendationDesc;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d", Locale.getDefault());
     private List<Mood> moodList = new ArrayList<>();
     private GeminiApiService geminiApiService;
@@ -52,9 +54,13 @@ public class SleepTrendsFragment extends Fragment {
         sleepBarChart = rootView.findViewById(R.id.sleep_bar_chart);
         tvAverageSleepValue = rootView.findViewById(R.id.tv_average_sleep_value);
         tvSleepQualityLabel = rootView.findViewById(R.id.tv_sleep_quality_label);
+        tvSleepInsightTitle = rootView.findViewById(R.id.tv_sleep_insight_title);
+        tvSleepInsightDesc = rootView.findViewById(R.id.tv_sleep_insight_desc);
+        tvSleepRecommendationTitle = rootView.findViewById(R.id.tv_sleep_recommendation_title);
+        tvSleepRecommendationDesc = rootView.findViewById(R.id.tv_sleep_recommendation_desc);
         
         // Initialize Gemini API service
-        geminiApiService = new GeminiApiService();
+        geminiApiService = new GeminiApiService(requireContext());
         
         // Load sleep data
         loadSleepData();
@@ -312,7 +318,23 @@ public class SleepTrendsFragment extends Fragment {
         geminiApiService.getSleepInsights(sleepData.toString(), new GeminiApiService.GeminiCallback() {
             @Override
             public void onResult(String result) {
-                updateSleepInsightCards(result);
+                String[] parsed = parseAIResponse(result);
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        if (tvSleepInsightTitle != null && parsed[0] != null) {
+                            tvSleepInsightTitle.setText(parsed[0]);
+                        }
+                        if (tvSleepInsightDesc != null && parsed[1] != null) {
+                            tvSleepInsightDesc.setText(parsed[1]);
+                        }
+                        if (tvSleepRecommendationTitle != null && parsed[2] != null) {
+                            tvSleepRecommendationTitle.setText(parsed[2]);
+                        }
+                        if (tvSleepRecommendationDesc != null && parsed[3] != null) {
+                            tvSleepRecommendationDesc.setText(parsed[3]);
+                        }
+                    });
+                }
             }
             
             @Override
@@ -322,147 +344,45 @@ public class SleepTrendsFragment extends Fragment {
         });
     }
     
-    private void updateSleepInsightCards(String aiResponse) {
-        if (rootView == null) return;
-        
-        // Find the insights section LinearLayout
-        LinearLayout insightsSection = null;
-        for (int i = 0; i < ((ViewGroup) rootView).getChildCount(); i++) {
-            View child = ((ViewGroup) rootView).getChildAt(i);
-            if (child instanceof LinearLayout) {
-                LinearLayout linearLayout = (LinearLayout) child;
-                // Check if this is the insights section (has TextView with "Insights" text)
-                for (int j = 0; j < linearLayout.getChildCount(); j++) {
-                    View subChild = linearLayout.getChildAt(j);
-                    if (subChild instanceof LinearLayout) {
-                        LinearLayout headerLayout = (LinearLayout) subChild;
-                        for (int k = 0; k < headerLayout.getChildCount(); k++) {
-                            View headerChild = headerLayout.getChildAt(k);
-                            if (headerChild instanceof TextView) {
-                                TextView tv = (TextView) headerChild;
-                                if ("Insights".equals(tv.getText().toString())) {
-                                    insightsSection = linearLayout;
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        if (insightsSection == null) return;
-        
-        // Find the first 2 MaterialCardViews (insight cards) and update them
-        int insightCardIndex = 0;
-        for (int i = 0; i < insightsSection.getChildCount(); i++) {
-            View child = insightsSection.getChildAt(i);
-            if (child instanceof MaterialCardView && insightCardIndex < 2) {
-                List<TextView> textViews = findTextViews(child);
-                if (textViews.size() >= 2) {
-                    // Parse AI response to get individual insights
-                    String[] insights = parseInsights(aiResponse, insightCardIndex);
-                    if (insights[0] != null) textViews.get(0).setText(insights[0]);
-                    if (insights[1] != null) textViews.get(1).setText(insights[1]);
-                }
-                insightCardIndex++;
-            }
-        }
-        
-        // Find the next 3 MaterialCardViews (recommendation cards) and update them
-        int recCardIndex = 0;
-        for (int i = 0; i < insightsSection.getChildCount(); i++) {
-            View child = insightsSection.getChildAt(i);
-            if (child instanceof MaterialCardView && insightCardIndex >= 2 && recCardIndex < 3) {
-                List<TextView> textViews = findTextViews(child);
-                if (textViews.size() >= 2) {
-                    // Parse AI response to get individual recommendations
-                    String[] recommendations = parseRecommendations(aiResponse, recCardIndex);
-                    if (recommendations[0] != null) textViews.get(0).setText(recommendations[0]);
-                    if (recommendations[1] != null) textViews.get(1).setText(recommendations[1]);
-                }
-                recCardIndex++;
-            }
-        }
-    }
-    
-    private String[] parseInsights(String aiResponse, int index) {
+    private String[] parseAIResponse(String aiResponse) {
         String[] lines = aiResponse.split("\n");
-        String title = null;
-        String desc = null;
+        String insightTitle = null, insightDesc = null;
+        String recTitle = null, recDesc = null;
         
-        if (index == 0) {
-            for (int i = 0; i < lines.length; i++) {
-                if (lines[i].trim().length() > 0 && title == null) {
-                    title = lines[i].trim();
-                } else if (lines[i].trim().length() > 0 && title != null && desc == null) {
-                    desc = lines[i].trim();
-                    break;
-                }
-            }
-        } else {
-            int found = 0;
-            for (int i = 0; i < lines.length; i++) {
-                if (lines[i].trim().length() > 0) {
-                    found++;
-                    if (found > 2 && title == null) {
-                        title = lines[i].trim();
-                    } else if (found > 2 && title != null && desc == null) {
-                        desc = lines[i].trim();
-                        break;
-                    }
-                }
-            }
-        }
-        
-        return new String[]{title != null ? title : "Loading...", desc != null ? desc : "Loading..."};
-    }
-    
-    private String[] parseRecommendations(String aiResponse, int index) {
-        String[] lines = aiResponse.split("\n");
-        String title = null;
-        String desc = null;
-        
-        boolean inRecSection = false;
-        int recCount = 0;
+        boolean inInsight = false, inRecommendation = false;
         
         for (int i = 0; i < lines.length; i++) {
-            String line = lines[i].toLowerCase();
-            if (line.contains("recommend") || line.contains("suggest") || line.contains("advice")) {
-                inRecSection = true;
+            String line = lines[i].trim();
+            if (line.isEmpty()) continue;
+            
+            if (line.toUpperCase().contains("INSIGHT")) {
+                inInsight = true;
+                inRecommendation = false;
+                continue;
+            }
+            if (line.toUpperCase().contains("RECOMMENDATION")) {
+                inRecommendation = true;
+                inInsight = false;
                 continue;
             }
             
-            if (inRecSection) {
-                if (lines[i].trim().length() > 0) {
-                    if (lines[i].trim().startsWith("-") || lines[i].trim().startsWith("*")) {
-                        recCount++;
-                        if (recCount == index + 1) {
-                            title = lines[i].trim().substring(1).trim();
-                            if (i + 1 < lines.length && lines[i + 1].trim().length() > 0) {
-                                desc = lines[i + 1].trim();
-                            }
-                            break;
-                        }
-                    }
-                }
+            if (line.contains(":") || line.contains("-") || line.contains("*")) continue;
+            
+            if (inInsight) {
+                if (insightTitle == null) insightTitle = line;
+                else if (insightDesc == null) insightDesc = line;
+            } else if (inRecommendation) {
+                if (recTitle == null) recTitle = line;
+                else if (recDesc == null) recDesc = line;
             }
         }
         
-        return new String[]{title != null ? title : "Loading...", desc != null ? desc : "Loading..."};
-    }
-    
-    private List<TextView> findTextViews(View view) {
-        List<TextView> result = new ArrayList<>();
-        if (view instanceof TextView) {
-            result.add((TextView) view);
-        } else if (view instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup) view;
-            for (int i = 0; i < group.getChildCount(); i++) {
-                result.addAll(findTextViews(group.getChildAt(i)));
-            }
-        }
-        return result;
+        return new String[]{
+            insightTitle != null ? insightTitle : "Loading...",
+            insightDesc != null ? insightDesc : "Loading...",
+            recTitle != null ? recTitle : "Loading...",
+            recDesc != null ? recDesc : "Loading..."
+        };
     }
     
     // Helper methods for sleep statistics

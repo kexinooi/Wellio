@@ -46,6 +46,8 @@ public class AcademicTrendsFragment extends Fragment {
     private LinearLayout chipsContainer;
     private LinearLayout insightsContainer;
     private ImageView timelineImageView;
+    private TextView tvAcademicInsightTitle, tvAcademicInsightDesc;
+    private TextView tvAcademicRecommendationTitle, tvAcademicRecommendationDesc;
     private SimpleDateFormat monthFormat = new SimpleDateFormat("MMM", Locale.getDefault());
     private SimpleDateFormat dayFormat = new SimpleDateFormat("MMM d", Locale.getDefault());
     private GeminiApiService geminiApiService;
@@ -59,13 +61,17 @@ public class AcademicTrendsFragment extends Fragment {
         chipsContainer = rootView.findViewById(R.id.chips_container);
         insightsContainer = rootView.findViewById(R.id.insights_container);
         timelineImageView = rootView.findViewById(R.id.img_timeline);
-        
-        geminiApiService = new GeminiApiService();
-        
+        tvAcademicInsightTitle = rootView.findViewById(R.id.tv_academic_insight_title);
+        tvAcademicInsightDesc = rootView.findViewById(R.id.tv_academic_insight_desc);
+        tvAcademicRecommendationTitle = rootView.findViewById(R.id.tv_academic_recommendation_title);
+        tvAcademicRecommendationDesc = rootView.findViewById(R.id.tv_academic_recommendation_desc);
+
+        geminiApiService = new GeminiApiService(requireContext());
+
         loadDeadlines();
         return rootView;
     }
-    
+
     private void loadDeadlines() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
@@ -177,12 +183,17 @@ public class AcademicTrendsFragment extends Fragment {
     }
 
     private int getTypeColor(String type) {
-        if (type == null) return ContextCompat.getColor(requireContext(), R.color.academic_assign_text);
+        if (type == null)
+            return ContextCompat.getColor(requireContext(), R.color.academic_assign_text);
         switch (type.toLowerCase()) {
-            case "quiz": return ContextCompat.getColor(requireContext(), R.color.academic_quiz_text);
-            case "test": return ContextCompat.getColor(requireContext(), R.color.academic_midterm_text);
-            case "midterm": return ContextCompat.getColor(requireContext(), R.color.academic_final_text);
-            default: return ContextCompat.getColor(requireContext(), R.color.academic_assign_text);
+            case "quiz":
+                return ContextCompat.getColor(requireContext(), R.color.academic_quiz_text);
+            case "test":
+                return ContextCompat.getColor(requireContext(), R.color.academic_midterm_text);
+            case "midterm":
+                return ContextCompat.getColor(requireContext(), R.color.academic_final_text);
+            default:
+                return ContextCompat.getColor(requireContext(), R.color.academic_assign_text);
         }
     }
 
@@ -304,7 +315,7 @@ public class AcademicTrendsFragment extends Fragment {
 
         timelineImageView.post(() -> {
             if (timelineImageView.getWidth() <= 0 || timelineImageView.getHeight() <= 0) return;
-            
+
             int width = timelineImageView.getWidth();
             int height = timelineImageView.getHeight();
 
@@ -324,7 +335,7 @@ public class AcademicTrendsFragment extends Fragment {
             Calendar cal = Calendar.getInstance();
             cal.add(Calendar.DAY_OF_MONTH, 14);
             Date fourteenDaysLater = cal.getTime();
-            
+
             for (Deadline d : allDeadlines) {
                 if (d.getDueDate() != null && !d.getDueDate().before(new Date()) && !d.getDueDate().after(fourteenDaysLater)) {
                     upcoming.add(d);
@@ -343,7 +354,7 @@ public class AcademicTrendsFragment extends Fragment {
                     long daysFromStart = calculateDaysBetween(new Date(), deadline.getDueDate());
                     if (daysFromStart < 0) daysFromStart = 0;
                     if (daysFromStart > 14) daysFromStart = 14;
-                    
+
                     float x = 50 + (daysFromStart / 14f) * (width - 100);
                     float y = height / 2;
 
@@ -388,14 +399,14 @@ public class AcademicTrendsFragment extends Fragment {
     private void generateAIInsights() {
         StringBuilder academicData = new StringBuilder();
         academicData.append("Academic Workload Analysis:\n\n");
-        
+
         academicData.append("DEADLINE OVERVIEW:\n");
         academicData.append("Total deadlines: ").append(allDeadlines.size()).append("\n");
-        
+
         Date now = new Date();
         List<Deadline> upcoming = new ArrayList<>();
         List<Deadline> overdue = new ArrayList<>();
-        
+
         for (Deadline d : allDeadlines) {
             if (d.getDueDate() == null) continue;
             if (d.getDueDate().before(now)) {
@@ -404,33 +415,33 @@ public class AcademicTrendsFragment extends Fragment {
                 upcoming.add(d);
             }
         }
-        
+
         academicData.append("Upcoming deadlines: ").append(upcoming.size()).append("\n");
         academicData.append("Overdue deadlines: ").append(overdue.size()).append("\n\n");
-        
+
         Map<String, Integer> typeCount = new HashMap<>();
         for (Deadline d : allDeadlines) {
             String type = d.getType() != null ? d.getType() : "assignment";
             typeCount.put(type, typeCount.getOrDefault(type, 0) + 1);
         }
-        
+
         academicData.append("DEADLINE TYPES:\n");
         for (Map.Entry<String, Integer> entry : typeCount.entrySet()) {
             academicData.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
         }
-        
+
         academicData.append("\nNEXT 7 DAYS WORKLOAD:\n");
         Calendar sevenDaysLater = Calendar.getInstance();
         sevenDaysLater.add(Calendar.DAY_OF_MONTH, 7);
         int nextWeekDeadlines = 0;
-        
+
         for (Deadline d : upcoming) {
             if (d.getDueDate() != null && !d.getDueDate().after(sevenDaysLater.getTime())) {
                 nextWeekDeadlines++;
             }
         }
         academicData.append("Deadlines in next 7 days: ").append(nextWeekDeadlines).append("\n");
-        
+
         academicData.append("\nSTRESS INDICATORS:\n");
         if (overdue.size() > 0) {
             academicData.append("- ").append(overdue.size()).append(" overdue deadlines (HIGH STRESS)\n");
@@ -440,58 +451,72 @@ public class AcademicTrendsFragment extends Fragment {
         } else if (nextWeekDeadlines >= 2) {
             academicData.append("- ").append(nextWeekDeadlines).append(" deadlines next week (MODERATE WORKLOAD)\n");
         }
-        
+
         geminiApiService.getAcademicInsights(academicData.toString(), new GeminiApiService.GeminiCallback() {
             @Override
             public void onResult(String result) {
-                updateAcademicInsightCards(result);
+                String[] parsed = parseAIResponse(result);
+                requireActivity().runOnUiThread(() -> {
+                    if (tvAcademicInsightTitle != null && parsed[0] != null) {
+                        tvAcademicInsightTitle.setText(parsed[0]);
+                    }
+                    if (tvAcademicInsightDesc != null && parsed[1] != null) {
+                        tvAcademicInsightDesc.setText(parsed[1]);
+                    }
+                    if (tvAcademicRecommendationTitle != null && parsed[2] != null) {
+                        tvAcademicRecommendationTitle.setText(parsed[2]);
+                    }
+                    if (tvAcademicRecommendationDesc != null && parsed[3] != null) {
+                        tvAcademicRecommendationDesc.setText(parsed[3]);
+                    }
+                });
             }
-            
+
             @Override
             public void onError(String error) {
                 Log.e(TAG, "AI Academic Insights Error: " + error);
             }
         });
     }
-    
-    private void updateAcademicInsightCards(String aiResponse) {
-        if (insightsContainer == null) return;
-        
-        // Find the first 3 MaterialCardViews (insight cards) and update them
-        int insightCardIndex = 0;
-        for (int i = 0; i < insightsContainer.getChildCount(); i++) {
-            View child = insightsContainer.getChildAt(i);
-            if (child instanceof MaterialCardView && insightCardIndex < 3) {
-                List<TextView> textViews = findTextViews(child);
-                if (textViews.size() >= 2) {
-                    // Parse AI response to get individual insights
-                    String[] insights = parseInsights(aiResponse, insightCardIndex);
-                    if (insights[0] != null) textViews.get(0).setText(insights[0]);
-                    if (insights[1] != null) textViews.get(1).setText(insights[1]);
-                }
-                insightCardIndex++;
-            }
-        }
-    }
-    
-    private String[] parseInsights(String aiResponse, int index) {
+
+    private String[] parseAIResponse(String aiResponse) {
         String[] lines = aiResponse.split("\n");
-        String title = null;
-        String desc = null;
-        
-        int found = 0;
+        String insightTitle = null, insightDesc = null;
+        String recTitle = null, recDesc = null;
+
+        boolean inInsight = false, inRecommendation = false;
+
         for (int i = 0; i < lines.length; i++) {
-            if (lines[i].trim().length() > 0) {
-                found++;
-                if (found > index * 2 && title == null) {
-                    title = lines[i].trim();
-                } else if (found > index * 2 && title != null && desc == null) {
-                    desc = lines[i].trim();
-                    break;
-                }
+            String line = lines[i].trim();
+            if (line.isEmpty()) continue;
+
+            if (line.toUpperCase().contains("INSIGHT")) {
+                inInsight = true;
+                inRecommendation = false;
+                continue;
+            }
+            if (line.toUpperCase().contains("RECOMMENDATION")) {
+                inRecommendation = true;
+                inInsight = false;
+                continue;
+            }
+
+            if (line.contains(":") || line.contains("-") || line.contains("*")) continue;
+
+            if (inInsight) {
+                if (insightTitle == null) insightTitle = line;
+                else if (insightDesc == null) insightDesc = line;
+            } else if (inRecommendation) {
+                if (recTitle == null) recTitle = line;
+                else if (recDesc == null) recDesc = line;
             }
         }
-        
-        return new String[]{title != null ? title : "Loading...", desc != null ? desc : "Loading..."};
+
+        return new String[]{
+                insightTitle != null ? insightTitle : "Loading...",
+                insightDesc != null ? insightDesc : "Loading...",
+                recTitle != null ? recTitle : "Loading...",
+                recDesc != null ? recDesc : "Loading..."
+        };
     }
 }

@@ -1,5 +1,8 @@
 package my.edu.utar.assignment_2_v2.Utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.firebase.ai.FirebaseAI;
 import com.google.firebase.ai.GenerativeModel;
 import com.google.firebase.ai.java.GenerativeModelFutures;
@@ -10,6 +13,7 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
+import java.security.MessageDigest;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -17,9 +21,11 @@ public class GeminiApiService {
 
     private final GenerativeModelFutures model;
     private final Executor executor;
+    private final Context context;
+    private static final String PREFS_NAME = "ai_cache_prefs";
 
-    public GeminiApiService() {
-        // FIXED: Switched to the stable gemini-2.5-flash model to avoid the 404 error and preview quota limits
+    public GeminiApiService(Context context) {
+        this.context = context.getApplicationContext();
         GenerativeModel gm = FirebaseAI.getInstance(GenerativeBackend.googleAI())
                 .generativeModel("gemini-2.5-flash");
         this.model = GenerativeModelFutures.from(gm);
@@ -58,16 +64,30 @@ public class GeminiApiService {
     }
 
     public void getAcademicInsights(String academicData, GeminiCallback callback) {
+        String cacheKey = "academic_" + hashString(academicData);
+        String cachedResult = getCachedResult(cacheKey);
+        
+        if (cachedResult != null) {
+            callback.onResult(cachedResult);
+            return;
+        }
+        
         String prompt = "You are Wellio, an academic performance analyst for university students. " +
-                "Analyze the following academic workload data and provide 3 specific, actionable insights:\n\n" +
+                "Analyze the following academic workload data and provide exactly 1 insight and 1 recommendation:\n\n" +
                 "DATA:\n" + academicData + "\n\n" +
                 "GUIDELINES:\n" +
-                "1. Focus on workload management and study strategies\n" +
-                "2. Identify potential stress points or bottlenecks\n" +
-                "3. Suggest specific time management techniques\n" +
-                "4. Keep insights concise (2-3 sentences each)\n" +
+                "1. Provide exactly 1 insight with a title (max 10 words) and a description (1-2 sentences)\n" +
+                "2. Provide exactly 1 recommendation with a title (max 10 words) and a description (1-2 sentences)\n" +
+                "3. The description must directly relate to and expand on the title\n" +
+                "4. Focus on workload management and study strategies\n" +
                 "5. Be analytical and practical, not generic\n" +
-                "6. Format as bullet points with clear headings\n\n" +
+                "6. Format as:\n" +
+                "   INSIGHT:\n" +
+                "   [Title]\n" +
+                "   [Description]\n" +
+                "   RECOMMENDATION:\n" +
+                "   [Title]\n" +
+                "   [Description]\n\n" +
                 "Provide your analysis:";
         Content content = new Content.Builder().addText(prompt).build();
 
@@ -76,7 +96,9 @@ public class GeminiApiService {
         Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
             @Override
             public void onSuccess(GenerateContentResponse result) {
-                callback.onResult(result.getText());
+                String resultText = result.getText();
+                cacheResult(cacheKey, resultText);
+                callback.onResult(resultText);
             }
 
             @Override
@@ -87,16 +109,30 @@ public class GeminiApiService {
     }
 
     public void getMoodInsights(String moodData, GeminiCallback callback) {
+        String cacheKey = "mood_" + hashString(moodData);
+        String cachedResult = getCachedResult(cacheKey);
+        
+        if (cachedResult != null) {
+            callback.onResult(cachedResult);
+            return;
+        }
+        
         String prompt = "You are Wellio, a mental wellbeing specialist for university students. " +
-                "Analyze the following mood pattern data and provide personalized insights:\n\n" +
+                "Analyze the following mood pattern data and provide exactly 1 insight and 1 recommendation:\n\n" +
                 "DATA:\n" + moodData + "\n\n" +
                 "GUIDELINES:\n" +
-                "1. Identify mood patterns and trends\n" +
-                "2. Connect mood changes to academic stress factors\n" +
-                "3. Provide 3 specific wellbeing recommendations\n" +
+                "1. Provide exactly 1 insight with a title (max 10 words) and a description (1-2 sentences)\n" +
+                "2. Provide exactly 1 recommendation with a title (max 10 words) and a description (1-2 sentences)\n" +
+                "3. The description must directly relate to and expand on the title\n" +
                 "4. Focus on emotional regulation and stress management\n" +
                 "5. Keep insights supportive and actionable\n" +
-                "6. Format as clear, empathetic bullet points\n\n" +
+                "6. Format as:\n" +
+                "   INSIGHT:\n" +
+                "   [Title]\n" +
+                "   [Description]\n" +
+                "   RECOMMENDATION:\n" +
+                "   [Title]\n" +
+                "   [Description]\n\n" +
                 "Provide your analysis:";
         Content content = new Content.Builder().addText(prompt).build();
 
@@ -105,7 +141,9 @@ public class GeminiApiService {
         Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
             @Override
             public void onSuccess(GenerateContentResponse result) {
-                callback.onResult(result.getText());
+                String resultText = result.getText();
+                cacheResult(cacheKey, resultText);
+                callback.onResult(resultText);
             }
 
             @Override
@@ -116,16 +154,30 @@ public class GeminiApiService {
     }
 
     public void getSleepInsights(String sleepData, GeminiCallback callback) {
+        String cacheKey = "sleep_" + hashString(sleepData);
+        String cachedResult = getCachedResult(cacheKey);
+        
+        if (cachedResult != null) {
+            callback.onResult(cachedResult);
+            return;
+        }
+        
         String prompt = "You are Wellio, a sleep and recovery specialist for university students. " +
-                "Analyze the following sleep pattern data and provide optimization recommendations:\n\n" +
+                "Analyze the following sleep pattern data and provide exactly 1 insight and 1 recommendation:\n\n" +
                 "DATA:\n" + sleepData + "\n\n" +
                 "GUIDELINES:\n" +
-                "1. Identify sleep quality and consistency issues\n" +
-                "2. Connect sleep patterns to academic performance\n" +
-                "3. Provide 3 specific sleep improvement strategies\n" +
-                "4. Consider student lifestyle constraints\n" +
-                "5. Focus on practical, implementable solutions\n" +
-                "6. Format as clear, actionable recommendations\n\n" +
+                "1. Provide exactly 1 insight with a title (max 10 words) and a description (1-2 sentences)\n" +
+                "2. Provide exactly 1 recommendation with a title (max 10 words) and a description (1-2 sentences)\n" +
+                "3. The description must directly relate to and expand on the title\n" +
+                "4. Focus on sleep quality and consistency\n" +
+                "5. Consider student lifestyle constraints\n" +
+                "6. Format as:\n" +
+                "   INSIGHT:\n" +
+                "   [Title]\n" +
+                "   [Description]\n" +
+                "   RECOMMENDATION:\n" +
+                "   [Title]\n" +
+                "   [Description]\n\n" +
                 "Provide your analysis:";
         Content content = new Content.Builder().addText(prompt).build();
 
@@ -134,7 +186,9 @@ public class GeminiApiService {
         Futures.addCallback(response, new FutureCallback<GenerateContentResponse>() {
             @Override
             public void onSuccess(GenerateContentResponse result) {
-                callback.onResult(result.getText());
+                String resultText = result.getText();
+                cacheResult(cacheKey, resultText);
+                callback.onResult(resultText);
             }
 
             @Override
@@ -142,6 +196,34 @@ public class GeminiApiService {
                 callback.onError("Sleep AI Error: " + t.getMessage());
             }
         }, executor);
+    }
+
+    private String hashString(String input) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(input.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (Exception e) {
+            return String.valueOf(input.hashCode());
+        }
+    }
+
+    private String getCachedResult(String key) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getString(key, null);
+    }
+
+    private void cacheResult(String key, String result) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(key, result);
+        editor.apply();
     }
 
     public interface GeminiCallback {

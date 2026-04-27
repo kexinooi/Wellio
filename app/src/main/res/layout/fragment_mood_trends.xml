@@ -443,24 +443,24 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_mood_insight_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="You feel best on weekends"
+                            android:text="loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_mood_insight_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Mainly Good and Best moods on Sat &amp; Sun"
+                            android:text="loading..."
                             android:textColor="@color/text_grey_dark"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -512,17 +512,19 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_mood_recommendation_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Aim for 7–8h of sleep"
+                            android:text="loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_mood_recommendation_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Sleep is your #1 mood driver — even +1h makes a big difference"
+                            android:text="loading..."
                             android:textColor="@color/text_grey_dark"
                             android:textSize="13sp" />
                     </LinearLayout>

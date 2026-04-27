@@ -204,23 +204,24 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_sleep_insight_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Weekends beat weekdays by 1.7h"
+                            android:text="loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_sleep_insight_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="You average 7.8h Sat–Sun vs 5.9h Mon–Fri"
+                            android:text="loading..."
                             android:textColor="@color/text_grey_dark"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
 
 
             <!-- Recommendations -->
@@ -275,17 +276,19 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tv_sleep_recommendation_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Set a consistent bedtime"
+                            android:text="loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_sleep_recommendation_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Aim for 10:30 PM daily — even weekends — to close the gap"
+                            android:text="loading..."
                             android:textColor="@color/text_grey_dark"
                             android:textSize="13sp" />
                     </LinearLayout>
