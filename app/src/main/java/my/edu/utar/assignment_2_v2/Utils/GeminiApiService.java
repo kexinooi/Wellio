@@ -27,7 +27,7 @@ public class GeminiApiService {
     public GeminiApiService(Context context) {
         this.context = context.getApplicationContext();
         GenerativeModel gm = FirebaseAI.getInstance(GenerativeBackend.googleAI())
-                .generativeModel("gemini-2.5-flash");
+                .generativeModel("gemini-3-flash-preview");
         this.model = GenerativeModelFutures.from(gm);
         this.executor = Executors.newSingleThreadExecutor();
     }

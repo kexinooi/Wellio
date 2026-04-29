@@ -607,37 +607,113 @@ public class MoodTrendsFragment extends Fragment {
     }
     
     private String[] parseAIResponse(String aiResponse) {
+        Log.d(TAG, "AI Response: " + aiResponse);
+        
         String[] lines = aiResponse.split("\n");
         String insightTitle = null, insightDesc = null;
         String recTitle = null, recDesc = null;
         
         boolean inInsight = false, inRecommendation = false;
+        List<String> insightLines = new ArrayList<>();
+        List<String> recLines = new ArrayList<>();
+        List<String> allContentLines = new ArrayList<>();
         
         for (int i = 0; i < lines.length; i++) {
             String line = lines[i].trim();
-            if (line.isEmpty()) continue;
+            Log.d(TAG, "Line " + i + ": [" + line + "] inInsight=" + inInsight + " inRecommendation=" + inRecommendation);
             
-            if (line.toUpperCase().contains("INSIGHT")) {
+            // Detect section headers more flexibly - only match if line IS a header
+            String upperLine = line.toUpperCase();
+            if (upperLine.equals("INSIGHT") || upperLine.equals("INSIGHT:")) {
                 inInsight = true;
                 inRecommendation = false;
+                Log.d(TAG, "Set inInsight=true");
                 continue;
             }
-            if (line.toUpperCase().contains("RECOMMENDATION")) {
+            if (upperLine.equals("RECOMMENDATION") || upperLine.equals("RECOMMENDATION:") || 
+                upperLine.equals("SUGGESTION") || upperLine.equals("SUGGESTION:")) {
                 inRecommendation = true;
                 inInsight = false;
+                Log.d(TAG, "Set inRecommendation=true");
                 continue;
             }
             
-            if (line.contains(":") || line.contains("-") || line.contains("*")) continue;
+            // Skip empty lines but maintain section state
+            if (line.isEmpty()) {
+                Log.d(TAG, "Skipping empty line, maintaining state");
+                continue;
+            }
             
+            // Skip obvious prompt/metadata lines - only skip if line starts with these keywords
+            if (upperLine.startsWith("DATA:") || upperLine.startsWith("ANALYSIS") || 
+                upperLine.startsWith("STATISTICS") || upperLine.startsWith("PATTERN") ||
+                upperLine.startsWith("DISTRIBUTION") || upperLine.startsWith("TOTAL") ||
+                upperLine.startsWith("AVERAGE") || line.startsWith("=") || line.startsWith("---")) {
+                Log.d(TAG, "Skipping metadata line");
+                continue;
+            }
+            
+            // Collect lines for each section
             if (inInsight) {
-                if (insightTitle == null) insightTitle = line;
-                else if (insightDesc == null) insightDesc = line;
+                insightLines.add(line);
+                Log.d(TAG, "Added to insightLines: " + line);
             } else if (inRecommendation) {
-                if (recTitle == null) recTitle = line;
-                else if (recDesc == null) recDesc = line;
+                recLines.add(line);
+                Log.d(TAG, "Added to recLines: " + line);
+            } else {
+                // Collect all other content lines as fallback
+                allContentLines.add(line);
+                Log.d(TAG, "Added to allContentLines: " + line);
             }
         }
+        
+        Log.d(TAG, "Final - insightLines size: " + insightLines.size() + ", recLines size: " + recLines.size());
+        
+        // Extract insight title and description
+        if (!insightLines.isEmpty()) {
+            insightTitle = insightLines.get(0);
+            if (insightLines.size() > 1) {
+                insightDesc = insightLines.get(1);
+            }
+        }
+        
+        // Extract recommendation title and description
+        if (!recLines.isEmpty()) {
+            recTitle = recLines.get(0);
+            if (recLines.size() > 1) {
+                recDesc = recLines.get(1);
+            }
+        }
+        
+        // Fallback 1: if no sections detected, try to parse all content lines
+        if (insightTitle == null && recTitle == null && !allContentLines.isEmpty()) {
+            insightTitle = allContentLines.get(0);
+            if (allContentLines.size() > 1) {
+                insightDesc = allContentLines.get(1);
+            }
+            if (allContentLines.size() > 2) {
+                recTitle = allContentLines.get(2);
+            }
+            if (allContentLines.size() > 3) {
+                recDesc = allContentLines.get(3);
+            }
+        }
+        
+        // Fallback 2: if still missing, try insightLines
+        if (insightTitle == null && recTitle == null && !insightLines.isEmpty()) {
+            insightTitle = insightLines.get(0);
+            if (insightLines.size() > 1) {
+                insightDesc = insightLines.get(1);
+            }
+            if (insightLines.size() > 2) {
+                recTitle = insightLines.get(2);
+            }
+            if (insightLines.size() > 3) {
+                recDesc = insightLines.get(3);
+            }
+        }
+        
+        Log.d(TAG, "Parsed - InsightTitle: " + insightTitle + ", InsightDesc: " + insightDesc + ", RecTitle: " + recTitle + ", RecDesc: " + recDesc);
         
         return new String[]{
             insightTitle != null ? insightTitle : getString(R.string.mood_loading),
