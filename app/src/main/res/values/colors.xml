@@ -6,6 +6,7 @@
 
     <!-- Backgrounds -->
     <color name="bg_dashboard">#F8F2ED</color>
+    <color name="home_page_bg">#F8F2ED</color>
     <color name="bg_soft">#FEF9E7</color>
     <color name="card_bg">#FFFFFF</color>
     <color name="insights_bg">#F0F4FF</color>
@@ -20,8 +21,8 @@
     <color name="sleep_purple">#7B61FF</color>
     <color name="sleep_purple_soft">#DED9FF</color>
     <color name="sleep_chip_bg">#F1F4FF</color>
-    <color name="sleep_chip_selected_bg">#4E54C8</color>
-    <color name="sleep_trend_bg">#F8F9FF</color>
+    <color name="sleep_chip_selected_bg">#F3E5F5</color>
+    <color name="sleep_trend_bg" >#F8F9FF</color>
     <color name="sleep_bar_color">#9FA8FF</color>
 
     <!-- Text Colors -->
@@ -70,9 +71,10 @@
     <color name="glance_green_light">#E8F5E9</color>
     <color name="glance_purple_bg">#F3E5F5</color>
 
-    <color name="glance_sleep_bg">#E8F1FF</color>
-    <color name="glance_focus_bg">#F3E5F5</color>
-    <color name="glance_stress_bg">#FFF8E1</color>
+    <color name="glance_sleep_bg">#FFFFFF</color>
+    <color name="glance_focus_bg">#FFFFFF</color>
+    <color name="glance_stress_bg" >#FFF8E1</color>
+    <color name="home_assignment_card_bg">#FFFFFF</color>
 
     <!-- Recommendation Card Colors -->
     <color name="rec_sleep_bg">#F1EEFE</color>
@@ -138,7 +140,7 @@
     <color name="achievement_mindful_icon_tint">#7B1FA2</color>
     <color name="achievement_mindful_count_text">#FFFFFF</color>
 
-    <color name="avatar_bg">#B2EBF2</color>
+    <color name="avatar_bg">#4F8E99</color>
 
     <!-- calendar page-->
     <color name="calendar_logs_card_bg">#E8EAF6</color>
@@ -157,8 +159,8 @@
     <color name="insights_chip_bg">#EAF7EA</color>
     <color name="insights_chip_text">#2E7D32</color>
 
-    <color name="insights_positive_bg">#EAF7EA</color>
-    <color name="insights_positive_text">#2E7D32</color>
+    <color name="insights_positive_bg" >#EAF7EA</color>
+    <color name="insights_positive_text" >#2E7D32</color>
 
     <color name="insights_summary_bg">#F1F8E9</color>
     <color name="insights_summary_text">#4D4D4D</color>
@@ -273,7 +275,7 @@
     <color name="deadline_priority_high_text">#9E9E9E</color>
 
     <color name="deadline_reminder_icon_bg">#F3E5F5</color>
-    <color name="deadline_reminder_icon_tint">#7B61FF</color>
+    <color name="deadline_reminder_icon_tint" >#7B61FF</color>
 
     <color name="deadline_primary_accent">#5C6BC0</color>
 
@@ -318,7 +320,7 @@
     <color name="security_item_title">#222222</color>
     <color name="security_item_desc">#7A7A7A</color>
     <color name="security_icon_tint">#5A5A5A</color>
-    <color name="security_arrow_tint">#8A8A8A</color>
+    <color name="security_arrow_tint" >#8A8A8A</color>
 
     <color name="security_logout">#D9534F</color>
 
@@ -342,7 +344,7 @@
     <color name="help_title">#1F1F1F</color>
     <color name="help_subtitle">#7A7A7A</color>
     <color name="help_question_text">#222222</color>
-    <color name="help_answer_text">#6F6F6F</color>
+    <color name="help_answer_text" >#6F6F6F</color>
     <color name="help_arrow_tint">#8A8A8A</color>
 
     <!-- about page -->
@@ -353,7 +355,7 @@
     <color name="about_title">#1F1F1F</color>
     <color name="about_subtitle">#7A7A7A</color>
     <color name="about_section_title">#222222</color>
-    <color name="about_body_text">#6F6F6F</color>
+    <color name="about_body_text" >#6F6F6F</color>
     <color name="about_divider">#E5DDD6</color>
 
     <color name="button_text">#FFFFFF</color>
@@ -364,4 +366,15 @@
 
     <color name="profile_save_button_bg">#BCA9E9</color>
     <color name="password_save_button_bg">#BCA9E9</color>
+
+    <!-- Period Selectors / Tabs -->
+    <color name="sleep_tab_bg">#F1F4FF</color>
+    <color name="sleep_tab_selected_bg">#F3E5F5</color>
+    <color name="sleep_tab_selected_text">#7B61FF</color>
+    <color name="sleep_summary_bg">#F1EEFE</color>
+
+    <color name="mood_tab_bg">#F1F4FF</color>
+    <color name="mood_tab_selected_bg">#EAF7EA</color>
+    <color name="mood_tab_selected_text">#2E7D32</color>
+    <color name="mood_summary_bg">#F1F8E9</color>
 </resources>

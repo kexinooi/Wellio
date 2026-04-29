@@ -11,11 +11,7 @@
         android:id="@+id/layout_add_deadline_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="24dp"
-        android:paddingTop="24dp"
-        android:paddingRight="24dp"
-        android:paddingBottom="24dp">
+        android:orientation="vertical">
 
         <!-- Toolbar -->
         <RelativeLayout
@@ -66,7 +62,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="20dp"
             android:text="TYPE"
-            android:textColor="@color/deadline_form_muted"
+            android:textColor="@color/text_black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -128,7 +124,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="14dp"
                             android:text="Assignment"
-                            android:textColor="@color/deadline_form_muted"
+                            android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -180,7 +176,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="14dp"
                             android:text="Quiz"
-                            android:textColor="@color/deadline_form_muted"
+                            android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -232,7 +228,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="14dp"
                             android:text="Test"
-                            android:textColor="@color/deadline_form_muted"
+                            android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -284,7 +280,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="14dp"
                             android:text="Midterm"
-                            android:textColor="@color/deadline_form_muted"
+                            android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -301,7 +297,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="TITLE"
-            android:textColor="@color/deadline_form_muted"
+            android:textColor="@color/text_black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -313,8 +309,8 @@
             app:cardBackgroundColor="@color/deadline_form_surface"
             app:cardCornerRadius="16dp"
             app:cardElevation="1dp"
-            app:strokeWidth="1dp"
-            app:strokeColor="@color/deadline_form_stroke">
+            app:strokeColor="@color/deadline_form_stroke"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -350,7 +346,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="DATE &amp; TIME"
-            android:textColor="@color/deadline_form_muted"
+            android:textColor="@color/text_black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -458,11 +454,11 @@
         <TextView
             android:id="@+id/tv_priority_header"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="20dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="PRIORITY"
-            android:textColor="@color/deadline_form_muted"
+            android:textColor="@color/text_black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -492,7 +488,6 @@
                     android:layout_gravity="center"
                     android:paddingVertical="10dp"
                     android:text="● Low"
-                    android:textColor="@color/deadline_priority_low_text"
                     android:textSize="14sp"
                     android:textStyle="bold" />
             </com.google.android.material.card.MaterialCardView>
@@ -554,7 +549,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:text="REMINDER"
-            android:textColor="@color/deadline_form_muted"
+            android:textColor="@color/text_black"
             android:textSize="12sp"
             android:textStyle="bold" />
 
@@ -583,6 +578,7 @@
                         android:id="@+id/iv_remind_bg"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
+                        android:layout_centerVertical="true"
                         app:cardBackgroundColor="@color/deadline_reminder_icon_bg"
                         app:cardCornerRadius="8dp"
                         app:cardElevation="0dp">
@@ -693,17 +689,10 @@
         <!-- Save -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_deadline"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
+            style="@style/Widget.App.Button.Primary"
             android:layout_marginHorizontal="24dp"
             android:layout_marginTop="32dp"
-            android:backgroundTint="@color/deadline_primary_accent"
-            android:text="Save deadline"
-            android:textAllCaps="false"
-            android:textColor="@color/calendar_button_text"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:cornerRadius="28dp" />
+            android:text="Save deadline" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

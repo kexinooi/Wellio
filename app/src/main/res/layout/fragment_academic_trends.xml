@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dashboard"
@@ -25,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Academic Trends"
+                android:text="@string/academic_trends_title"
                 android:textColor="@color/text_black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -37,7 +38,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Track deadlines and plan smarter"
+            android:text="@string/academic_trends_subtitle"
             android:textColor="@color/text_grey_dark"
             android:textSize="12sp" />
 
@@ -47,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:text="Deadline timeline"
+            android:text="@string/academic_deadline_timeline"
             android:textColor="@color/text_black"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -75,11 +76,13 @@
                     android:layout_height="wrap_content">
 
                     <TextView
+                        android:id="@+id/tv_timeline_range"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Apr - Jun 2026"
+                        android:text="@string/academic_timeline_range_default"
                         android:textColor="@color/academic_timeline_text"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        tools:text="Apr - Jun 2026" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -98,7 +101,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
-                            android:text="Final"
+                            android:text="@string/academic_legend_final"
                             android:textColor="@color/academic_timeline_legend_text"
                             android:textSize="8sp" />
 
@@ -114,7 +117,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
-                            android:text="Midterm"
+                            android:text="@string/academic_legend_midterm"
                             android:textColor="@color/academic_timeline_legend_text"
                             android:textSize="8sp" />
 
@@ -130,7 +133,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
-                            android:text="Quiz"
+                            android:text="@string/academic_legend_quiz"
                             android:textColor="@color/academic_timeline_legend_text"
                             android:textSize="8sp" />
 
@@ -146,7 +149,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="2dp"
-                            android:text="Assign"
+                            android:text="@string/academic_legend_assign"
                             android:textColor="@color/academic_timeline_legend_text"
                             android:textSize="8sp" />
                     </LinearLayout>
@@ -175,192 +178,7 @@
                 android:id="@+id/chips_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <!-- Chip 1 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    app:cardBackgroundColor="@color/academic_chip_surface"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="1dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/academic_chip_stroke">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ASSIGN"
-                            android:textSize="10sp"
-                            android:textColor="@color/academic_assign_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Chem Lab Report"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/academic_chip_title"
-                            android:gravity="center"
-                            android:layout_marginTop="4dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Apr 22"
-                            android:textSize="10sp"
-                            android:textColor="@color/academic_chip_date"
-                            android:layout_marginTop="4dp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Chip 2 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    app:cardBackgroundColor="@color/academic_chip_surface"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="1dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/academic_chip_stroke">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ASSIGN"
-                            android:textSize="10sp"
-                            android:textColor="@color/academic_assign_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="English Essay"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/academic_chip_title"
-                            android:gravity="center"
-                            android:layout_marginTop="4dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Apr 24"
-                            android:textSize="10sp"
-                            android:textColor="@color/academic_chip_date"
-                            android:layout_marginTop="4dp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Chip 3 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    app:cardBackgroundColor="@color/academic_chip_surface"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="1dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/academic_chip_stroke">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="ASSIGN"
-                            android:textSize="10sp"
-                            android:textColor="@color/academic_assign_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Maths Problem Set"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/academic_chip_title"
-                            android:gravity="center"
-                            android:layout_marginTop="4dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Apr 25"
-                            android:textSize="10sp"
-                            android:textColor="@color/academic_chip_date"
-                            android:layout_marginTop="4dp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Chip 4 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    app:cardBackgroundColor="@color/academic_chip_surface"
-                    app:cardCornerRadius="12dp"
-                    app:cardElevation="1dp"
-                    app:strokeWidth="1dp"
-                    app:strokeColor="@color/academic_chip_stroke">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="8dp"
-                        android:gravity="center">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="QUIZ"
-                            android:textSize="10sp"
-                            android:textColor="@color/academic_quiz_text"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Chem Quiz 2"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            android:textColor="@color/academic_chip_title"
-                            android:gravity="center"
-                            android:layout_marginTop="4dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Apr 30"
-                            android:textSize="10sp"
-                            android:textColor="@color/academic_chip_date"
-                            android:layout_marginTop="4dp" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-            </LinearLayout>
+                android:orientation="horizontal" />
         </HorizontalScrollView>
 
         <!-- Insights Section -->
@@ -376,7 +194,7 @@
                 android:id="@+id/academic_insight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Insights"
+                android:text="@string/academic_insights_title"
                 android:textColor="@color/text_black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -425,7 +243,7 @@
                             android:id="@+id/tv_academic_insight_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="loading..."
+                            tools:text="Loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -434,7 +252,7 @@
                             android:id="@+id/tv_academic_insight_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="loading..."
+                            tools:text="Loading..."
                             android:textColor="@color/text_grey_dark"
                             android:textSize="13sp" />
                     </LinearLayout>
@@ -450,7 +268,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="Recommendations"
+                android:text="@string/academic_recommendations_title"
                 android:textColor="@color/text_black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -499,7 +317,7 @@
                             android:id="@+id/tv_academic_recommendation_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="loading..."
+                            tools:text="Loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -508,7 +326,7 @@
                             android:id="@+id/tv_academic_recommendation_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="loading..."
+                            tools:text="Loading..."
                             android:textColor="@color/text_grey_dark"
                             android:textSize="13sp" />
                     </LinearLayout>

@@ -9,42 +9,69 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.material.chip.Chip;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import my.edu.utar.assignment_2_v2.model.*;
+import java.util.Locale;
+
 import my.edu.utar.assignment_2_v2.Utils.Firebase;
+import my.edu.utar.assignment_2_v2.model.Mood;
 
 public class LogMoodFragment extends Fragment {
+    private static final String ARG_SELECTED_DATE_MILLIS = "selected_date_millis";
+    private static final String ARG_MOOD_LOG_ID = "mood_log_id";
 
     private Button saveMoodBtn;
     private EditText noteEditText;
     private EditText sleepHoursEditText;
     private String selectedMood = "";
     private View cardVeryBad, cardBad, cardOkay, cardGood, cardAmazing;
-    private Chip chipStressed, chipMotivated, chipTired, chipFocused, chipAnxious, chipHappy;
+    private Chip chipExhausted, chipStressed, chipMotivated, chipTired, chipFocused, chipAnxious, chipHappy;
+    private long selectedDateMillis = -1L;
+    private String editingMoodLogId;
+    private boolean isEditMode = false;
 
     FirebaseFirestore db;
+
+    public static LogMoodFragment newInstance(long selectedDateMillis) {
+        LogMoodFragment fragment = new LogMoodFragment();
+        Bundle args = new Bundle();
+        args.putLong(ARG_SELECTED_DATE_MILLIS, selectedDateMillis);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static LogMoodFragment newInstanceForEdit(String moodLogId) {
+        LogMoodFragment fragment = new LogMoodFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_MOOD_LOG_ID, moodLogId);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            selectedDateMillis = getArguments().getLong(ARG_SELECTED_DATE_MILLIS, -1L);
+            editingMoodLogId = getArguments().getString(ARG_MOOD_LOG_ID);
+            isEditMode = editingMoodLogId != null;
+        }
 
         View view = inflater.inflate(R.layout.fragment_log_mood, container, false);
 
-        // Back button logic
         ImageView btnBack = view.findViewById(R.id.btn_back);
         if (btnBack != null) {
-            btnBack.setOnClickListener(v -> {
-                if (getParentFragmentManager().getBackStackEntryCount() > 0) {
-                    getParentFragmentManager().popBackStack();
-                }
-            });
+            btnBack.setOnClickListener(v -> goBack());
         }
 
         cardVeryBad = view.findViewById(R.id.card_very_bad);
@@ -59,6 +86,7 @@ public class LogMoodFragment extends Fragment {
         if (cardGood != null) cardGood.setOnClickListener(v -> selectMood("Good"));
         if (cardAmazing != null) cardAmazing.setOnClickListener(v -> selectMood("Amazing"));
 
+        chipExhausted = view.findViewById(R.id.chip_exhausted);
         chipStressed = view.findViewById(R.id.chip_stressed);
         chipMotivated = view.findViewById(R.id.chip_motivated);
         chipTired = view.findViewById(R.id.chip_tired);
@@ -70,19 +98,21 @@ public class LogMoodFragment extends Fragment {
         noteEditText = view.findViewById(R.id.et_note);
         sleepHoursEditText = view.findViewById(R.id.et_sleep_hours);
 
-        // initialize Firestore
         db = FirebaseFirestore.getInstance();
 
-        // button click
         if (saveMoodBtn != null) {
+            saveMoodBtn.setText(isEditMode ? "Update Mood" : "Save Mood");
             saveMoodBtn.setOnClickListener(v -> saveMood());
+        }
+
+        if (isEditMode) {
+            loadMoodForEdit();
         }
 
         return view;
     }
 
     private void saveMood() {
-
         String note = noteEditText.getText().toString().trim();
         List<String> feelings = getSelectedFeelings();
 
@@ -91,16 +121,15 @@ public class LogMoodFragment extends Fragment {
             return;
         }
 
-        // Get current user
-        String userId = Firebase.getInstance().getCurrentUser() != null ? 
-                Firebase.getInstance().getCurrentUser().getUid() : null;
+        String userId = Firebase.getInstance().getCurrentUser() != null
+                ? Firebase.getInstance().getCurrentUser().getUid()
+                : null;
 
         if (userId == null) {
             Toast.makeText(getContext(), "User not authenticated", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Get sleep hours
         double sleepHours = 0.0;
         String sleepHoursText = sleepHoursEditText.getText().toString().trim();
         if (!sleepHoursText.isEmpty()) {
@@ -116,30 +145,110 @@ public class LogMoodFragment extends Fragment {
             }
         }
 
-        // Convert List<String> to one String for Mood.java
         String feelText = TextUtils.join(", ", feelings);
-
-        // Create Mood object with userId and sleep hours
         Mood moodObj = new Mood(userId, feelText, selectedMood, note, sleepHours);
+        moodObj.setTimestamp(buildSelectedTimestamp());
 
-        // Use Firebase utility to save mood
+        if (isEditMode && editingMoodLogId != null) {
+            Firebase.getInstance().updateMoodLog(editingMoodLogId, moodObj)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(getContext(), "Mood updated", Toast.LENGTH_SHORT).show();
+                        goBack();
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(getContext(), "Failed to update mood: " + e.getMessage(), Toast.LENGTH_LONG).show());
+            return;
+        }
+
         Firebase.getInstance().saveMoodLog(moodObj)
                 .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(getContext(), "Mood saved ✅", Toast.LENGTH_SHORT).show();
-                    noteEditText.setText(""); // clear input
-                    sleepHoursEditText.setText(""); // clear sleep hours
-                    resetSelection(); // reset mood selection
-                    selectedMood = ""; // clear selected mood
+                    Toast.makeText(getContext(), "Mood saved", Toast.LENGTH_SHORT).show();
+                    goBack();
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(getContext(), "Failed to save mood: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                });
+                .addOnFailureListener(e ->
+                        Toast.makeText(getContext(), "Failed to save mood: " + e.getMessage(), Toast.LENGTH_LONG).show());
     }
 
+    private void loadMoodForEdit() {
+        if (editingMoodLogId == null) return;
+
+        Firebase.getInstance().getMoodLogById(editingMoodLogId)
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (!documentSnapshot.exists()) return;
+                    Mood mood = documentSnapshot.toObject(Mood.class);
+                    if (mood == null) return;
+                    mood.setId(documentSnapshot.getId());
+                    populateFields(mood);
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(getContext(), "Failed to load mood: " + e.getMessage(), Toast.LENGTH_LONG).show());
+    }
+
+    private void populateFields(Mood mood) {
+        if (mood.getTimestamp() != null) {
+            selectedDateMillis = mood.getTimestamp().getTime();
+        }
+        if (noteEditText != null) {
+            noteEditText.setText(mood.getNote() != null ? mood.getNote() : "");
+        }
+        if (sleepHoursEditText != null) {
+            sleepHoursEditText.setText(mood.getSleepHours() > 0
+                    ? String.format(Locale.getDefault(), "%.1f", mood.getSleepHours())
+                    : "");
+        }
+        if (mood.getMood() != null) {
+            selectMood(mood.getMood());
+        }
+        applyFeelings(mood.getFeel());
+    }
+
+    private void applyFeelings(String feelText) {
+        clearFeelingSelection();
+        if (feelText == null || feelText.trim().isEmpty()) return;
+
+        String[] feelings = feelText.split(",");
+        for (String feeling : feelings) {
+            String normalized = feeling.trim().toLowerCase(Locale.getDefault());
+            switch (normalized) {
+                case "exhausted":
+                    if (chipExhausted != null) chipExhausted.setChecked(true);
+                    break;
+                case "stressed":
+                    if (chipStressed != null) chipStressed.setChecked(true);
+                    break;
+                case "motivated":
+                    if (chipMotivated != null) chipMotivated.setChecked(true);
+                    break;
+                case "tired":
+                    if (chipTired != null) chipTired.setChecked(true);
+                    break;
+                case "focused":
+                    if (chipFocused != null) chipFocused.setChecked(true);
+                    break;
+                case "anxious":
+                    if (chipAnxious != null) chipAnxious.setChecked(true);
+                    break;
+                case "happy":
+                    if (chipHappy != null) chipHappy.setChecked(true);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    private void clearFeelingSelection() {
+        if (chipExhausted != null) chipExhausted.setChecked(false);
+        if (chipStressed != null) chipStressed.setChecked(false);
+        if (chipMotivated != null) chipMotivated.setChecked(false);
+        if (chipTired != null) chipTired.setChecked(false);
+        if (chipFocused != null) chipFocused.setChecked(false);
+        if (chipAnxious != null) chipAnxious.setChecked(false);
+        if (chipHappy != null) chipHappy.setChecked(false);
+    }
 
     private void selectMood(String mood) {
         selectedMood = mood;
-        Toast.makeText(getContext(), "Selected: " + mood, Toast.LENGTH_SHORT).show();
         resetSelection();
 
         switch (mood) {
@@ -158,13 +267,15 @@ public class LogMoodFragment extends Fragment {
             case "Amazing":
                 highlightCard(cardAmazing);
                 break;
+            default:
+                break;
         }
     }
+
     private void highlightCard(View card) {
         if (card instanceof com.google.android.material.card.MaterialCardView) {
             com.google.android.material.card.MaterialCardView mCard =
                     (com.google.android.material.card.MaterialCardView) card;
-
             mCard.setStrokeWidth(4);
             mCard.setStrokeColor(getResources().getColor(android.R.color.holo_green_dark));
         }
@@ -182,7 +293,6 @@ public class LogMoodFragment extends Fragment {
         if (card instanceof com.google.android.material.card.MaterialCardView) {
             com.google.android.material.card.MaterialCardView mCard =
                     (com.google.android.material.card.MaterialCardView) card;
-
             mCard.setStrokeWidth(0);
         }
     }
@@ -190,6 +300,7 @@ public class LogMoodFragment extends Fragment {
     private List<String> getSelectedFeelings() {
         List<String> feelings = new ArrayList<>();
 
+        if (chipExhausted != null && chipExhausted.isChecked()) feelings.add("Exhausted");
         if (chipStressed != null && chipStressed.isChecked()) feelings.add("Stressed");
         if (chipMotivated != null && chipMotivated.isChecked()) feelings.add("Motivated");
         if (chipTired != null && chipTired.isChecked()) feelings.add("Tired");
@@ -200,4 +311,25 @@ public class LogMoodFragment extends Fragment {
         return feelings;
     }
 
+    private Date buildSelectedTimestamp() {
+        if (selectedDateMillis <= 0L) {
+            return new Date();
+        }
+
+        Calendar selectedCalendar = Calendar.getInstance();
+        selectedCalendar.setTimeInMillis(selectedDateMillis);
+
+        Calendar now = Calendar.getInstance();
+        selectedCalendar.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR_OF_DAY));
+        selectedCalendar.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
+        selectedCalendar.set(Calendar.SECOND, now.get(Calendar.SECOND));
+        selectedCalendar.set(Calendar.MILLISECOND, now.get(Calendar.MILLISECOND));
+        return selectedCalendar.getTime();
+    }
+
+    private void goBack() {
+        if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+            getParentFragmentManager().popBackStack();
+        }
+    }
 }

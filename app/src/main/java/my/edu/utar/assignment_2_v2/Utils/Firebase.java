@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -66,6 +67,10 @@ public class Firebase {
 
     public Task<Void> deleteMoodLog(String moodLogId) {
         return moodLogsCollection.document(moodLogId).delete();
+    }
+
+    public Task<DocumentSnapshot> getMoodLogById(String moodLogId) {
+        return moodLogsCollection.document(moodLogId).get();
     }
 
     public Query getUserMoodLogs(String userId) {

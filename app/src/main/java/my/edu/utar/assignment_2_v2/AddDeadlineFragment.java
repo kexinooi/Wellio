@@ -425,18 +425,23 @@ public class AddDeadlineFragment extends Fragment {
         if (priorityMedium != null) resetPriorityCard(priorityMedium);
         if (priorityHigh != null) resetPriorityCard(priorityHigh);
 
+        TextView label = selected.findViewById(getPriorityLabelId(selected.getId()));
+
         if (selected == priorityLow) {
             selected.setCardBackgroundColor(requireContext().getColor(R.color.deadline_priority_low_bg));
             selected.setStrokeWidth(2);
             selected.setStrokeColor(requireContext().getColor(R.color.deadline_priority_low_text));
+            if (label != null) label.setTextColor(requireContext().getColor(R.color.deadline_priority_low_text));
         } else if (selected == priorityMedium) {
             selected.setCardBackgroundColor(requireContext().getColor(R.color.deadline_orange_bg));
             selected.setStrokeWidth(2);
             selected.setStrokeColor(requireContext().getColor(R.color.deadline_orange_text));
+            if (label != null) label.setTextColor(requireContext().getColor(R.color.deadline_orange_text));
         } else if (selected == priorityHigh) {
             selected.setCardBackgroundColor(requireContext().getColor(R.color.deadline_red_bg));
             selected.setStrokeWidth(2);
             selected.setStrokeColor(requireContext().getColor(R.color.deadline_red_text));
+            if (label != null) label.setTextColor(requireContext().getColor(R.color.deadline_red_text));
         }
     }
 
@@ -445,6 +450,10 @@ public class AddDeadlineFragment extends Fragment {
         card.setStrokeWidth(1);
         card.setStrokeColor(requireContext().getColor(R.color.deadline_form_stroke));
         card.setCardBackgroundColor(requireContext().getColor(R.color.deadline_form_surface));
+        TextView label = card.findViewById(getPriorityLabelId(card.getId()));
+        if (label != null) {
+            label.setTextColor(requireContext().getColor(R.color.deadline_form_muted));
+        }
     }
 
     private void goBack() {
@@ -468,6 +477,13 @@ public class AddDeadlineFragment extends Fragment {
         if (cardId == R.id.type_quiz) return R.id.iv_type_quiz_bg;
         if (cardId == R.id.type_test) return R.id.iv_type_test_bg;
         if (cardId == R.id.type_midterm) return R.id.iv_type_midterm_bg;
+        return -1;
+    }
+
+    private int getPriorityLabelId(int cardId) {
+        if (cardId == R.id.priority_low) return R.id.tv_priority_low_label;
+        if (cardId == R.id.priority_medium) return R.id.tv_priority_medium_label;
+        if (cardId == R.id.priority_high) return R.id.tv_priority_high_label;
         return -1;
     }
 }

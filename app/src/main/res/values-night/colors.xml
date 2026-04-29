@@ -8,6 +8,7 @@
 
     <!-- Background -->
     <color name="bg_dashboard">#0F1115</color>
+    <color name="home_page_bg">#0F1115</color>
     <color name="card_bg">#1A1D24</color>
     <color name="card_white">#1A1D24</color>
     <color name="white">#1A1D24</color>
@@ -28,23 +29,18 @@
     <color name="nav_active">#8EA2FF</color>
     <color name="nav_inactive">#8A8F99</color>
 
-
     <!-- Achievement (Dark Mode - improved) -->
-    <!-- GREEN CARD (less bright, deeper) -->
     <color name="achievement_streak_bg">#1B2A22</color>
     <color name="achievement_streak_stroke">#2E4A3C</color>
     <color name="achievement_streak_icon_bg">#274E46</color>
     <color name="achievement_streak_icon_tint">#8FD8C7</color>
 
-    <!-- PURPLE CARD (less pastel, more elegant) -->
     <color name="achievement_mindful_bg">#1E1A2B</color>
     <color name="achievement_mindful_stroke">#3A3450</color>
     <color name="achievement_mindful_icon_tint">#B79CFF</color>
 
-    <!-- TEXT ON BADGE -->
     <color name="achievement_mindful_count_text">#EAE6FF</color>
 
-    <!-- AVATAR (less bright blue) -->
     <color name="avatar_bg">#4F8E99</color>
 
     <!-- dashboard page -->
@@ -102,7 +98,7 @@
     <color name="insight_text_muted_dark">#8F96A3</color>
 
     <color name="insight_weekend_icon_bg_dark">#3A2E20</color>
-    <color name="insight_weekend_icon_tint_dark">#FFB454</color>
+    <color name="insight_weekend_icon_tint_dark">#FFC107</color>
 
     <color name="insight_sleep_icon_bg_dark">#2C243D</color>
     <color name="insight_sleep_icon_tint_dark">#B79CFF</color>
@@ -289,5 +285,17 @@
 
     <color name="profile_button_start">#7B61FF</color>
     <color name="profile_button_end">#8EA2FF</color>
+
+    <color name="home_assignment_card_bg">#1A1D24</color>
+
+    <color name="sleep_tab_bg">#252A33</color>
+    <color name="sleep_tab_selected_bg">#2C243D</color>
+    <color name="sleep_tab_selected_text">#B79CFF</color>
+    <color name="sleep_summary_bg">#1E1A2B</color>
+
+    <color name="mood_tab_bg">#252A33</color>
+    <color name="mood_tab_selected_bg">#213125</color>
+    <color name="mood_tab_selected_text">#7AD98A</color>
+    <color name="mood_summary_bg">#1F2A22</color>
 
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_dashboard"
@@ -12,7 +13,6 @@
         android:orientation="vertical"
         android:paddingBottom="100dp">
 
-        <!-- Top Header Area -->
         <RelativeLayout
             android:id="@+id/layout_header"
             android:layout_width="match_parent"
@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="Mood Trends"
+                android:text="@string/mood_trends_title"
                 android:textColor="@color/text_black"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -37,11 +37,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:text="Track your mood patterns to understand what influences it"
+            android:text="@string/mood_trends_subtitle"
             android:textColor="@color/text_grey_dark"
             android:textSize="12sp" />
 
-        <!-- Average Mood Card -->
+        <!-- Top Mood Card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_average_mood"
             android:layout_width="match_parent"
@@ -68,31 +68,24 @@
                         android:id="@+id/tv_average_mood_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Average Mood"
+                        android:text="@string/mood_average_label"
                         android:textColor="@color/text_black"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/card_week_chip"
+                    <TextView
+                        android:id="@+id/tv_week_chip_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
-                        app:cardBackgroundColor="@color/insights_positive_bg"
-                        app:cardCornerRadius="12dp"
-                        app:cardElevation="0dp">
-
-                        <TextView
-                            android:id="@+id/tv_week_chip_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingHorizontal="12dp"
-                            android:paddingVertical="4dp"
-                            android:text="Past Week"
-                            android:textColor="@color/insights_positive_text"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-                    </com.google.android.material.card.MaterialCardView>
+                        android:background="@drawable/bg_sleep_tab_selected"
+                        android:backgroundTint="@color/insights_positive_bg"
+                        android:paddingHorizontal="12dp"
+                        android:paddingVertical="4dp"
+                        android:text="@string/mood_this_week"
+                        android:textColor="@color/insights_positive_text"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
                 </RelativeLayout>
 
                 <LinearLayout
@@ -125,35 +118,34 @@
                                 android:id="@+id/tv_average_mood_status"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Slightly Good"
                                 android:textColor="@color/text_black"
-                                android:textSize="22sp"
-                                android:textStyle="bold" />
+                                android:textSize="28sp"
+                                android:textStyle="bold"
+                                tools:text="Good" />
 
                             <TextView
                                 android:id="@+id/tv_mood_improvement_percent"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="8dp"
-                                android:text="+12%"
                                 android:textColor="@color/insights_positive_text"
                                 android:textSize="16sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                tools:text="+12%" />
                         </LinearLayout>
 
                         <TextView
                             android:id="@+id/tv_mood_improvement_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="😊 Improved from last week"
                             android:textColor="@color/text_grey_dark"
-                            android:textSize="13sp" />
+                            android:textSize="14sp"
+                            tools:text="Most frequent mood this week" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Mood Trend Card -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_mood_trend"
             android:layout_width="match_parent"
@@ -180,7 +172,7 @@
                         android:id="@+id/tv_mood_trend_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Mood Trend"
+                        android:text="@string/mood_trend_label"
                         android:textColor="@color/text_black"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -191,6 +183,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:background="@drawable/bg_sleep_tabs"
+                        android:backgroundTint="@color/mood_tab_bg"
                         android:orientation="horizontal"
                         android:padding="2dp">
 
@@ -198,24 +191,24 @@
                             android:id="@+id/tv_period_week"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/bg_sleep_tab_selected"
+                            android:backgroundTint="@color/insights_positive_bg"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="4dp"
-                            android:text="Past Week"
-                            android:textColor="@color/text_grey_dark"
-                            android:textSize="11sp" />
+                            android:text="@string/mood_period_week"
+                            android:textColor="@color/insights_positive_text"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_period_month"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/bg_sleep_tab_selected"
-                            android:backgroundTint="@color/insights_positive_text"
                             android:paddingHorizontal="12dp"
                             android:paddingVertical="4dp"
-                            android:text="Past 30 Days"
-                            android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
+                            android:text="@string/mood_period_month"
+                            android:textColor="@color/text_grey_dark"
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -224,110 +217,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp">
 
-                    <LinearLayout
-                        android:id="@+id/y_axis_labels"
-                        android:layout_width="wrap_content"
-                        android:layout_height="200dp"
-                        android:gravity="fill_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tv_label_amazing"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_mood_label"
-                            android:backgroundTint="@color/mood_amazing"
-                            android:paddingHorizontal="6dp"
-                            android:paddingVertical="2dp"
-                            android:text="Amazing"
-                            android:textColor="@color/white"
-                            android:textSize="8sp"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tv_label_good"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_mood_label"
-                            android:backgroundTint="@color/mood_good"
-                            android:paddingHorizontal="6dp"
-                            android:paddingVertical="2dp"
-                            android:text="Good"
-                            android:textColor="@color/white"
-                            android:textSize="8sp"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tv_label_okay"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_mood_label"
-                            android:backgroundTint="@color/mood_okay"
-                            android:paddingHorizontal="6dp"
-                            android:paddingVertical="2dp"
-                            android:text="Okay"
-                            android:textColor="@color/white"
-                            android:textSize="8sp"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tv_label_bad"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_mood_label"
-                            android:backgroundTint="@color/mood_bad"
-                            android:paddingHorizontal="6dp"
-                            android:paddingVertical="2dp"
-                            android:text="Bad"
-                            android:textColor="@color/white"
-                            android:textSize="8sp"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-
-                        <TextView
-                            android:id="@+id/tv_label_very_bad"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_mood_label"
-                            android:backgroundTint="@color/mood_purple_dark"
-                            android:paddingHorizontal="6dp"
-                            android:paddingVertical="2dp"
-                            android:text="Very Bad"
-                            android:textColor="@color/white"
-                            android:textSize="8sp"
-                            android:textStyle="bold" />
-
-                        <View
-                            android:layout_width="1dp"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
-                    </LinearLayout>
-
                     <com.github.mikephil.charting.charts.LineChart
                         android:id="@+id/mood_line_chart"
                         android:layout_width="match_parent"
-                        android:layout_height="200dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_toEndOf="@id/y_axis_labels" />
+                        android:layout_height="200dp" />
 
                     <LinearLayout
                         android:id="@+id/layout_improved_indicator"
@@ -351,10 +244,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
-                            android:text="Improved"
                             android:textColor="@color/insights_positive_text"
                             android:textSize="10sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="Improved" />
                     </LinearLayout>
                 </RelativeLayout>
 
@@ -363,16 +256,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:background="@color/insights_summary_bg"
+                    android:background="@color/mood_summary_bg"
                     android:gravity="center"
                     android:padding="12dp"
-                    android:text="Your mood has improved. +12% compared to last week"
                     android:textColor="@color/insights_summary_text"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="Your mood improved by 12% compared with last week, trending around Good." />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Insights Section -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -386,23 +278,15 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/ic_moon"
-                    app:tint="@color/sleep_purple" />
-
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:text="Insights"
+                    android:text="@string/mood_insights_title"
                     android:textColor="@color/text_black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Insight 1 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -446,18 +330,18 @@
                             android:id="@+id/tv_mood_insight_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            tools:text="Loading..." />
 
                         <TextView
                             android:id="@+id/tv_mood_insight_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="loading..."
                             android:textColor="@color/text_grey_dark"
-                            android:textSize="13sp" />
+                            android:textSize="13sp"
+                            tools:text="Loading..." />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -466,12 +350,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                android:text="Recommendations for you"
+                android:text="@string/mood_recommendations_title"
                 android:textColor="@color/text_black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Recommendation 1 -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -515,7 +398,6 @@
                             android:id="@+id/tv_mood_recommendation_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="loading..."
                             android:textColor="@color/text_black"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -524,15 +406,11 @@
                             android:id="@+id/tv_mood_recommendation_desc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="loading..."
                             android:textColor="@color/text_grey_dark"
                             android:textSize="13sp" />
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
-
-
         </LinearLayout>
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

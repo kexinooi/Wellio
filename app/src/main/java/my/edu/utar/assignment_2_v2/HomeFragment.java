@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,10 +46,12 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        initializeLoadingState(view);
+
         // Dynamic Greeting with User Name
         TextView tvGreeting = view.findViewById(R.id.tv_greeting);
         if (tvGreeting != null) {
-            String userName = "user";
+            String userName = getString(R.string.home_default_user);
             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
             if (user != null) {
                 if (user.getDisplayName() != null && !user.getDisplayName().isEmpty()) {
@@ -57,16 +60,8 @@ public class HomeFragment extends Fragment {
                     userName = user.getEmail().split("@")[0];
                 }
             }
-            tvGreeting.setText(getGreeting() + ", " + userName + "! ☀️");
+            tvGreeting.setText(getString(getGreetingResId(), userName));
         }
-
-        // Setup Mood Overview
-        updateMoodUI(view, "Good", "Meh", 0.0);
-
-        // Glance cards
-        setupGlanceCard(view.findViewById(R.id.card_sleep), "SLEEP", "6.5", "h", "Fair", R.color.glance_sleep_badge, R.color.glance_sleep_dot);
-        setupGlanceCard(view.findViewById(R.id.card_focus), "ACADEMIC", "0", "due", "Good", R.color.glance_focus_badge, R.color.glance_focus_dot);
-        setupGlanceCard(view.findViewById(R.id.card_stress), "MOOD", "Good", "", "Low", R.color.glance_stress_badge, R.color.glance_stress_dot);
 
         // "Show all" assignments click listener
         View btnShowAll = view.findViewById(R.id.btn_show_all_deadlines);
@@ -78,6 +73,49 @@ public class HomeFragment extends Fragment {
         loadMood(view);
 
         return view;
+    }
+
+    private void initializeLoadingState(View view) {
+        TextView tvGreeting = view.findViewById(R.id.tv_greeting);
+        TextView tvMoodStatus = view.findViewById(R.id.tv_mood_status);
+        TextView tvMoodTrend = view.findViewById(R.id.tv_mood_trend);
+        TextView tvMoodVsYesterday = view.findViewById(R.id.tv_mood_vs_yesterday);
+        TextView tvPendingCount = view.findViewById(R.id.tv_pending_count);
+        TextView tvAssignmentName1 = view.findViewById(R.id.tv_assignment_name_1);
+        TextView tvAssignmentDue1 = view.findViewById(R.id.tv_assignment_due_1);
+        TextView tvAssignmentName2 = view.findViewById(R.id.tv_assignment_name_2);
+        TextView tvAssignmentDue2 = view.findViewById(R.id.tv_assignment_due_2);
+        TextView tvDaysLeft1 = view.findViewById(R.id.tv_deadline_days_left_1);
+        TextView tvDaysLeft2 = view.findViewById(R.id.tv_deadline_days_left_2);
+        View assignment1 = view.findViewById(R.id.layout_assignment_1);
+        View assignment2 = view.findViewById(R.id.layout_assignment_2);
+        View divider1 = view.findViewById(R.id.view_assignment_divider_1);
+        View dividerFooter = view.findViewById(R.id.view_assignment_divider_footer);
+
+        if (tvGreeting != null) {
+            tvGreeting.setText(getString(getGreetingResId(), getString(R.string.home_default_user)));
+        }
+        if (tvMoodStatus != null) tvMoodStatus.setText(R.string.home_loading);
+        if (tvMoodTrend != null) tvMoodTrend.setVisibility(View.GONE);
+        if (tvMoodVsYesterday != null) tvMoodVsYesterday.setVisibility(View.GONE);
+        if (tvPendingCount != null) tvPendingCount.setText(R.string.home_loading);
+        if (tvAssignmentName1 != null) tvAssignmentName1.setText(R.string.home_loading);
+        if (tvAssignmentDue1 != null) tvAssignmentDue1.setText(R.string.home_placeholder_value);
+        if (tvAssignmentName2 != null) tvAssignmentName2.setText(R.string.home_loading);
+        if (tvAssignmentDue2 != null) tvAssignmentDue2.setText(R.string.home_placeholder_value);
+        if (tvDaysLeft1 != null) tvDaysLeft1.setText(R.string.home_loading);
+        if (tvDaysLeft2 != null) tvDaysLeft2.setText(R.string.home_loading);
+        if (assignment1 != null) assignment1.setVisibility(View.GONE);
+        if (assignment2 != null) assignment2.setVisibility(View.GONE);
+        if (divider1 != null) divider1.setVisibility(View.GONE);
+        if (dividerFooter != null) dividerFooter.setVisibility(View.GONE);
+
+        setupGlanceCard(view.findViewById(R.id.card_sleep), getString(R.string.home_metric_sleep),
+                getString(R.string.home_placeholder_value), getString(R.string.home_metric_hours),
+                getString(R.string.home_loading), R.color.deadline_pending_bg, R.color.text_grey_light);
+        setupGlanceCard(view.findViewById(R.id.card_focus), getString(R.string.home_metric_academic),
+                getString(R.string.home_placeholder_value), getString(R.string.home_metric_due),
+                getString(R.string.home_loading), R.color.deadline_pending_bg, R.color.text_grey_light);
     }
 
     private void loadDeadlines(View view) {
@@ -128,25 +166,25 @@ public class HomeFragment extends Fragment {
     }
 
     private void updateSleepGlance(View view, double sleepHours) {
-        String sleepText = sleepHours > 0 ? String.format("%.1f", sleepHours) : "--";
-        String status = sleepHours > 0 ? (sleepHours >= 7 ? "Good" : sleepHours >= 5 ? "Fair" : "Poor") : "No data";
-        int badgeColor = sleepHours >= 7 ? R.color.status_green : sleepHours >= 5 ? R.color.deadline_orange_text : R.color.deadline_red_text;
-        int dotColor = sleepHours >= 7 ? R.color.glance_sleep_dot : sleepHours >= 5 ? R.color.glance_focus_dot : R.color.glance_stress_dot;
-        setupGlanceCard(view.findViewById(R.id.card_sleep), "SLEEP", sleepText, "hours", status, badgeColor, dotColor);
+        String sleepText = sleepHours > 0 ? String.format(Locale.getDefault(), getString(R.string.home_sleep_format), sleepHours) : "--";
+        String status = sleepHours > 0 ? (sleepHours >= 7 ? getString(R.string.home_status_good) : sleepHours >= 5 ? getString(R.string.home_status_fair) : getString(R.string.home_status_poor)) : getString(R.string.home_status_no_data);
+        int badgeColor = sleepHours >= 7 ? R.color.glance_focus_badge : sleepHours >= 5 ? R.color.glance_stress_bg : R.color.deadline_red_bg;
+        int dotColor = sleepHours >= 7 ? R.color.trend_green : sleepHours >= 5 ? R.color.dot_yellow : R.color.trend_red;
+        setupGlanceCard(view.findViewById(R.id.card_sleep), getString(R.string.home_metric_sleep), sleepText, getString(R.string.home_metric_hours), status, badgeColor, dotColor);
     }
 
     private void updateAcademicGlance(View view) {
         int count = upcomingDeadlines.size();
-        String status = count > 5 ? "Busy" : count > 2 ? "Fair" : "Good";
-        int badgeColor = count > 5 ? R.color.glance_stress_badge : count > 2 ? R.color.glance_focus_badge : R.color.glance_sleep_badge;
-        int dotColor = count > 5 ? R.color.glance_stress_dot : count > 2 ? R.color.glance_focus_dot : R.color.glance_sleep_dot;
-        setupGlanceCard(view.findViewById(R.id.card_focus), "ACADEMIC", String.valueOf(count), "due", status, badgeColor, dotColor);
+        String status = count > 5 ? getString(R.string.home_status_busy) : count > 2 ? getString(R.string.home_status_fair) : getString(R.string.home_status_good);
+        int badgeColor = count > 5 ? R.color.deadline_red_bg : count > 2 ? R.color.glance_stress_bg : R.color.glance_focus_badge;
+        int dotColor = count > 5 ? R.color.trend_red : count > 2 ? R.color.dot_yellow : R.color.trend_green;
+        setupGlanceCard(view.findViewById(R.id.card_focus), getString(R.string.home_metric_academic), String.valueOf(count), getString(R.string.home_metric_due), status, badgeColor, dotColor);
     }
 
     private void updateAssignmentUI(View view) {
         TextView tvPending = view.findViewById(R.id.tv_pending_count);
         if (tvPending != null) {
-            tvPending.setText(upcomingDeadlines.size() + " pending");
+            tvPending.setText(getResources().getQuantityString(R.plurals.home_pending_count, upcomingDeadlines.size(), upcomingDeadlines.size()));
         }
 
         // Assignment 1
@@ -187,24 +225,26 @@ public class HomeFragment extends Fragment {
         MaterialCardView statusCard = view.findViewById(statusCardId);
         View dot = view.findViewById(dotId);
 
-        if (tvName != null) tvName.setText(deadline.getTitle());
+        if (tvName != null) tvName.setText(deadline.getTitle() != null && !deadline.getTitle().isEmpty()
+                ? deadline.getTitle()
+                : getString(R.string.home_assignment_name_default));
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy", Locale.getDefault());
-        if (tvDue != null) tvDue.setText("Due " + (deadline.getDueDate() != null ? sdf.format(deadline.getDueDate()) : "N/A"));
+        SimpleDateFormat sdf = new SimpleDateFormat(getString(R.string.home_date_format_short), Locale.getDefault());
+        if (tvDue != null) tvDue.setText(getString(R.string.home_due_prefix, deadline.getDueDate() != null ? sdf.format(deadline.getDueDate()) : getString(R.string.home_assignment_due_default)));
 
         long daysLeft = calculateDaysLeft(deadline.getDueDate());
         if (daysLeft < 0) {
-            tvDaysLeft.setText("Overdue");
+            tvDaysLeft.setText(R.string.home_overdue);
             statusCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.deadline_red_bg));
             tvDaysLeft.setTextColor(ContextCompat.getColor(requireContext(), R.color.deadline_red_text));
             dot.setBackgroundResource(R.drawable.circle_red);
         } else if (daysLeft == 0) {
-            tvDaysLeft.setText("Today");
+            tvDaysLeft.setText(R.string.home_today);
             statusCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.deadline_orange_bg));
             tvDaysLeft.setTextColor(ContextCompat.getColor(requireContext(), R.color.deadline_orange_text));
             dot.setBackgroundResource(R.drawable.circle_orange);
         } else {
-            tvDaysLeft.setText(daysLeft + " day" + (daysLeft > 1 ? "s" : "") + " left");
+            tvDaysLeft.setText(getResources().getQuantityString(R.plurals.home_days_left, (int) daysLeft, (int) daysLeft));
             if (daysLeft <= 2) {
                 statusCard.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.deadline_red_bg));
                 tvDaysLeft.setTextColor(ContextCompat.getColor(requireContext(), R.color.deadline_red_text));
@@ -266,18 +306,26 @@ public class HomeFragment extends Fragment {
         }
 
         bottomSheetDialog.setContentView(bottomSheetView);
+        bottomSheetDialog.setOnShowListener(dialog -> {
+            View sheet = bottomSheetDialog.findViewById(com.google.android.material.R.id.design_bottom_sheet);
+            if (sheet != null) {
+                sheet.setBackgroundResource(R.drawable.bg_bottom_sheet_dashboard);
+                BottomSheetBehavior<View> behavior = BottomSheetBehavior.from(sheet);
+                behavior.setSkipCollapsed(true);
+            }
+        });
         bottomSheetDialog.show();
     }
 
     private void deleteDeadline(String deadlineId, Runnable onSuccess) {
         Firebase.getInstance().deleteAssignment(deadlineId)
                 .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(requireContext(), "Deadline deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), R.string.home_deadline_deleted, Toast.LENGTH_SHORT).show();
                     if (onSuccess != null) onSuccess.run();
                 })
                 .addOnFailureListener(e -> {
                     Log.e(TAG, "Failed to delete deadline", e);
-                    Toast.makeText(requireContext(), "Failed to delete: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(requireContext(), getString(R.string.home_failed_delete_deadline, e.getMessage()), Toast.LENGTH_LONG).show();
                 });
     }
 
@@ -293,8 +341,8 @@ public class HomeFragment extends Fragment {
         updateSleepGlance(view, sleepHours);
         
         // Set mood icon and color based on mood
-        int iconRes = R.drawable.mood_amazing; // default
-        int colorRes = R.color.status_green; // default
+        int iconRes = R.drawable.mood_amazing;
+        int colorRes = R.color.status_green;
         
         switch (mood != null ? mood.toLowerCase() : "") {
             case "very bad":
@@ -319,32 +367,31 @@ public class HomeFragment extends Fragment {
                 break;
         }
         
-        if (tvMoodTrend != null) {
-            tvMoodTrend.setText("Today");
-            tvMoodTrend.setTextColor(ContextCompat.getColor(requireContext(), colorRes));
-        }
-        if (tvMoodVsYesterday != null) tvMoodVsYesterday.setText("");
+        if (tvMoodTrend != null) tvMoodTrend.setVisibility(View.GONE);
+        if (tvMoodVsYesterday != null) tvMoodVsYesterday.setVisibility(View.GONE);
         if (ivMoodIcon != null) ivMoodIcon.setImageResource(iconRes);
     }
-    private String getGreeting() {
+    private int getGreetingResId() {
         Calendar calendar = Calendar.getInstance();
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
-
         if (hour >= 5 && hour < 12) {
-            return "Good Morning";
+            return R.string.home_greeting_morning_format;
         } else if (hour >= 12 && hour < 17) {
-            return "Good Afternoon";
+            return R.string.home_greeting_afternoon_format;
         } else if (hour >= 17 && hour < 21) {
-            return "Good Evening";
+            return R.string.home_greeting_evening_format;
         } else {
-            return "Good Night";
+            return R.string.home_greeting_night_format;
         }
     }
 
     private void setupGlanceCard(View cardView, String title, String value, String unit, String status, int badgeColorRes, int dotColorRes) {
         if (cardView != null) {
             MaterialCardView card = (MaterialCardView) cardView;
-            card.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white));
+            int cardBackgroundRes = card.getId() == R.id.card_sleep
+                    ? R.color.glance_sleep_bg
+                    : R.color.glance_focus_bg;
+            card.setCardBackgroundColor(ContextCompat.getColor(requireContext(), cardBackgroundRes));
 
             TextView titleTv = card.findViewById(R.id.glance_title);
             TextView valueNumTv = card.findViewById(R.id.glance_value_num);

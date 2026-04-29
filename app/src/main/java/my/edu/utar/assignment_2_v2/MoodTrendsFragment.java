@@ -1,15 +1,17 @@
 package my.edu.utar.assignment_2_v2;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -24,8 +26,10 @@ import com.google.firebase.auth.FirebaseUser;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -40,8 +44,12 @@ public class MoodTrendsFragment extends Fragment {
     private GeminiApiService geminiApiService;
     private View rootView;
     private LineChart moodLineChart;
+    private ImageView ivAverageMoodIcon, ivImprovedCheck;
+    private TextView tvAverageMoodStatus, tvMoodImprovementPercent, tvMoodImprovementDesc;
+    private TextView tvImprovedLabel, tvTrendSummaryText, tvPeriodWeek, tvPeriodMonth;
     private TextView tvMoodInsightTitle, tvMoodInsightDesc;
     private TextView tvMoodRecommendationTitle, tvMoodRecommendationDesc;
+    private int selectedTrendDays = 7;
 
     @Nullable
     @Override
@@ -50,11 +58,21 @@ public class MoodTrendsFragment extends Fragment {
         
         geminiApiService = new GeminiApiService(requireContext());
         moodLineChart = rootView.findViewById(R.id.mood_line_chart);
+        ivAverageMoodIcon = rootView.findViewById(R.id.iv_average_mood_icon);
+        ivImprovedCheck = rootView.findViewById(R.id.iv_improved_check);
+        tvAverageMoodStatus = rootView.findViewById(R.id.tv_average_mood_status);
+        tvMoodImprovementPercent = rootView.findViewById(R.id.tv_mood_improvement_percent);
+        tvMoodImprovementDesc = rootView.findViewById(R.id.tv_mood_improvement_desc);
+        tvImprovedLabel = rootView.findViewById(R.id.tv_improved_label);
+        tvTrendSummaryText = rootView.findViewById(R.id.tv_trend_summary_text);
+        tvPeriodWeek = rootView.findViewById(R.id.tv_period_week);
+        tvPeriodMonth = rootView.findViewById(R.id.tv_period_month);
         tvMoodInsightTitle = rootView.findViewById(R.id.tv_mood_insight_title);
         tvMoodInsightDesc = rootView.findViewById(R.id.tv_mood_insight_desc);
         tvMoodRecommendationTitle = rootView.findViewById(R.id.tv_mood_recommendation_title);
         tvMoodRecommendationDesc = rootView.findViewById(R.id.tv_mood_recommendation_desc);
-        
+
+        setupTrendPeriodSelector();
         loadMoodData();
         return rootView;
     }
@@ -63,7 +81,6 @@ public class MoodTrendsFragment extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) return;
 
-        // Get mood data for last 30 days
         Calendar thirtyDaysAgo = Calendar.getInstance();
         thirtyDaysAgo.add(Calendar.DAY_OF_MONTH, -30);
 
@@ -76,31 +93,27 @@ public class MoodTrendsFragment extends Fragment {
                         mood.setId(doc.getId());
                         moodList.add(mood);
                     }
-                    updateMoodAnalytics(rootView);
+                    updateMoodAnalytics();
                     updateMoodLineChart();
                 })
                 .addOnFailureListener(e -> Log.e(TAG, "Failed to load mood data", e));
     }
 
-    private void updateMoodAnalytics(View view) {
+    private void updateMoodAnalytics() {
         if (moodList.isEmpty()) {
-            Log.d(TAG, "No mood data available");
             return;
         }
 
-        // Calculate mood statistics
         Map<String, Integer> moodCounts = new HashMap<>();
         Map<String, Integer> feelingCounts = new HashMap<>();
         List<Double> sleepHoursList = new ArrayList<>();
         
         for (Mood mood : moodList) {
-            // Count moods
             String moodType = mood.getMood();
             if (moodType != null) {
                 moodCounts.put(moodType, moodCounts.getOrDefault(moodType, 0) + 1);
             }
             
-            // Count feelings
             String feelings = mood.getFeel();
             if (feelings != null && !feelings.isEmpty()) {
                 String[] feelingArray = feelings.split(",\\s*");
@@ -111,81 +124,186 @@ public class MoodTrendsFragment extends Fragment {
                 }
             }
             
-            // Collect sleep hours
             if (mood.getSleepHours() > 0) {
                 sleepHoursList.add(mood.getSleepHours());
             }
         }
 
-        // Log analytics for now (until layout is updated)
-        Log.d(TAG, "Mood counts: " + moodCounts.toString());
-        Log.d(TAG, "Feeling counts: " + feelingCounts.toString());
-        Log.d(TAG, "Total moods analyzed: " + moodList.size());
-
-        // Generate AI-powered mood insights
+        updateWeeklyMoodSummary();
         generateMoodInsights(moodCounts, feelingCounts, sleepHoursList);
+    }
+
+    private void updateWeeklyMoodSummary() {
+        if (tvAverageMoodStatus == null || tvMoodImprovementPercent == null || tvMoodImprovementDesc == null) {
+            return;
+        }
+
+        Calendar weekAgo = Calendar.getInstance();
+        weekAgo.add(Calendar.DAY_OF_MONTH, -7);
+
+        Map<String, Integer> weeklyMoodCounts = new HashMap<>();
+        for (Mood mood : moodList) {
+            if (mood.getTimestamp() == null || mood.getMood() == null) continue;
+            if (mood.getTimestamp().before(weekAgo.getTime())) continue;
+            weeklyMoodCounts.put(mood.getMood(), weeklyMoodCounts.getOrDefault(mood.getMood(), 0) + 1);
+        }
+
+        String weeklyModeMood = findModeMood(weeklyMoodCounts);
+        if (weeklyModeMood == null) {
+            tvAverageMoodStatus.setText(R.string.mood_no_data);
+            tvMoodImprovementDesc.setText(R.string.mood_no_week_data);
+            tvMoodImprovementPercent.setVisibility(View.GONE);
+            if (ivAverageMoodIcon != null) {
+                ivAverageMoodIcon.setImageResource(R.drawable.mood_good);
+            }
+            return;
+        }
+
+        tvAverageMoodStatus.setText(weeklyModeMood);
+        tvMoodImprovementDesc.setText(R.string.mood_week_mode_desc);
+        tvMoodImprovementPercent.setVisibility(View.GONE);
+
+        if (ivAverageMoodIcon != null) {
+            ivAverageMoodIcon.setImageResource(getMoodIconRes(weeklyModeMood));
+        }
+    }
+
+    private String findModeMood(Map<String, Integer> moodCounts) {
+        String modeMood = null;
+        int maxCount = 0;
+
+        for (Map.Entry<String, Integer> entry : moodCounts.entrySet()) {
+            if (entry.getValue() > maxCount) {
+                modeMood = entry.getKey();
+                maxCount = entry.getValue();
+            }
+        }
+
+        return modeMood;
+    }
+
+    private int getMoodIconRes(String mood) {
+        if (mood == null) return R.drawable.mood_good;
+        switch (mood) {
+            case "Amazing":
+                return R.drawable.mood_amazing;
+            case "Good":
+                return R.drawable.mood_good;
+            case "Okay":
+                return R.drawable.mood_okay;
+            case "Bad":
+                return R.drawable.mood_bad;
+            case "Very Bad":
+                return R.drawable.mood_very_bad;
+            default:
+                return R.drawable.mood_good;
+        }
+    }
+
+    private void setupTrendPeriodSelector() {
+        if (tvPeriodWeek == null || tvPeriodMonth == null) {
+            return;
+        }
+
+        tvPeriodWeek.setOnClickListener(v -> updateTrendPeriod(7));
+        tvPeriodMonth.setOnClickListener(v -> updateTrendPeriod(30));
+        applyTrendPeriodSelection();
+    }
+
+    private void updateTrendPeriod(int days) {
+        if (selectedTrendDays == days) {
+            return;
+        }
+
+        selectedTrendDays = days;
+        applyTrendPeriodSelection();
+        updateMoodLineChart();
+    }
+
+    private void applyTrendPeriodSelection() {
+        if (tvPeriodWeek == null || tvPeriodMonth == null) {
+            return;
+        }
+
+        boolean isWeekSelected = selectedTrendDays == 7;
+        styleTrendTab(tvPeriodWeek, isWeekSelected);
+        styleTrendTab(tvPeriodMonth, !isWeekSelected);
+    }
+
+    private void styleTrendTab(TextView tab, boolean selected) {
+        if (selected) {
+            tab.setBackgroundResource(R.drawable.bg_sleep_tab_selected);
+            tab.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.insights_positive_bg));
+            tab.setTextColor(ContextCompat.getColor(requireContext(), R.color.insights_positive_text));
+            tab.setTypeface(null, android.graphics.Typeface.BOLD);
+        } else {
+            tab.setBackground(null);
+            tab.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_grey_dark));
+            tab.setTypeface(null, android.graphics.Typeface.NORMAL);
+        }
     }
     
     private void updateMoodLineChart() {
         if (moodLineChart == null || moodList.isEmpty()) return;
-        
-        // Convert mood strings to numeric values
-        Map<String, Integer> moodValues = new HashMap<>();
-        moodValues.put("Amazing", 5);
-        moodValues.put("Good", 4);
-        moodValues.put("Okay", 3);
-        moodValues.put("Bad", 2);
-        moodValues.put("Very Bad", 1);
-        
-        // Prepare data points sorted by date
+
+        List<Mood> sortedMoods = getSortedMoods();
+        LinkedHashMap<String, List<Integer>> dailyMoodValues = new LinkedHashMap<>();
+        Calendar cursor = Calendar.getInstance();
+        resetToStartOfDay(cursor);
+        cursor.add(Calendar.DAY_OF_MONTH, -(selectedTrendDays - 1));
+
+        for (int i = 0; i < selectedTrendDays; i++) {
+            dailyMoodValues.put(getDayKey(cursor.getTime()), new ArrayList<>());
+            cursor.add(Calendar.DAY_OF_MONTH, 1);
+        }
+
+        for (Mood mood : sortedMoods) {
+            if (mood.getTimestamp() == null) continue;
+
+            int moodValue = getMoodValue(mood.getMood());
+            if (moodValue == 0) continue;
+
+            String dayKey = getDayKey(mood.getTimestamp());
+            if (dailyMoodValues.containsKey(dayKey)) {
+                dailyMoodValues.get(dayKey).add(moodValue);
+            }
+        }
+
         List<Entry> entries = new ArrayList<>();
         List<String> labels = new ArrayList<>();
-        
-        // Sort mood list by date (oldest first)
-        List<Mood> sortedMoods = new ArrayList<>(moodList);
-        for (int i = 0; i < sortedMoods.size() - 1; i++) {
-            for (int j = i + 1; j < sortedMoods.size(); j++) {
-                if (sortedMoods.get(i).getTimestamp().after(sortedMoods.get(j).getTimestamp())) {
-                    Mood temp = sortedMoods.get(i);
-                    sortedMoods.set(i, sortedMoods.get(j));
-                    sortedMoods.set(j, temp);
-                }
+        int index = 0;
+        for (Map.Entry<String, List<Integer>> dayEntry : dailyMoodValues.entrySet()) {
+            List<Integer> values = dayEntry.getValue();
+            if (!values.isEmpty()) {
+                entries.add(new Entry(index, (float) calculateAverageInt(values)));
             }
+            labels.add(formatDayLabel(dayEntry.getKey()));
+            index++;
         }
-        
-        // Create entries for the last 30 days
-        Calendar thirtyDaysAgo = Calendar.getInstance();
-        thirtyDaysAgo.add(Calendar.DAY_OF_MONTH, -30);
-        
-        for (Mood mood : sortedMoods) {
-            if (mood.getTimestamp().before(thirtyDaysAgo.getTime())) continue;
-            
-            String moodType = mood.getMood();
-            if (moodType != null && moodValues.containsKey(moodType)) {
-                entries.add(new Entry(entries.size(), moodValues.get(moodType)));
-                labels.add(dateFormat.format(mood.getTimestamp()));
-            }
-        }
-        
+
         if (entries.isEmpty()) return;
-        
-        // Create dataset
+
         LineDataSet dataSet = new LineDataSet(entries, "Mood Trend");
-        dataSet.setColor(Color.parseColor("#6366F1"));
+        dataSet.setColor(Color.parseColor("#4CAF50"));
         dataSet.setLineWidth(3f);
-        dataSet.setCircleColor(Color.parseColor("#6366F1"));
-        dataSet.setCircleRadius(5f);
+        dataSet.setCircleColor(Color.parseColor("#4CAF50"));
+        dataSet.setCircleRadius(4f);
         dataSet.setDrawCircleHole(true);
         dataSet.setCircleHoleColor(Color.WHITE);
-        dataSet.setValueTextColor(Color.parseColor("#666666"));
-        dataSet.setValueTextSize(10f);
+        dataSet.setDrawValues(false);
         dataSet.setDrawFilled(true);
-        dataSet.setFillColor(Color.parseColor("#E0E7FF"));
-        
-        // Create line data
+        Drawable fillDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.mood_sphere_gradient);
+        if (fillDrawable != null) {
+            dataSet.setFillDrawable(fillDrawable);
+        } else {
+            dataSet.setFillColor(Color.parseColor("#DFF3E4"));
+        }
+        dataSet.setMode(LineDataSet.Mode.HORIZONTAL_BEZIER);
+        dataSet.setHighLightColor(Color.parseColor("#2E7D32"));
+        dataSet.setDrawHorizontalHighlightIndicator(false);
+
         LineData lineData = new LineData(dataSet);
-        
-        // Configure chart
+
         moodLineChart.setData(lineData);
         moodLineChart.getDescription().setEnabled(false);
         moodLineChart.setDrawGridBackground(false);
@@ -193,27 +311,31 @@ public class MoodTrendsFragment extends Fragment {
         moodLineChart.getLegend().setEnabled(false);
         moodLineChart.setTouchEnabled(true);
         moodLineChart.setPinchZoom(true);
-        
-        // Configure X axis
+        moodLineChart.setScaleEnabled(false);
+        moodLineChart.setDoubleTapToZoomEnabled(false);
+        moodLineChart.setExtraBottomOffset(8f);
+        moodLineChart.animateX(700);
+
         XAxis xAxis = moodLineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(false);
         xAxis.setGranularity(1f);
+        xAxis.setLabelCount(Math.min(selectedTrendDays == 7 ? 7 : 6, labels.size()), true);
         xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
         xAxis.setTextColor(Color.parseColor("#666666"));
-        xAxis.setTextSize(11f);
-        
-        // Configure Y axis
+        xAxis.setTextSize(10f);
+        xAxis.setAvoidFirstLastClipping(true);
+
         YAxis yAxis = moodLineChart.getAxisLeft();
         yAxis.setDrawGridLines(true);
         yAxis.setGridColor(Color.parseColor("#EEEEEE"));
-        yAxis.setAxisMinimum(0f);
-        yAxis.setAxisMaximum(6f);
-        yAxis.setLabelCount(6, true);
+        yAxis.setAxisMinimum(1f);
+        yAxis.setAxisMaximum(5f);
+        yAxis.setLabelCount(5, true);
         yAxis.setValueFormatter(new com.github.mikephil.charting.formatter.ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
-                switch ((int) value) {
+                switch (Math.round(value)) {
                     case 1: return "Very Bad";
                     case 2: return "Bad";
                     case 3: return "Okay";
@@ -224,107 +346,264 @@ public class MoodTrendsFragment extends Fragment {
             }
         });
         yAxis.setTextColor(Color.parseColor("#666666"));
-        yAxis.setTextSize(11f);
-        
-        // Hide right Y axis
+        yAxis.setTextSize(10f);
+
         moodLineChart.getAxisRight().setEnabled(false);
-        
-        // Refresh chart
         moodLineChart.invalidate();
+
+        updateTrendSummary();
+    }
+
+    private void updateTrendSummary() {
+        if (tvImprovedLabel == null || tvTrendSummaryText == null || ivImprovedCheck == null) {
+            return;
+        }
+
+        Calendar today = Calendar.getInstance();
+        resetToStartOfDay(today);
+
+        Calendar currentPeriodStart = (Calendar) today.clone();
+        currentPeriodStart.add(Calendar.DAY_OF_MONTH, -(selectedTrendDays - 1));
+
+        Calendar previousPeriodStart = (Calendar) currentPeriodStart.clone();
+        previousPeriodStart.add(Calendar.DAY_OF_MONTH, -selectedTrendDays);
+
+        List<Integer> currentPeriodValues = collectMoodValuesBetween(currentPeriodStart.getTime(), new Date());
+        Date previousPeriodEnd = new Date(currentPeriodStart.getTimeInMillis() - 1);
+        List<Integer> previousPeriodValues = collectMoodValuesBetween(previousPeriodStart.getTime(), previousPeriodEnd);
+        String periodLabel = selectedTrendDays == 7 ? "week" : "past 30 days";
+        String comparisonLabel = selectedTrendDays == 7 ? "last week" : "the previous 30 days";
+
+        if (currentPeriodValues.isEmpty()) {
+            tvImprovedLabel.setText(R.string.mood_status_no_data);
+            tvTrendSummaryText.setText("No mood entries recorded for the " + periodLabel + ".");
+            ivImprovedCheck.setVisibility(View.VISIBLE);
+            applyTrendVisuals(Color.parseColor("#6B7280"));
+            return;
+        }
+
+        double currentPeriodAverage = calculateAverageInt(currentPeriodValues);
+        String currentPeriodMood = getMoodLabelForScore(currentPeriodAverage);
+
+        if (previousPeriodValues.isEmpty()) {
+            tvImprovedLabel.setText("");
+            tvTrendSummaryText.setText("Your mood trends around " + currentPeriodMood + " based on your " + periodLabel + " logs.");
+            ivImprovedCheck.setVisibility(View.GONE);
+            applyTrendVisuals(Color.parseColor("#4F46E5"));
+            return;
+        }
+
+        ivImprovedCheck.setVisibility(View.VISIBLE);
+
+        double previousPeriodAverage = calculateAverageInt(previousPeriodValues);
+        double difference = currentPeriodAverage - previousPeriodAverage;
+        double percentChange = previousPeriodAverage == 0 ? 0 : (difference / previousPeriodAverage) * 100.0;
+        int roundedPercent = (int) Math.round(Math.abs(percentChange));
+
+        if (Math.abs(difference) < 0.15) {
+            tvImprovedLabel.setText(R.string.mood_status_stable);
+            tvTrendSummaryText.setText("Your mood is steady this " + periodLabel + ", holding around " + currentPeriodMood + " compared with " + comparisonLabel + ".");
+            applyTrendVisuals(Color.parseColor("#6B7280"));
+        } else if (difference > 0) {
+            tvImprovedLabel.setText(R.string.mood_status_improved);
+            tvTrendSummaryText.setText("Your mood improved by " + roundedPercent + "% compared with " + comparisonLabel + ", trending around " + currentPeriodMood + ".");
+            applyTrendVisuals(Color.parseColor("#16A34A"));
+        } else {
+            tvImprovedLabel.setText(R.string.mood_status_declined);
+            tvTrendSummaryText.setText("Your mood dropped by " + roundedPercent + "% compared with " + comparisonLabel + ", trending around " + currentPeriodMood + ".");
+            applyTrendVisuals(Color.parseColor("#DC2626"));
+        }
+    }
+
+    private void applyTrendVisuals(int color) {
+        tvImprovedLabel.setTextColor(color);
+        ivImprovedCheck.setColorFilter(color);
+        tvTrendSummaryText.setTextColor(ContextCompat.getColor(requireContext(), R.color.insights_summary_text));
+    }
+
+    private List<Mood> getSortedMoods() {
+        List<Mood> sortedMoods = new ArrayList<>(moodList);
+        Collections.sort(sortedMoods, (first, second) -> {
+            Date firstDate = first.getTimestamp();
+            Date secondDate = second.getTimestamp();
+            if (firstDate == null && secondDate == null) return 0;
+            if (firstDate == null) return 1;
+            if (secondDate == null) return -1;
+            return firstDate.compareTo(secondDate);
+        });
+        return sortedMoods;
+    }
+
+    private int getMoodValue(String mood) {
+        if (mood == null) return 0;
+        switch (mood) {
+            case "Amazing":
+                return 5;
+            case "Good":
+                return 4;
+            case "Okay":
+                return 3;
+            case "Bad":
+                return 2;
+            case "Very Bad":
+                return 1;
+            default:
+                return 0;
+        }
+    }
+
+    private String getMoodLabelForScore(double score) {
+        if (score >= 4.5) return "Amazing";
+        if (score >= 3.5) return "Good";
+        if (score >= 2.5) return "Okay";
+        if (score >= 1.5) return "Bad";
+        return "Very Bad";
+    }
+
+    private String getDayKey(Date date) {
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(date);
+    }
+
+    private String formatDayLabel(String dayKey) {
+        try {
+            Date date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(dayKey);
+            return date == null ? "" : dateFormat.format(date);
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private void resetToStartOfDay(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+    }
+
+    private List<Integer> collectMoodValuesBetween(Date start, Date end) {
+        List<Integer> values = new ArrayList<>();
+        for (Mood mood : moodList) {
+            if (mood.getTimestamp() == null) continue;
+            if (mood.getTimestamp().before(start) || mood.getTimestamp().after(end)) continue;
+
+            int moodValue = getMoodValue(mood.getMood());
+            if (moodValue > 0) {
+                values.add(moodValue);
+            }
+        }
+        return values;
+    }
+
+    private double calculateAverageInt(List<Integer> values) {
+        if (values.isEmpty()) return 0.0;
+        double sum = 0.0;
+        for (Integer value : values) {
+            sum += value;
+        }
+        return sum / values.size();
     }
 
     private void generateMoodInsights(Map<String, Integer> moodCounts, Map<String, Integer> feelingCounts, List<Double> sleepHoursList) {
-        // Prepare mood data for AI analysis
         StringBuilder moodData = new StringBuilder();
-        moodData.append("Mood Analysis for Last 30 Days:\n\n");
+        moodData.append("Mood Analysis for Last ").append(selectedTrendDays).append(" Days:\n\n");
         
-        // Mood distribution
         moodData.append("MOOD DISTRIBUTION:\n");
         for (Map.Entry<String, Integer> entry : moodCounts.entrySet()) {
             moodData.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append(" times\n");
         }
         
-        // Top feelings
         moodData.append("\nTOP FEELINGS:\n");
         List<Map.Entry<String, Integer>> sortedFeelings = new ArrayList<>(feelingCounts.entrySet());
-        for (int i = 0; i < sortedFeelings.size() - 1; i++) {
-            for (int j = i + 1; j < sortedFeelings.size(); j++) {
-                if (sortedFeelings.get(j).getValue() > sortedFeelings.get(i).getValue()) {
-                    Map.Entry<String, Integer> temp = sortedFeelings.get(i);
-                    sortedFeelings.set(i, sortedFeelings.get(j));
-                    sortedFeelings.set(j, temp);
-                }
-            }
-        }
+        Collections.sort(sortedFeelings, (a, b) -> b.getValue().compareTo(a.getValue()));
         int limit = Math.min(5, sortedFeelings.size());
         for (int i = 0; i < limit; i++) {
             Map.Entry<String, Integer> entry = sortedFeelings.get(i);
             moodData.append("- ").append(entry.getKey()).append(": ").append(entry.getValue()).append(" times\n");
         }
         
-        // Recent mood trend
-        moodData.append("\nRECENT PATTERN:\n");
-        if (moodList.size() >= 3) {
-            Mood recent = moodList.get(0);
-            Mood previous = moodList.get(1);
-            Mood earlier = moodList.get(2);
-            
-            moodData.append("Latest mood: ").append(recent.getMood());
-            if (recent.getFeel() != null && !recent.getFeel().isEmpty()) {
-                moodData.append(" (").append(recent.getFeel()).append(")");
-            }
-            moodData.append("\nPrevious: ").append(previous.getMood());
-            moodData.append("\nEarlier: ").append(earlier.getMood());
-        }
-        
-        // Sleep statistics
         moodData.append("\nSLEEP STATISTICS:\n");
         if (!sleepHoursList.isEmpty()) {
             double avgSleep = calculateAverage(sleepHoursList);
-            double minSleep = findMin(sleepHoursList);
-            double maxSleep = findMax(sleepHoursList);
-            
             moodData.append("Average sleep: ").append(String.format("%.1f", avgSleep)).append(" hours\n");
-            moodData.append("Sleep range: ").append(String.format("%.1f", minSleep)).append(" - ").append(String.format("%.1f", maxSleep)).append(" hours\n");
-            moodData.append("Sleep entries: ").append(sleepHoursList.size()).append("\n");
-        } else {
-            moodData.append("No sleep data recorded\n");
         }
         
-        // Total entries and frequency
-        moodData.append("\nSTATISTICS:\n");
-        moodData.append("Total mood entries: ").append(moodList.size()).append("\n");
-        moodData.append("Average frequency: ").append(moodList.size() / 30.0).append(" entries per day\n");
-        
-        // Call Gemini API for insights
         geminiApiService.getMoodInsights(moodData.toString(), new GeminiApiService.GeminiCallback() {
             @Override
             public void onResult(String result) {
                 String[] parsed = parseAIResponse(result);
-                requireActivity().runOnUiThread(() -> {
-                    if (tvMoodInsightTitle != null && parsed[0] != null) {
-                        tvMoodInsightTitle.setText(parsed[0]);
-                    }
-                    if (tvMoodInsightDesc != null && parsed[1] != null) {
-                        tvMoodInsightDesc.setText(parsed[1]);
-                    }
-                    if (tvMoodRecommendationTitle != null && parsed[2] != null) {
-                        tvMoodRecommendationTitle.setText(parsed[2]);
-                    }
-                    if (tvMoodRecommendationDesc != null && parsed[3] != null) {
-                        tvMoodRecommendationDesc.setText(parsed[3]);
-                    }
-                });
+                if (isAdded() && getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        if (tvMoodInsightTitle != null && parsed[0] != null) {
+                            tvMoodInsightTitle.setText(parsed[0]);
+                        }
+                        if (tvMoodInsightDesc != null && parsed[1] != null) {
+                            tvMoodInsightDesc.setText(parsed[1]);
+                        }
+                        if (tvMoodRecommendationTitle != null && parsed[2] != null) {
+                            tvMoodRecommendationTitle.setText(parsed[2]);
+                        }
+                        if (tvMoodRecommendationDesc != null && parsed[3] != null) {
+                            tvMoodRecommendationDesc.setText(parsed[3]);
+                        }
+                    });
+                }
             }
             
             @Override
             public void onError(String error) {
                 Log.e(TAG, "AI Mood Insights Error: " + error);
+                if (isAdded() && getActivity() != null) {
+                    getActivity().runOnUiThread(() -> applyHardcodedMoodInsights(moodCounts, feelingCounts, sleepHoursList));
+                }
             }
         });
-        
-        // Generate sleep insights separately
-        generateSleepInsights(sleepHoursList);
+    }
+
+    private void applyHardcodedMoodInsights(Map<String, Integer> moodCounts, Map<String, Integer> feelingCounts, List<Double> sleepHoursList) {
+        if (tvMoodInsightTitle == null || tvMoodInsightDesc == null ||
+                tvMoodRecommendationTitle == null || tvMoodRecommendationDesc == null) {
+            return;
+        }
+
+        if (moodCounts.isEmpty()) {
+            tvMoodInsightTitle.setText(R.string.mood_no_data);
+            tvMoodInsightDesc.setText(R.string.mood_no_week_data);
+            tvMoodRecommendationTitle.setText("Log mood more consistently");
+            tvMoodRecommendationDesc.setText("Add a few mood entries this week so the page can surface clearer emotional patterns.");
+            return;
+        }
+
+        String dominantMood = findModeMood(moodCounts);
+        int dominantMoodCount = dominantMood != null ? moodCounts.getOrDefault(dominantMood, 0) : 0;
+        String topFeeling = null;
+        int maxFeeling = 0;
+        for (Map.Entry<String, Integer> entry : feelingCounts.entrySet()) {
+            if (entry.getValue() > maxFeeling) {
+                maxFeeling = entry.getValue();
+                topFeeling = entry.getKey();
+            }
+        }
+
+        tvMoodInsightTitle.setText(dominantMood != null ? dominantMood + " is your dominant mood" : "Mood pattern detected");
+        if (topFeeling != null) {
+            tvMoodInsightDesc.setText("You logged " + dominantMood + " " + dominantMoodCount + " times, with \"" + topFeeling + "\" appearing most often.");
+        } else {
+            tvMoodInsightDesc.setText("You logged " + dominantMood + " " + dominantMoodCount + " times during the selected period.");
+        }
+
+        if (!sleepHoursList.isEmpty() && calculateAverage(sleepHoursList) < 6.5) {
+            tvMoodRecommendationTitle.setText("Protect your sleep routine");
+            tvMoodRecommendationDesc.setText("Your recent sleep average is on the lower side. Aim for steadier sleep to support a more stable mood.");
+        } else if ("Bad".equals(dominantMood) || "Very Bad".equals(dominantMood)) {
+            tvMoodRecommendationTitle.setText("Create a recovery reset");
+            tvMoodRecommendationDesc.setText("Try a short walk, journaling, or a screen break after stressful periods to interrupt negative mood cycles.");
+        } else if ("Okay".equals(dominantMood)) {
+            tvMoodRecommendationTitle.setText("Look for your uplift moments");
+            tvMoodRecommendationDesc.setText("Notice which routines or people tend to lift your mood from Okay to Good, then repeat them intentionally.");
+        } else {
+            tvMoodRecommendationTitle.setText("Reinforce what is working");
+            tvMoodRecommendationDesc.setText("Your recent mood pattern is fairly positive. Keep the routines that helped you stay consistent.");
+        }
     }
     
     private String[] parseAIResponse(String aiResponse) {
@@ -361,96 +640,13 @@ public class MoodTrendsFragment extends Fragment {
         }
         
         return new String[]{
-            insightTitle != null ? insightTitle : "Loading...",
-            insightDesc != null ? insightDesc : "Loading...",
-            recTitle != null ? recTitle : "Loading...",
-            recDesc != null ? recDesc : "Loading..."
+            insightTitle != null ? insightTitle : getString(R.string.mood_loading),
+            insightDesc != null ? insightDesc : getString(R.string.mood_loading),
+            recTitle != null ? recTitle : getString(R.string.mood_loading),
+            recDesc != null ? recDesc : getString(R.string.mood_loading)
         };
     }
-    
-    private void generateSleepInsights(List<Double> sleepHoursList) {
-        if (sleepHoursList.isEmpty()) {
-            Log.d(TAG, "No sleep data available for insights");
-            return;
-        }
-        
-        // Prepare sleep data for AI analysis
-        StringBuilder sleepData = new StringBuilder();
-        sleepData.append("Sleep Pattern Analysis for Last 30 Days:\n\n");
-        
-        // Calculate sleep statistics
-        double avgSleep = calculateAverage(sleepHoursList);
-        double minSleep = findMin(sleepHoursList);
-        double maxSleep = findMax(sleepHoursList);
-        
-        // Sleep distribution
-        long goodSleep = 0, fairSleep = 0, poorSleep = 0;
-        for (Double hours : sleepHoursList) {
-            if (hours >= 7) {
-                goodSleep++;
-            } else if (hours >= 5) {
-                fairSleep++;
-            } else {
-                poorSleep++;
-            }
-        }
-        
-        sleepData.append("SLEEP DISTRIBUTION:\n");
-        sleepData.append("- Good sleep (≥7h): ").append(goodSleep).append(" nights\n");
-        sleepData.append("- Fair sleep (5-6.9h): ").append(fairSleep).append(" nights\n");
-        sleepData.append("- Poor sleep (<5h): ").append(poorSleep).append(" nights\n");
-        
-        sleepData.append("\nSLEEP STATISTICS:\n");
-        sleepData.append("Average: ").append(String.format("%.1f", avgSleep)).append(" hours\n");
-        sleepData.append("Range: ").append(String.format("%.1f", minSleep)).append(" - ").append(String.format("%.1f", maxSleep)).append(" hours\n");
-        sleepData.append("Total recorded nights: ").append(sleepHoursList.size()).append("\n");
-        
-        // Sleep consistency
-        sleepData.append("\nSLEEP CONSISTENCY:\n");
-        double variance = calculateVariance(sleepHoursList, avgSleep);
-        double stdDev = Math.sqrt(variance);
-        
-        if (stdDev < 1) {
-            sleepData.append("Very consistent sleep pattern (low variance)\n");
-        } else if (stdDev < 2) {
-            sleepData.append("Moderately consistent sleep pattern\n");
-        } else {
-            sleepData.append("Irregular sleep pattern (high variance)\n");
-        }
-        
-        // Recent sleep trend
-        sleepData.append("\nRECENT SLEEP TREND:\n");
-        int recentDays = Math.min(7, sleepHoursList.size());
-        if (recentDays >= 3) {
-            List<Double> recent = sleepHoursList.subList(0, recentDays);
-            double recentAvg = calculateAverage(recent);
-            sleepData.append("Last ").append(recentDays).append(" days average: ").append(String.format("%.1f", recentAvg)).append(" hours\n");
-            
-            if (recentAvg > avgSleep + 0.5) {
-                sleepData.append("Sleep improving recently\n");
-            } else if (recentAvg < avgSleep - 0.5) {
-                sleepData.append("Sleep declining recently\n");
-            } else {
-                sleepData.append("Sleep stable recently\n");
-            }
-        }
-        
-        // Call Gemini API for sleep insights
-        geminiApiService.getSleepInsights(sleepData.toString(), new GeminiApiService.GeminiCallback() {
-            @Override
-            public void onResult(String result) {
-                Log.d(TAG, "AI Sleep Insights: " + result);
-                // TODO: Update UI with AI sleep insights when layout is ready
-            }
-            
-            @Override
-            public void onError(String error) {
-                Log.e(TAG, "AI Sleep Insights Error: " + error);
-            }
-        });
-    }
-    
-    // Helper methods for sleep statistics
+
     private double calculateAverage(List<Double> values) {
         if (values.isEmpty()) return 0.0;
         double sum = 0.0;
@@ -458,71 +654,5 @@ public class MoodTrendsFragment extends Fragment {
             sum += value;
         }
         return sum / values.size();
-    }
-    
-    private double findMin(List<Double> values) {
-        if (values.isEmpty()) return 0.0;
-        double min = values.get(0);
-        for (int i = 1; i < values.size(); i++) {
-            if (values.get(i) < min) {
-                min = values.get(i);
-            }
-        }
-        return min;
-    }
-    
-    private double findMax(List<Double> values) {
-        if (values.isEmpty()) return 0.0;
-        double max = values.get(0);
-        for (int i = 1; i < values.size(); i++) {
-            if (values.get(i) > max) {
-                max = values.get(i);
-            }
-        }
-        return max;
-    }
-    
-    private double calculateVariance(List<Double> values, double mean) {
-        if (values.isEmpty()) return 0.0;
-        double sum = 0.0;
-        for (Double value : values) {
-            sum += Math.pow(value - mean, 2);
-        }
-        return sum / values.size();
-    }
-    
-    private String extractRecommendations(String aiResponse) {
-        // Extract recommendations from AI response
-        // Look for sections that contain actionable advice
-        String[] lines = aiResponse.split("\n");
-        StringBuilder recommendations = new StringBuilder();
-        boolean inRecommendationsSection = false;
-        
-        for (String line : lines) {
-            String lowerLine = line.toLowerCase();
-            if (lowerLine.contains("recommend") || lowerLine.contains("suggest") || 
-                lowerLine.contains("should") || lowerLine.contains("try") ||
-                lowerLine.contains("tip") || lowerLine.contains("advice")) {
-                inRecommendationsSection = true;
-            }
-            
-            if (inRecommendationsSection) {
-                if (line.trim().startsWith("-") || line.trim().startsWith("*") || 
-                    line.trim().matches("\\d+\\.") || line.trim().length() > 0) {
-                    recommendations.append(line).append("\n");
-                }
-            }
-        }
-        
-        // If no specific recommendations found, return the last paragraph
-        if (recommendations.length() == 0) {
-            String[] paragraphs = aiResponse.split("\n\n");
-            if (paragraphs.length > 0) {
-                return paragraphs[paragraphs.length - 1];
-            }
-            return aiResponse;
-        }
-        
-        return recommendations.toString();
     }
 }

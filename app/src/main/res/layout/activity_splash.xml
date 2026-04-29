@@ -16,24 +16,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.4">
+        app:layout_constraintVertical_bias="0.5">
 
-        <ImageView
-            android:id="@+id/iv_splash_logo"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@android:drawable/btn_star_big_on"
-            app:tint="@color/white"
-            android:background="@drawable/circle_blue_bg"
-            android:padding="16dp" />
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="50dp"
+            app:cardElevation="8dp"
+            app:strokeWidth="0dp">
+
+            <ImageView
+                android:id="@+id/iv_splash_logo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_heart_app" />
+        </com.google.android.material.card.MaterialCardView>
 
         <TextView
             android:id="@+id/tv_splash_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Well-Being\nTracker"
+            android:text="Wellio"
             android:textColor="@color/text_main"
-            android:textSize="28sp"
+            android:textSize="32sp"
             android:textStyle="bold"
             android:gravity="center"
             android:layout_marginTop="24dp" />

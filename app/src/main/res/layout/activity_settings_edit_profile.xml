@@ -187,17 +187,10 @@
                 </com.google.android.material.card.MaterialCardView>
 
                 <!-- Save Button -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnSaveProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="54dp"
-                    android:background="@drawable/bg_save_profile_button"
-                    android:backgroundTint="@null"
-                    android:text="Save Changes"
-                    android:textAllCaps="false"
-                    android:textColor="@color/button_text"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+                    style="@style/Widget.App.Button.Primary"
+                    android:text="Save Changes" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

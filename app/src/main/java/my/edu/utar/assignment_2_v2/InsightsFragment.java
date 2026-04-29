@@ -1,9 +1,11 @@
 package my.edu.utar.assignment_2_v2;
 
 import android.os.Bundle;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +17,7 @@ public class InsightsFragment extends Fragment {
 
     private View indicatorMood, indicatorSleep, indicatorAcademic;
     private View containerMood, containerSleep, containerAcademic;
+    private TextView tvTabMood, tvTabSleep, tvTabAcademic;
 
     @Nullable
     @Override
@@ -28,6 +31,9 @@ public class InsightsFragment extends Fragment {
         indicatorMood = view.findViewById(R.id.indicator_mood);
         indicatorSleep = view.findViewById(R.id.indicator_sleep);
         indicatorAcademic = view.findViewById(R.id.indicator_academic);
+        tvTabMood = view.findViewById(R.id.tv_tab_mood);
+        tvTabSleep = view.findViewById(R.id.tv_tab_sleep);
+        tvTabAcademic = view.findViewById(R.id.tv_tab_academic);
 
         // Default selected tab
         updateTabs("mood");
@@ -52,26 +58,40 @@ public class InsightsFragment extends Fragment {
     }
 
     private void updateTabs(String activeTab) {
-        int activeColor = ContextCompat.getColor(requireContext(), R.color.text_black);
+        int moodActiveColor = ContextCompat.getColor(requireContext(), R.color.insights_positive_text);
+        int sleepActiveColor = ContextCompat.getColor(requireContext(), R.color.sleep_purple);
+        int academicActiveColor = ContextCompat.getColor(requireContext(), R.color.mood_bad);
         int inactiveColor = ContextCompat.getColor(requireContext(), R.color.text_grey_light);
 
         // Reset all tabs
         indicatorMood.setVisibility(View.INVISIBLE);
         indicatorSleep.setVisibility(View.INVISIBLE);
         indicatorAcademic.setVisibility(View.INVISIBLE);
+        tvTabMood.setTextColor(inactiveColor);
+        tvTabSleep.setTextColor(inactiveColor);
+        tvTabAcademic.setTextColor(inactiveColor);
+        tvTabMood.setTypeface(tvTabMood.getTypeface(), Typeface.NORMAL);
+        tvTabSleep.setTypeface(tvTabSleep.getTypeface(), Typeface.NORMAL);
+        tvTabAcademic.setTypeface(tvTabAcademic.getTypeface(), Typeface.NORMAL);
 
         // Activate selected tab
         switch (activeTab) {
             case "mood":
                 indicatorMood.setVisibility(View.VISIBLE);
+                tvTabMood.setTextColor(moodActiveColor);
+                tvTabMood.setTypeface(tvTabMood.getTypeface(), Typeface.BOLD);
                 break;
 
             case "sleep":
                 indicatorSleep.setVisibility(View.VISIBLE);
+                tvTabSleep.setTextColor(sleepActiveColor);
+                tvTabSleep.setTypeface(tvTabSleep.getTypeface(), Typeface.BOLD);
                 break;
 
             case "academic":
                 indicatorAcademic.setVisibility(View.VISIBLE);
+                tvTabAcademic.setTextColor(academicActiveColor);
+                tvTabAcademic.setTypeface(tvTabAcademic.getTypeface(), Typeface.BOLD);
                 break;
         }
     }

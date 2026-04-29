@@ -913,6 +913,7 @@
             app:strokeWidth="1dp">
 
             <LinearLayout
+                android:id="@+id/linearBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/calendar_logs_inner_bg"
@@ -928,283 +929,285 @@
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <!-- Log 1 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    app:cardBackgroundColor="@color/calendar_log_item_bg"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp"
-                    app:strokeColor="@color/calendar_log_item_stroke"
-                    app:strokeWidth="1dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="12dp">
-
-                        <FrameLayout
-                            android:layout_width="50dp"
-                            android:layout_height="54dp">
-
-                            <View
-                                android:id="@+id/view_sphere_shadow_1"
-                                android:layout_width="26dp"
-                                android:layout_height="4dp"
-                                android:layout_gravity="bottom|center_horizontal"
-                                android:layout_marginBottom="4dp"
-                                android:background="@drawable/sphere_shadow" />
-
-                            <ImageView
-                                android:id="@+id/iv_mood_1"
-                                android:layout_width="match_parent"
-                                android:layout_height="42dp"
-                                android:layout_gravity="top"
-                                android:src="@drawable/mood_good" />
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tv_log_1_mood"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Good"
-                                android:textColor="@color/text_black"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_log_1_tags"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Motivated, Focused"
-                                android:textColor="@color/text_grey_dark"
-                                android:textSize="12sp"
-                                android:textStyle="bold|italic" />
-
-                            <TextView
-                                android:id="@+id/tv_log_1_note"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:text="Had a productive study session."
-                                android:textColor="@color/text_grey_dark"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/btn_play_1"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@android:drawable/ic_media_play"
-                            app:tint="@color/text_grey_light" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Log 2 -->
-                <com.google.android.material.card.MaterialCardView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    app:cardBackgroundColor="@color/calendar_log_item_bg"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="2dp"
-                    app:strokeColor="@color/calendar_log_item_stroke"
-                    app:strokeWidth="1dp">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:padding="12dp">
-
-                        <FrameLayout
-                            android:layout_width="50dp"
-                            android:layout_height="54dp">
-
-                            <View
-                                android:id="@+id/view_sphere_shadow_2"
-                                android:layout_width="26dp"
-                                android:layout_height="4dp"
-                                android:layout_gravity="bottom|center_horizontal"
-                                android:layout_marginBottom="4dp"
-                                android:background="@drawable/sphere_shadow" />
-
-                            <ImageView
-                                android:id="@+id/iv_mood_2"
-                                android:layout_width="match_parent"
-                                android:layout_height="42dp"
-                                android:layout_gravity="top"
-                                android:src="@drawable/mood_okay" />
-                        </FrameLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="16dp"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/tv_log_2_mood"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Okay"
-                                android:textColor="@color/text_black"
-                                android:textSize="15sp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/tv_log_2_tags"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Tired"
-                                android:textColor="@color/text_grey_dark"
-                                android:textSize="12sp"
-                                android:textStyle="bold|italic" />
-
-                            <TextView
-                                android:id="@+id/tv_log_2_note"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="2dp"
-                                android:text="Slept late, but getting back on track."
-                                android:textColor="@color/text_grey_dark"
-                                android:textSize="12sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
-
-                        <ImageView
-                            android:id="@+id/btn_play_2"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
-                            android:src="@android:drawable/ic_media_play"
-                            app:tint="@color/text_grey_light" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
-
-                <!-- Legend -->
                 <LinearLayout
+                    android:id="@+id/mood_box"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <View
-                        android:id="@+id/view_legend_very_bad"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:background="@drawable/circle_blue_bg" />
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_legend_very_bad"
+                        android:id="@+id/tv_mood_section_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Very Bad"
-                        android:textColor="@color/calendar_legend_text"
-                        android:textSize="10sp"
+                        android:text="Mood Log"
+                        android:textColor="@color/text_black"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <View
-                        android:id="@+id/view_legend_bad"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/dot_green"
-                        app:tint="#81C784" />
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_log_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground"
+                        app:cardBackgroundColor="@color/calendar_log_item_bg"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="2dp"
+                        app:strokeColor="@color/calendar_log_item_stroke"
+                        app:strokeWidth="1dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:padding="12dp">
+
+                            <FrameLayout
+                                android:layout_width="50dp"
+                                android:layout_height="54dp">
+
+                                <View
+                                    android:id="@+id/view_sphere_shadow_1"
+                                    android:layout_width="26dp"
+                                    android:layout_height="4dp"
+                                    android:layout_gravity="bottom|center_horizontal"
+                                    android:layout_marginBottom="4dp"
+                                    android:background="@drawable/sphere_shadow" />
+
+                                <ImageView
+                                    android:id="@+id/iv_mood_1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="42dp"
+                                    android:layout_gravity="top"
+                                    android:src="@drawable/mood_good" />
+                            </FrameLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="16dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tv_log_1_mood"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Good"
+                                    android:textColor="@color/text_black"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tv_log_1_tags"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Motivated, Focused"
+                                    android:textColor="@color/text_grey_dark"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold|italic" />
+
+                                <TextView
+                                    android:id="@+id/tv_log_1_note"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="2dp"
+                                    android:text="Had a productive study session."
+                                    android:textColor="@color/text_grey_dark"
+                                    android:textSize="12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_chevron_right"
+                                app:tint="@color/text_grey_light" />
+
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Mood Legend -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:background="@drawable/circle_purple" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Very Bad"
+                            android:textColor="@color/calendar_legend_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/circle_orange" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Bad"
+                            android:textColor="@color/calendar_legend_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/dot_yellow" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Okay"
+                            android:textColor="@color/calendar_legend_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/circle_blue_bg" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Good"
+                            android:textColor="@color/calendar_legend_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/dot_green" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Amazing"
+                            android:textColor="@color/calendar_legend_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/academic_box"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/tv_legend_bad"
+                        android:id="@+id/tv_academic_section_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Bad"
-                        android:textColor="@color/calendar_legend_text"
-                        android:textSize="10sp"
+                        android:text="Academic Log"
+                        android:textColor="@color/text_black"
+                        android:textSize="14sp"
                         android:textStyle="bold" />
 
-                    <View
-                        android:id="@+id/view_legend_okay"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/dot_orange" />
-
-                    <TextView
-                        android:id="@+id/tv_legend_okay"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:id="@+id/layout_academic_entries"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Okay"
-                        android:textColor="@color/calendar_legend_text"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical" />
 
-                    <View
-                        android:id="@+id/view_legend_good"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/dot_green"
-                        app:tint="#FF9800" />
-
-                    <TextView
-                        android:id="@+id/tv_legend_good"
-                        android:layout_width="wrap_content"
+                    <!-- Academic Legend -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Good"
-                        android:textColor="@color/calendar_legend_text"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        android:layout_marginTop="18dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
-                    <View
-                        android:id="@+id/view_legend_amazing"
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginStart="12dp"
-                        android:background="@drawable/dot_teal"
-                        app:tint="#F44336" />
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:background="@drawable/hollow_dot_orange" />
 
-                    <TextView
-                        android:id="@+id/tv_legend_amazing"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:text="Amazing"
-                        android:textColor="@color/calendar_legend_text"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Quiz"
+                            android:textColor="@color/calendar_legend_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/hollow_dot_blue" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Test"
+                            android:textColor="@color/calendar_legend_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/hollow_dot_teal" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Midterm"
+                            android:textColor="@color/calendar_legend_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="10dp"
+                            android:layout_marginStart="12dp"
+                            android:background="@drawable/hollow_dot_green" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:text="Assign"
+                            android:textColor="@color/calendar_legend_text"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
-
-        <!-- Log Mood Button -->
-        <Button
-            android:id="@+id/btn_log_mood_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginBottom="100dp"
-            android:text="Log Mood"
-            android:textAllCaps="false"
-            android:textColor="@color/button_text"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:backgroundTint="@color/purple_start" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

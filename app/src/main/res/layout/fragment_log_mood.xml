@@ -21,22 +21,34 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ImageView
-                android:id="@+id/btn_back"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_back_chevron"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/btn_back_container"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:tint="@color/text_black" />
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                app:cardBackgroundColor="@color/deadline_form_surface"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp"
+                app:strokeColor="@color/deadline_form_stroke"
+                app:strokeWidth="1dp">
+
+                <ImageView
+                    android:id="@+id/btn_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp"
+                    android:src="@drawable/ic_back_chevron"
+                    app:tint="@color/text_black" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tv_log_mood_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
                 android:text="Log Mood"
                 android:textColor="@color/text_black"
                 android:textSize="20sp"
@@ -254,7 +266,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_toStartOf="@id/iv_mic"
                     android:background="@null"
                     android:gravity="top"
                     android:hint="What's on your mind?"
@@ -262,15 +273,6 @@
                     android:textColorHint="@color/text_grey_light"
                     android:textSize="14sp" />
 
-                <ImageView
-                    android:id="@+id/iv_mic"
-                    android:layout_width="35dp"
-                    android:layout_height="35dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="4dp"
-                    android:src="@android:drawable/ic_btn_speak_now"
-                    app:tint="@color/primary_blue" />
             </RelativeLayout>
         </com.google.android.material.card.MaterialCardView>
 
@@ -278,7 +280,6 @@
         <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="24dp"
             android:layout_marginTop="16dp"
             app:cardBackgroundColor="@color/card_bg"
             app:cardCornerRadius="16dp"
@@ -286,7 +287,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -302,8 +303,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
                     <EditText
                         android:id="@+id/et_sleep_hours"
@@ -338,19 +339,10 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_save_mood"
-            android:layout_width="250dp"
-            android:layout_height="52dp"
-            android:layout_gravity="center_horizontal"
+            style="@style/Widget.App.Button.Primary"
             android:layout_marginTop="28dp"
             android:layout_marginBottom="40dp"
-            android:background="@drawable/btn_gradient_purple"
             android:text="Save Mood"
-            android:textAllCaps="false"
-            android:textColor="@color/calendar_button_text"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            app:backgroundTint="@null"
-            app:cornerRadius="50dp"
             app:elevation="8dp" />
 
     </LinearLayout>

@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,8 +43,8 @@ public class AcademicTrendsFragment extends Fragment {
     private static final String TAG = "AcademicTrendsFragment";
     private List<Deadline> allDeadlines = new ArrayList<>();
     private LinearLayout chipsContainer;
-    private LinearLayout insightsContainer;
     private ImageView timelineImageView;
+    private TextView tvTimelineRange;
     private TextView tvAcademicInsightTitle, tvAcademicInsightDesc;
     private TextView tvAcademicRecommendationTitle, tvAcademicRecommendationDesc;
     private SimpleDateFormat monthFormat = new SimpleDateFormat("MMM", Locale.getDefault());
@@ -59,8 +58,8 @@ public class AcademicTrendsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_academic_trends, container, false);
 
         chipsContainer = rootView.findViewById(R.id.chips_container);
-        insightsContainer = rootView.findViewById(R.id.insights_container);
         timelineImageView = rootView.findViewById(R.id.img_timeline);
+        tvTimelineRange = rootView.findViewById(R.id.tv_timeline_range);
         tvAcademicInsightTitle = rootView.findViewById(R.id.tv_academic_insight_title);
         tvAcademicInsightDesc = rootView.findViewById(R.id.tv_academic_insight_desc);
         tvAcademicRecommendationTitle = rootView.findViewById(R.id.tv_academic_recommendation_title);
@@ -91,7 +90,6 @@ public class AcademicTrendsFragment extends Fragment {
                         return a.getDueDate().compareTo(b.getDueDate());
                     });
                     populateChips();
-                    generateInsights();
                     createTimelineVisualization();
                     generateAIInsights();
                 })
@@ -101,6 +99,7 @@ public class AcademicTrendsFragment extends Fragment {
     private void populateChips() {
         if (chipsContainer == null) return;
         chipsContainer.removeAllViews();
+        List<MaterialCardView> chips = new ArrayList<>();
 
         int count = 0;
         for (Deadline deadline : allDeadlines) {
@@ -112,12 +111,17 @@ public class AcademicTrendsFragment extends Fragment {
 
             MaterialCardView chip = createChip(deadline);
             chipsContainer.addView(chip);
+            chips.add(chip);
             count++;
+        }
+
+        if (!chips.isEmpty()) {
+            chipsContainer.post(() -> applyUniformChipHeight(chips));
         }
 
         if (count == 0) {
             TextView noData = new TextView(requireContext());
-            noData.setText("No upcoming deadlines");
+            noData.setText(R.string.academic_no_upcoming_deadlines);
             noData.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_grey_dark));
             noData.setTextSize(14);
             chipsContainer.addView(noData);
@@ -140,10 +144,13 @@ public class AcademicTrendsFragment extends Fragment {
 
         LinearLayout inner = new LinearLayout(requireContext());
         inner.setOrientation(LinearLayout.VERTICAL);
+        inner.setLayoutParams(new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
         inner.setPadding(16, 16, 16, 16);
-        inner.setGravity(android.view.Gravity.CENTER);
+        inner.setGravity(android.view.Gravity.TOP | android.view.Gravity.CENTER_HORIZONTAL);
 
-        String type = deadline.getType() != null ? deadline.getType().toUpperCase() : "ASSIGN";
+        String type = deadline.getType() != null ? deadline.getType().toUpperCase() : getString(R.string.academic_legend_assign).toUpperCase(Locale.getDefault());
         int typeColor = getTypeColor(deadline.getType());
 
         TextView tvType = new TextView(requireContext());
@@ -151,6 +158,9 @@ public class AcademicTrendsFragment extends Fragment {
         tvType.setTextSize(10);
         tvType.setTextColor(typeColor);
         tvType.setTypeface(null, android.graphics.Typeface.BOLD);
+        tvType.setGravity(android.view.Gravity.CENTER);
+        tvType.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
 
         TextView tvTitle = new TextView(requireContext());
         tvTitle.setText(deadline.getTitle());
@@ -158,6 +168,7 @@ public class AcademicTrendsFragment extends Fragment {
         tvTitle.setTextColor(ContextCompat.getColor(requireContext(), R.color.academic_chip_title));
         tvTitle.setTypeface(null, android.graphics.Typeface.BOLD);
         tvTitle.setGravity(android.view.Gravity.CENTER);
+        tvTitle.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         tvTitle.setMaxLines(2);
         tvTitle.setEllipsize(android.text.TextUtils.TruncateAt.END);
         LinearLayout.LayoutParams titleParams = new LinearLayout.LayoutParams(
@@ -165,21 +176,44 @@ public class AcademicTrendsFragment extends Fragment {
         titleParams.topMargin = 8;
         tvTitle.setLayoutParams(titleParams);
 
+        View spacer = new View(requireContext());
+        spacer.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 0, 1f));
+
         TextView tvDate = new TextView(requireContext());
-        tvDate.setText(deadline.getDueDate() != null ? dayFormat.format(deadline.getDueDate()) : "N/A");
+        tvDate.setText(deadline.getDueDate() != null ? dayFormat.format(deadline.getDueDate()) : getString(R.string.sleep_no_data_value));
         tvDate.setTextSize(10);
         tvDate.setTextColor(ContextCompat.getColor(requireContext(), R.color.academic_chip_date));
         LinearLayout.LayoutParams dateParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         dateParams.topMargin = 8;
         tvDate.setLayoutParams(dateParams);
+        tvDate.setGravity(android.view.Gravity.CENTER);
 
         inner.addView(tvType);
         inner.addView(tvTitle);
+        inner.addView(spacer);
         inner.addView(tvDate);
         card.addView(inner);
 
         return card;
+    }
+
+    private void applyUniformChipHeight(List<MaterialCardView> chips) {
+        int maxHeight = 0;
+        for (MaterialCardView chip : chips) {
+            maxHeight = Math.max(maxHeight, chip.getHeight());
+        }
+
+        if (maxHeight <= 0) return;
+
+        for (MaterialCardView chip : chips) {
+            ViewGroup.LayoutParams params = chip.getLayoutParams();
+            if (params.height != maxHeight) {
+                params.height = maxHeight;
+                chip.setLayoutParams(params);
+            }
+        }
     }
 
     private int getTypeColor(String type) {
@@ -197,121 +231,10 @@ public class AcademicTrendsFragment extends Fragment {
         }
     }
 
-    private void generateInsights() {
-        if (insightsContainer == null) return;
-
-        List<String> titles = new ArrayList<>();
-        List<String> descriptions = new ArrayList<>();
-
-        Date now = new Date();
-        List<Deadline> next5Days = new ArrayList<>();
-        for (Deadline d : allDeadlines) {
-            if (d.getDueDate() == null) continue;
-            long days = calculateDaysLeft(d.getDueDate());
-            if (days >= 0 && days <= 5) next5Days.add(d);
-        }
-        if (!next5Days.isEmpty()) {
-            titles.add(next5Days.size() + " deadline" + (next5Days.size() > 1 ? "s" : "") + " in the next 5 days");
-            StringBuilder desc = new StringBuilder();
-            for (int i = 0; i < Math.min(3, next5Days.size()); i++) {
-                if (i > 0) desc.append(", ");
-                desc.append(next5Days.get(i).getTitle());
-            }
-            if (next5Days.size() > 3) desc.append(" and more");
-            desc.append(" due soon — stay on track");
-            descriptions.add(desc.toString());
-        } else {
-            titles.add("No deadlines in the next 5 days");
-            descriptions.add("You're in the clear! Use this time to get ahead on future work.");
-        }
-
-        Map<String, Integer> monthCount = new HashMap<>();
-        for (Deadline d : allDeadlines) {
-            if (d.getDueDate() == null) continue;
-            String month = monthFormat.format(d.getDueDate());
-            monthCount.put(month, monthCount.getOrDefault(month, 0) + 1);
-        }
-        String busiestMonth = null;
-        int maxCount = 0;
-        for (Map.Entry<String, Integer> entry : monthCount.entrySet()) {
-            if (entry.getValue() > maxCount) {
-                maxCount = entry.getValue();
-                busiestMonth = entry.getKey();
-            }
-        }
-        if (busiestMonth != null && maxCount > 0) {
-            titles.add(busiestMonth + " is your busiest month");
-            descriptions.add(maxCount + " deadline" + (maxCount > 1 ? "s" : "") + " scheduled in " + busiestMonth + " — plan your study time wisely");
-        } else {
-            titles.add("No deadlines scheduled yet");
-            descriptions.add("Add your first deadline to start tracking your academic workload.");
-        }
-
-        Deadline nearestMidterm = null;
-        Deadline nearestDeadline = null;
-        for (Deadline d : allDeadlines) {
-            if (d.getDueDate() == null) continue;
-            if (d.getDueDate().before(now)) continue;
-            if (nearestDeadline == null || d.getDueDate().before(nearestDeadline.getDueDate())) {
-                nearestDeadline = d;
-            }
-            if ("midterm".equalsIgnoreCase(d.getType())) {
-                if (nearestMidterm == null || d.getDueDate().before(nearestMidterm.getDueDate())) {
-                    nearestMidterm = d;
-                }
-            }
-        }
-        if (nearestMidterm != null) {
-            long days = calculateDaysLeft(nearestMidterm.getDueDate());
-            titles.add(nearestMidterm.getTitle() + " is " + days + " day" + (days != 1 ? "s" : "") + " away");
-            descriptions.add("Start reviewing past quizzes and assignments to prepare for this midterm.");
-        } else if (nearestDeadline != null) {
-            long days = calculateDaysLeft(nearestDeadline.getDueDate());
-            titles.add(nearestDeadline.getTitle() + " is " + days + " day" + (days != 1 ? "s" : "") + " away");
-            descriptions.add("Your nearest deadline is approaching — make sure to allocate enough time.");
-        } else {
-            titles.add("No upcoming deadlines");
-            descriptions.add("You're all caught up! Great job staying on top of your work.");
-        }
-
-        int insightIndex = 0;
-        for (int i = 0; i < insightsContainer.getChildCount(); i++) {
-            View child = insightsContainer.getChildAt(i);
-            if (child instanceof MaterialCardView) {
-                if (insightIndex < titles.size()) {
-                    updateInsightCard((MaterialCardView) child, titles.get(insightIndex), descriptions.get(insightIndex));
-                    child.setVisibility(View.VISIBLE);
-                    insightIndex++;
-                } else {
-                    child.setVisibility(View.GONE);
-                }
-            }
-        }
-    }
-
-    private void updateInsightCard(MaterialCardView card, String title, String description) {
-        List<TextView> textViews = findTextViews(card);
-        if (textViews.size() >= 2) {
-            textViews.get(0).setText(title);
-            textViews.get(1).setText(description);
-        }
-    }
-
-    private List<TextView> findTextViews(View view) {
-        List<TextView> result = new ArrayList<>();
-        if (view instanceof TextView) {
-            result.add((TextView) view);
-        } else if (view instanceof ViewGroup) {
-            ViewGroup group = (ViewGroup) view;
-            for (int i = 0; i < group.getChildCount(); i++) {
-                result.addAll(findTextViews(group.getChildAt(i)));
-            }
-        }
-        return result;
-    }
-
     private void createTimelineVisualization() {
         if (timelineImageView == null) return;
+
+        updateTimelineRange();
 
         timelineImageView.post(() -> {
             if (timelineImageView.getWidth() <= 0 || timelineImageView.getHeight() <= 0) return;
@@ -347,7 +270,7 @@ public class AcademicTrendsFragment extends Fragment {
                 textPaint.setColor(ContextCompat.getColor(requireContext(), R.color.text_grey_dark));
                 textPaint.setTextSize(32f);
                 textPaint.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText("No upcoming deadlines", width / 2, height / 2, textPaint);
+                canvas.drawText(getString(R.string.academic_no_timeline_data), width / 2, height / 2, textPaint);
             } else {
                 for (int i = 0; i < upcoming.size(); i++) {
                     Deadline deadline = upcoming.get(i);
@@ -382,6 +305,37 @@ public class AcademicTrendsFragment extends Fragment {
 
             timelineImageView.setImageBitmap(bitmap);
         });
+    }
+
+    private void updateTimelineRange() {
+        if (tvTimelineRange == null) return;
+
+        Date earliest = null;
+        Date latest = null;
+        for (Deadline deadline : allDeadlines) {
+            Date dueDate = deadline.getDueDate();
+            if (dueDate == null) continue;
+
+            if (earliest == null || dueDate.before(earliest)) {
+                earliest = dueDate;
+            }
+            if (latest == null || dueDate.after(latest)) {
+                latest = dueDate;
+            }
+        }
+
+        if (earliest == null || latest == null) {
+            tvTimelineRange.setText(R.string.academic_timeline_range_default);
+            return;
+        }
+
+        SimpleDateFormat rangeFormat = new SimpleDateFormat("MMM yyyy", Locale.getDefault());
+        if (monthFormat.format(earliest).equals(monthFormat.format(latest))
+                && earliest.getYear() == latest.getYear()) {
+            tvTimelineRange.setText(rangeFormat.format(earliest));
+        } else {
+            tvTimelineRange.setText(monthFormat.format(earliest) + " - " + rangeFormat.format(latest));
+        }
     }
 
     private long calculateDaysBetween(Date start, Date end) {
@@ -456,27 +410,90 @@ public class AcademicTrendsFragment extends Fragment {
             @Override
             public void onResult(String result) {
                 String[] parsed = parseAIResponse(result);
-                requireActivity().runOnUiThread(() -> {
-                    if (tvAcademicInsightTitle != null && parsed[0] != null) {
-                        tvAcademicInsightTitle.setText(parsed[0]);
-                    }
-                    if (tvAcademicInsightDesc != null && parsed[1] != null) {
-                        tvAcademicInsightDesc.setText(parsed[1]);
-                    }
-                    if (tvAcademicRecommendationTitle != null && parsed[2] != null) {
-                        tvAcademicRecommendationTitle.setText(parsed[2]);
-                    }
-                    if (tvAcademicRecommendationDesc != null && parsed[3] != null) {
-                        tvAcademicRecommendationDesc.setText(parsed[3]);
-                    }
-                });
+                if (isAdded() && getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        if (tvAcademicInsightTitle != null && parsed[0] != null) {
+                            tvAcademicInsightTitle.setText(parsed[0]);
+                        }
+                        if (tvAcademicInsightDesc != null && parsed[1] != null) {
+                            tvAcademicInsightDesc.setText(parsed[1]);
+                        }
+                        if (tvAcademicRecommendationTitle != null && parsed[2] != null) {
+                            tvAcademicRecommendationTitle.setText(parsed[2]);
+                        }
+                        if (tvAcademicRecommendationDesc != null && parsed[3] != null) {
+                            tvAcademicRecommendationDesc.setText(parsed[3]);
+                        }
+                    });
+                }
             }
 
             @Override
             public void onError(String error) {
                 Log.e(TAG, "AI Academic Insights Error: " + error);
+                if (isAdded() && getActivity() != null) {
+                    getActivity().runOnUiThread(() -> applyHardcodedAcademicInsights());
+                }
             }
         });
+    }
+
+    private void applyHardcodedAcademicInsights() {
+        if (tvAcademicInsightTitle == null || tvAcademicInsightDesc == null ||
+                tvAcademicRecommendationTitle == null || tvAcademicRecommendationDesc == null) {
+            return;
+        }
+
+        Date now = new Date();
+        List<Deadline> next5Days = new ArrayList<>();
+        for (Deadline d : allDeadlines) {
+            if (d.getDueDate() == null) continue;
+            long days = calculateDaysLeft(d.getDueDate());
+            if (days >= 0 && days <= 5) next5Days.add(d);
+        }
+
+        if (!next5Days.isEmpty()) {
+            tvAcademicInsightTitle.setText(next5Days.size() + " deadline" + (next5Days.size() > 1 ? "s" : "") + " in the next 5 days");
+            StringBuilder desc = new StringBuilder();
+            for (int i = 0; i < Math.min(3, next5Days.size()); i++) {
+                if (i > 0) desc.append(", ");
+                desc.append(next5Days.get(i).getTitle());
+            }
+            if (next5Days.size() > 3) desc.append(" and more");
+            desc.append(" due soon — stay on track");
+            tvAcademicInsightDesc.setText(desc.toString());
+        } else {
+            tvAcademicInsightTitle.setText("No deadlines in the next 5 days");
+            tvAcademicInsightDesc.setText("You're in the clear! Use this time to get ahead on future work.");
+        }
+
+        Deadline nearestMidterm = null;
+        Deadline nearestDeadline = null;
+        for (Deadline d : allDeadlines) {
+            if (d.getDueDate() == null) continue;
+            if (d.getDueDate().before(now)) continue;
+            if (nearestDeadline == null || d.getDueDate().before(nearestDeadline.getDueDate())) {
+                nearestDeadline = d;
+            }
+            if ("midterm".equalsIgnoreCase(d.getType())) {
+                if (nearestMidterm == null || d.getDueDate().before(nearestMidterm.getDueDate())) {
+                    nearestMidterm = d;
+                }
+            }
+        }
+
+        if (nearestMidterm != null) {
+            long days = calculateDaysLeft(nearestMidterm.getDueDate());
+            tvAcademicRecommendationTitle.setText(nearestMidterm.getTitle() + " is " + days + " day" + (days != 1 ? "s" : "") + " away");
+            tvAcademicRecommendationDesc.setText("Start reviewing past quizzes and assignments to prepare for this midterm.");
+        } else if (nearestDeadline != null) {
+            long days = calculateDaysLeft(nearestDeadline.getDueDate());
+            tvAcademicRecommendationTitle.setText(nearestDeadline.getTitle() + " is " + days + " day" + (days != 1 ? "s" : "") + " away");
+            tvAcademicRecommendationDesc.setText("Your nearest deadline is approaching — make sure to allocate enough time.");
+        } else {
+            tvAcademicRecommendationTitle.setText("No upcoming deadlines");
+            tvAcademicRecommendationDesc.setText("You're all caught up! Great job staying on top of your work.");
+        }
     }
 
     private String[] parseAIResponse(String aiResponse) {
@@ -513,10 +530,10 @@ public class AcademicTrendsFragment extends Fragment {
         }
 
         return new String[]{
-                insightTitle != null ? insightTitle : "Loading...",
-                insightDesc != null ? insightDesc : "Loading...",
-                recTitle != null ? recTitle : "Loading...",
-                recDesc != null ? recDesc : "Loading..."
+                insightTitle != null ? insightTitle : getString(R.string.academic_loading),
+                insightDesc != null ? insightDesc : getString(R.string.academic_loading),
+                recTitle != null ? recTitle : getString(R.string.academic_loading),
+                recDesc != null ? recDesc : getString(R.string.academic_loading)
         };
     }
 }
