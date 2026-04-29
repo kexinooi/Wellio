@@ -293,10 +293,10 @@ public class CalendarFragment extends Fragment {
                         moodIndicator.setBackgroundResource(R.drawable.dot_yellow);
                         break;
                     case "good":
-                        moodIndicator.setBackgroundResource(R.drawable.circle_blue_bg);
+                        moodIndicator.setBackgroundResource(R.drawable.dot_green);
                         break;
                     case "amazing":
-                        moodIndicator.setBackgroundResource(R.drawable.dot_green);
+                        moodIndicator.setBackgroundResource(R.drawable.dot_teal);
                         break;
                     default:
                         moodIndicator.setBackgroundResource(R.drawable.dot_teal);
