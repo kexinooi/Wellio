@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="@color/calendar_log_item_bg"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="2dp"
+    app:strokeColor="@color/calendar_log_item_stroke"
+    app:strokeWidth="1dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <FrameLayout
+            android:layout_width="50dp"
+            android:layout_height="54dp">
+
+            <View
+                android:layout_width="26dp"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/sphere_shadow" />
+
+            <ImageView
+                android:id="@+id/iv_academic_icon"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_gravity="top"
+                android:src="@drawable/ic_type_assignment" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_academic_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_black"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                tools:text="Assignment 2" />
+
+            <TextView
+                android:id="@+id/tv_academic_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_grey_dark"
+                android:textSize="12sp"
+                android:textStyle="bold|italic"
+                tools:text="Academic • Assignment" />
+
+            <TextView
+                android:id="@+id/tv_academic_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/text_grey_dark"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="Due 11:59 PM • High Priority" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/text_grey_light" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="app_button_height">56dp</dimen>
+    <dimen name="app_button_corner_radius">28dp</dimen>
+</resources>
